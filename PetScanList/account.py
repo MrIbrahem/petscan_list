@@ -1,7 +1,7 @@
 import os
 import configparser
 
-project = "/data/project/himo"
+project = "/data/project/petscan-list"
 # ---
 if not os.path.isdir(project):
     project = "I:/core/bots/core1"
