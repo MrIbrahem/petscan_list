@@ -13,3 +13,5 @@ pip install -r $HOME/www/python/src/requirements.txt
 exit
 
 webservice python3.9 start
+
+chmod +x $HOME/www/python/src/update.sh
