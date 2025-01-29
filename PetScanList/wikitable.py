@@ -19,13 +19,17 @@ head_formats = {
 
 def wiki_table(tab):
     # ---
-    table_head = ["title"]
+    table_head = ["#", "title"]
     # ---
     rows = []
+    # ---
+    n = 0
     # ---
     for row, data in tab.items():
         # print(data)
         # {'touched': '20230327144419', 'Q': 'Q6853789', 'ns': 0, 'len': 3393, 'title': 'محمد حسين هيثم'}
+        # ---
+        n += 1
         # ---
         if table_head == ["title"]:
             table_head += [x for x in data.keys() if x != "title"]
@@ -34,7 +38,10 @@ def wiki_table(tab):
         row = []
         # ---
         for x in table_head:
-            formated_x = head_formats.get(x, "{}").format(data.get(x, ""))
+            if x == "#":
+                formated_x = str(n)
+            else:
+                formated_x = head_formats.get(x, "{}").format(data.get(x, ""))
             row.append(formated_x)
         # ---
         row = "! " + "\n| ".join(row)
