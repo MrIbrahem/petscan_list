@@ -43,7 +43,13 @@ def one_page(x):
     # ---
     summary = "بوت: تحديث قائمة (تجريبي)"
     # ---
-    save = page.save(newtext, summary=summary)
+    save = {}
+    # ---
+    try:
+        save = page.save(newtext, summary=summary)
+    except Exception as e:
+        print(f"Exception {e}")
+        return str(e)
     # ---
     if isinstance(save, dict):
         # OrderedDict([('result', 'Success'), ('pageid', 9857018), ('title', 'ويكيبيديا:برنامج قراءة ويكيبيديا في الصف - اليمن 2/مقالات مقترحة/لا مصدر'), ('contentmodel', 'wikitext'), ('oldrevid', 69427827), ('newrevid', 69427829), ('newtimestamp', '2025-01-29T00:41:53Z')])
