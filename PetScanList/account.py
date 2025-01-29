@@ -4,7 +4,7 @@ import configparser
 project = "/data/project/petscan-list"
 # ---
 if not os.path.isdir(project):
-    project = "I:/core/bots/core1"
+    project = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # ---
 config = configparser.ConfigParser()
 config.read(f"{project}/confs/user.ini")
