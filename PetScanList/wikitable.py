@@ -19,7 +19,8 @@ head_formats = {
 
 def wiki_table(tab):
     # ---
-    table_head = ["#", "title"]
+    table_head2 = ["#", "title"]
+    table_head = []
     # ---
     rows = []
     # ---
@@ -32,7 +33,8 @@ def wiki_table(tab):
         n += 1
         # ---
         if table_head == ["title"]:
-            table_head += [x for x in data.keys() if x != "title"]
+            table_head += [x for x in data.keys() if x not in table_head2]
+            table_head = table_head2 + table_head
         # ---
         # row = f"! [[{data.get('title')}]]"
         row = []
