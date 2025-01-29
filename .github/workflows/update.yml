@@ -1,0 +1,21 @@
+name: deploy.yml
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          request_pty: true
+          script_stop: true
+          key: ${{ secrets.KEY }}
+          script: |
+            become petscan-list sh -c "~/www/python/src/update.sh;"

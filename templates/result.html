@@ -1,0 +1,15 @@
+{% extends "main.html" %}
+
+{% block title %}نتيجة البحث{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        نتيجة البحث عن: {{ title }}
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{ result }}</p>
+        <a href="{{ url }}" target="_blank" class="btn btn-primary">رابط المقالة</a>
+    </div>
+</div>
+{% endblock %}

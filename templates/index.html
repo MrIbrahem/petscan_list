@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+
+{% block title %}تحديث قائمة PetScan{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title mb-4">تحديث قائمة PetScan</h1>
+        <form action="/update" method="get">
+            <div class="form-group">
+                <label for="title">أدخل عنوان المقالة:</label>
+                <input type="text" id="title" name="title" class="form-control" required placeholder="اسم الصفحة">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">بدء</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
