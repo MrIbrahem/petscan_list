@@ -17,17 +17,14 @@ if ! git clone -b "$REPO_BRANCH" "$REPO_URL" "$HOME/www/python/src"; then
     fi
     exit 1
 fi
-VENV_PATH="$HOME/www/python/venv"
 
-source "$VENV_PATH/bin/activate" || exit 1
+#source "$HOME/www/python/venv/bin/activate"
 
-pip install --upgrade pip
+# python3 -m pip install --upgrade pip
+# python3 -m pip install -r $HOME/www/python/src/requirements.txt
 
-pip install -r $HOME/www/python/src/requirements.txt
 
-exit
+~/www/python/venv/bin/python3 -m pip install -r $HOME/www/python/src/requirements.txt
 
-webservice python3.9 start
+webservice python3.9 restart
 
-cp $HOME/www/python/src/update.sh $HOME/update.sh
-chmod +x $HOME/update.sh
