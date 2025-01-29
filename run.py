@@ -17,7 +17,7 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/autocomplete.js")
+@app.route("/autocomplete.js", methods=["GET"])
 def autocomplete_js():
     return send_from_directory("static", "autocomplete.js")
 
