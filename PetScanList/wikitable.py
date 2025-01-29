@@ -45,7 +45,7 @@ def wiki_table(tab):
             if x == "#":
                 formated_x = str(n)
             elif x == "touched":
-                formated_x = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(data.get(x, 0))))
+                formated_x = time.strftime("%Y-%m-%d %H:%M:%S", int(data.get(x, 0)))
             else:
                 formated_x = head_formats.get(x, "{}").format(data.get(x, ""))
             row.append(formated_x)
