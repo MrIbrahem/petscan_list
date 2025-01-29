@@ -42,6 +42,8 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
 function createThemeMenu() {
     const menu = document.createElement('div');
     menu.className = 'theme-menu';
+    menu.setAttribute('role', 'menu');
+    menu.setAttribute('aria-label', 'Theme selection menu');
 
     Object.entries(themes).forEach(([value, { icon, label }]) => {
         const item = document.createElement('button');
@@ -95,13 +97,20 @@ themeToggle.addEventListener('click', (e) => {
 });
 
 // Close menu when clicking outside
-document.addEventListener('click', () => {
+document.addEventListener('click', (event) => {
     if (activeMenu) {
         activeMenu.remove();
         activeMenu = null;
     }
 });
 
+// Add keyboard navigation
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && activeMenu) {
+        activeMenu.remove();
+        activeMenu = null;
+    }
+});
 // Update theme icon based on current theme
 function updateThemeIcon(preference) {
     const { icon } = themes[preference];
