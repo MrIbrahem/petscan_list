@@ -80,8 +80,17 @@ themeToggle.addEventListener('click', (e) => {
     const buttonRect = themeToggle.getBoundingClientRect();
     menu.style.position = 'fixed';
     menu.style.top = `${buttonRect.bottom + 5}px`;
-    menu.style.right = `${window.innerWidth - buttonRect.right - 50}px`;
 
+    const isRTL = document.dir === 'rtl';
+    const horizontalPosition = isRTL ? buttonRect.left : (window.innerWidth - buttonRect.right);
+
+    // Ensure menu stays within viewport
+    const menuWidth = 150; // matches min-width from CSS
+    const safeOffset = 5;
+    const maxRight = window.innerWidth - menuWidth - safeOffset;
+    const right = Math.min(horizontalPosition - safeOffset, maxRight);
+
+    menu.style[isRTL ? 'left' : 'right'] = `${right}px`;
     activeMenu = menu;
 });
 

@@ -1,3 +1,20 @@
+:root {
+    --ps5-bg: #1F1F1F;
+    --ps5-card: #2D2D2D;
+    --ps5-accent: #0072CE;
+    --ps5-text: #FFFFFF;
+    --ps5-text-secondary: #A8A8A8;
+    --ps5-hover: #3D3D3D;
+}
+
+:root[data-bs-theme="light"] {
+    --ps5-bg: #F5F5F5;
+    --ps5-card: #FFFFFF;
+    --ps5-accent: #0072CE;
+    --ps5-text: #000000;
+    --ps5-text-secondary: #666666;
+    --ps5-hover: #E8E8E8;
+}
 
 .theme-toggle {
     background: none;
