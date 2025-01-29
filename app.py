@@ -7,8 +7,12 @@ app = Flask(__name__)
 @app.route("/update", methods=["GET"])
 def update():
     title = request.args.get("title")
-    result = one_page(title)
     url = f"https://ar.wikipedia.org/wiki/{title}"
+
+    if not title:
+        return render_template("result.html", title=title, result="Title parameter is required", url=url), 400
+
+    result = one_page(title)
     return render_template("result.html", title=title, result=result, url=url)
 
 
