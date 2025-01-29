@@ -1,0 +1,239 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --background-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --light-text: #ffffff;
+    --hover-color: #2980b9;
+    --gradient-start: #2c3e50;
+    --gradient-end: #3498db;
+}
+
+body {
+    direction: rtl;
+    text-align: right;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Navbar Styling */
+.navbar {
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end)) !important;
+    padding: 1rem;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    margin-right: 0;
+    display: flex;
+    align-items: center;
+    color: var(--light-text) !important;
+}
+
+.navbar-brand img {
+    margin-left: 0.5rem;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-nav {
+    margin-right: 1rem !important;
+    margin-left: 0 !important;
+}
+
+.nav-link {
+    color: var(--light-text) !important;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Styling */
+.card {
+    background: white;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Button Styling */
+.btn-primary {
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, var(--gradient-end), var(--gradient-start));
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    padding: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+/* Container Spacing */
+.container {
+    padding: 2rem 15px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: rgba(44, 62, 80, 0.98);
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .navbar-toggler {
+        margin-right: auto;
+        margin-left: 0;
+        border: none;
+        color: var(--light-text);
+    }
+
+    .navbar-nav {
+        margin-right: 0 !important;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-color);
+}
+
+
+/* Card Header Styling */
+.card-header {
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    border: none;
+}
+
+/* Input Group Styling */
+.input-group-text {
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.input-group:focus-within .input-group-text {
+    color: var(--secondary-color);
+}
+
+.input-group:focus-within .input-group-text i {
+    transform: scale(1.1);
+}
+
+/* Form Control Styling */
+.form-control {
+    border-color: #e0e0e0;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+/* Button Animation */
+.btn-primary {
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, var(--gradient-end), var(--gradient-start));
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Card Footer Styling */
+.card-footer {
+    /* background-color: rgba(236, 240, 241, 0.5); */
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Icon Animations */
+.fas,
+.fab {
+    transition: transform 0.3s ease;
+}
+
+.form-label:hover .fas,
+.btn:hover .fas,
+.card-footer:hover .fas {
+    transform: scale(1.1);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .col-md-8 {
+        padding: 0 15px;
+    }
+
+    .card {
+        margin: 0 10px;
+    }
+
+    .form-control-lg {
+        font-size: 1rem;
+    }
+}
+
+/* Hover Effects */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Input Focus Effect */
+.form-control:focus {
+    transform: translateY(-1px);
+}
