@@ -14,4 +14,5 @@ exit
 
 webservice python3.9 start
 
-chmod +x $HOME/www/python/src/update.sh
+cp $HOME/www/python/src/update.sh $HOME/update.sh
+chmod +x $HOME/update.sh
