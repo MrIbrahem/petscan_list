@@ -38,7 +38,7 @@
     <div class="container mt-5">
         {% block content %}{% endblock %}
     </div>
-    <script src='/autocomplete.js'></script>
+    <script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
     <script>
 
     </script>
