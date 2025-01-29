@@ -18,4 +18,4 @@ jobs:
           script_stop: true
           key: ${{ secrets.KEY }}
           script: |
-            become petscan-list sh -c "~/www/python/src/update.sh;"
+            become petscan-list sh -c "~/update.sh;"

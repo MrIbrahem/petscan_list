@@ -1,5 +1,7 @@
 """
 """
+import time
+
 head_labels = {
     "title": "العنوان",
     "touched": "آخر تعديل",
@@ -10,7 +12,7 @@ head_labels = {
 
 head_formats = {
     "title": "[[{}]]",
-    "touched": "{{{{#time:j M Y (H:i)|{}}}}}",
+    # "touched": "{{{{subst:#time:j M Y (H:i)|{}}}}}",
     "Q": "{{{{Q|{}}}}}",
     "ns": "{}",
     "len": "{}",
@@ -42,6 +44,8 @@ def wiki_table(tab):
         for x in table_head:
             if x == "#":
                 formated_x = str(n)
+            elif x == "touched":
+                formated_x = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime(data.get(x), "%Y%m%d%H%M%S"))
             else:
                 formated_x = head_formats.get(x, "{}").format(data.get(x, ""))
             row.append(formated_x)
