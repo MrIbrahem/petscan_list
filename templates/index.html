@@ -3,18 +3,147 @@
 {% block title %}تحديث قائمة PetScan{% endblock %}
 
 {% block content %}
-<div class="card">
-    <div class="card-body">
-        <h1 class="card-title mb-4">تحديث قائمة PetScan</h1>
-        <form action="/update" method="get">
-            <div class="form-group">
-                <label for="title">أدخل عنوان المقالة:</label>
-                <input type="text" id="title" name="title" class="form-control" required placeholder="اسم الصفحة">
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header text-white text-center py-4">
+                <h2 class="card-title mb-0 d-flex align-items-center justify-content-center">
+                    <img src="https://www.mediawiki.org/static/images/project-logos/mediawikiwiki.png" alt="Logo" class="me-2" style="width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                    تحديث قائمة PetScan
+                </h2>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">بدء</button>
+            <div class="card-body p-4">
+                <form action="/update" method="get">
+                    <div class="form-group mb-4">
+                        <label for="title" class="form-label fw-bold mb-2">
+                            <i class="fas fa-edit me-2"></i>أدخل عنوان المقالة:
+                        </label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text border-0 bg-light">
+                                <i class="fas fa-file-alt text-primary"></i>
+                            </span>
+                            <input type="text" 
+                                   id="title" 
+                                   name="title" 
+                                   class="form-control form-control-lg border-2" 
+                                   required 
+                                   placeholder="اسم الصفحة"
+                                   autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play me-2"></i>
+                            بدء التحديث
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+            <div class="card-footer text-center py-3">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    قم بإدخال عنوان المقالة للبدء في تحديث قائمة PetScan
+                </small>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Add Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    /* Card Header Styling */
+    .card-header {
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        border: none;
+    }
+
+    /* Input Group Styling */
+    .input-group-text {
+        color: var(--primary-color);
+        transition: all 0.3s ease;
+    }
+
+    .input-group:focus-within .input-group-text {
+        color: var(--secondary-color);
+    }
+
+    .input-group:focus-within .input-group-text i {
+        transform: scale(1.1);
+    }
+
+    /* Form Control Styling */
+    .form-control {
+        border-color: #e0e0e0;
+    }
+
+    .form-control:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    }
+
+    /* Button Animation */
+    .btn-primary {
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        border: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, var(--gradient-end), var(--gradient-start));
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+
+    /* Card Footer Styling */
+    .card-footer {
+        background-color: rgba(236, 240, 241, 0.5);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Icon Animations */
+    .fas, .fab {
+        transition: transform 0.3s ease;
+    }
+
+    .form-label:hover .fas,
+    .btn:hover .fas,
+    .card-footer:hover .fas {
+        transform: scale(1.1);
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+        .col-md-8 {
+            padding: 0 15px;
+        }
+        .card {
+            margin: 0 10px;
+        }
+        .form-control-lg {
+            font-size: 1rem;
+        }
+    }
+
+    /* Hover Effects */
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Input Focus Effect */
+    .form-control:focus {
+        transform: translateY(-1px);
+    }
+</style>
 {% endblock %}
