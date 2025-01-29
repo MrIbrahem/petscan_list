@@ -1,0 +1,88 @@
+:root {
+    --ps5-bg: #1F1F1F;
+    --ps5-card: #2D2D2D;
+    --ps5-accent: #0072CE;
+    --ps5-text: #FFFFFF;
+    --ps5-text-secondary: #A8A8A8;
+    --ps5-hover: #3D3D3D;
+}
+
+:root[data-bs-theme="light"] {
+    --ps5-bg: #F5F5F5;
+    --ps5-card: #FFFFFF;
+    --ps5-accent: #0072CE;
+    --ps5-text: #000000;
+    --ps5-text-secondary: #666666;
+    --ps5-hover: #E8E8E8;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--ps5-text);
+    font-size: 1.2em;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: var(--ps5-hover);
+    transform: rotate(15deg);
+}
+
+/* Theme Menu Styles */
+.theme-menu {
+    background-color: var(--ps5-card);
+    border: 2px solid var(--ps5-accent);
+    border-radius: 10px;
+    padding: 8px;
+    min-width: 150px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.theme-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    color: var(--ps5-text);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+.theme-menu-item:hover {
+    background-color: var(--ps5-hover);
+}
+
+.theme-menu-item i {
+    font-size: 1.1em;
+    width: 20px;
+    text-align: center;
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--ps5-accent);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle {
+        transition: none;
+    }
+
+    .theme-toggle:hover {
+        transform: none;
+    }
+}

@@ -17,14 +17,14 @@
             <div class="card-body p-4">
                 <form action="/update" method="get">
                     <div class="form-group mb-4">
+                        <label for="title" class="form-label fw-bold mb-2">
+                            <i class="fas fa-edit me-2"></i> أدخل عنوان المقالة:
+                        </label>
                         <div class="input-group input-group-lg">
-                            <span class="input-group-text border-0 bg-light">
-                                <label for="title" class="form-label fw-bold mb-2">
-                                    <i class="fa fa-file-alt" aria-hidden="true"></i>
-                                    عنوان الصفحة:
-                                </label>
+                            <span class="input-group-text border-0">
+                                <i class="fas fa-file-alt text-primary"></i>
                             </span>
-                            <input type="text" id="title" name="title" class="form-control form-control-lg border-2"
+                            <input type="text" id="title" name="title" class="form-control form-control-lg border-2 input-group-input"
                                 required placeholder="اسم الصفحة" autocomplete="off">
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                 </form>
             </div>
             <div class="card-footer text-center py-3">
-                <small class="text-muted">
+                <small class="">
                     <i class="fas fa-info-circle me-1"></i>
                     قم بإدخال عنوان المقالة للبدء في تحديث قائمة PetScan
                 </small>
