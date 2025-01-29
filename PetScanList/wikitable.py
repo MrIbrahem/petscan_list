@@ -10,7 +10,7 @@ head_labels = {
 
 head_formats = {
     "title": "[[{}]]",
-    "touched": "{{{{#time:j M Y (H:i)|{}}}}}",
+    "touched": "{{{{subst:#time:j M Y (H:i)|{}}}}}",
     "Q": "{{{{Q|{}}}}}",
     "ns": "{}",
     "len": "{}",
