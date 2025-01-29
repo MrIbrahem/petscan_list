@@ -32,8 +32,8 @@ def wiki_table(tab):
         # ---
         n += 1
         # ---
-        if table_head == ["title"]:
-            table_head += [x for x in data.keys() if x not in table_head2]
+        if not table_head:
+            table_head = [x for x in data.keys() if x not in table_head2]
             table_head = table_head2 + table_head
         # ---
         # row = f"! [[{data.get('title')}]]"

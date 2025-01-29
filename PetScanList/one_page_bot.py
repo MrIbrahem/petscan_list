@@ -17,6 +17,11 @@ sites = {1: False}
 
 def one_page(x):
     # ---
+    x2 = x.lower().strip().replace(" ", "_")
+    # ---
+    if x2.find("petscan list") != -1:
+        return "لا يمكن تحديث قالب:Petscan list!"
+    # ---
     if not sites[1]:
         sites[1] = mwclient.Site("ar.wikipedia.org")
         sites[1].login(username, password)
