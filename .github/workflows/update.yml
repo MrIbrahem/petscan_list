@@ -18,4 +18,5 @@ jobs:
           script_stop: true
           key: ${{ secrets.KEY }}
           script: |
-            become petscan-list sh -c "~/update.sh;"
+            become petscan-list
+            toolforge-jobs run update --image bullseye --command "$HOME/update.sh"
