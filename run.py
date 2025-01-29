@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from PetScanList import one_page
 
 app = Flask(__name__)
@@ -15,6 +15,11 @@ def update():
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
+
+
+@app.route("/autocomplete.js")
+def autocomplete_js():
+    return send_from_directory("static", "autocomplete.js")
 
 
 if __name__ == "__main__":
