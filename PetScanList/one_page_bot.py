@@ -17,7 +17,9 @@ sites = {1: False}
 
 def one_page(x):
     # ---
-    x2 = x.lower().strip().replace(" ", "_")
+    x2 = x.lower().strip().replace("_", " ")
+    # ---
+    print("x2", x2)
     # ---
     if x2.find("petscan list") != -1:
         return "لا يمكن تحديث قالب:Petscan list!"
