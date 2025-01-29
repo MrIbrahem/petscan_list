@@ -11,8 +11,11 @@ def update():
 
     if not title:
         return render_template("result.html", title=title, result="Title parameter is required", url=url), 400
+    try:
+        result = one_page(title)
+    except Exception as e:
+        return render_template("result.html", title=title, result=str(e), url=url), 400
 
-    result = one_page(title)
     return render_template("result.html", title=title, result=result, url=url)
 
 
