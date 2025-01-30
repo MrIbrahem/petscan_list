@@ -45,7 +45,7 @@ def make_petscan_list(template):
             petscan_params[name] = value
 
     # Generate the PetScan list
-    lista = petscan.make_petscan(petscan_params, return_dict=True)
+    lista = petscan.get_petscan_results(petscan_params, return_dict=True)
     return lista, other_params
 
 

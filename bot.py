@@ -3,7 +3,7 @@
 python3 core8/pwb.py petscan_list/bot
 python3 I:\core\bots\new\petscan_list\bot.py
 """
-from PetScanList import make_petscan, one_page
+from PetScanList import get_petscan_results, one_page
 
 
 def start():
@@ -12,7 +12,7 @@ def start():
     Tab["language"] = "ar"
     Tab["project"] = "wikipedia"
     # ---
-    pages = make_petscan(Tab)
+    pages = get_petscan_results(Tab)
 
     for n, x in enumerate(pages):
         print("_______________")
