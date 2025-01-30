@@ -35,7 +35,7 @@ def one_page(x):
         print("no text")
         return "no text"
     # ---
-    newtext = text_bot.change_it(text)
+    newtext = text_bot.process_text(text)
     # ---
     if text == newtext:
         print("no changes")

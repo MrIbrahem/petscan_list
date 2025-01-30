@@ -4,8 +4,7 @@
 from .make_template import MakeTemplate
 
 """
-from urllib.parse import urlparse, parse_qs
-from urllib.parse import ParseResult
+from urllib.parse import urlparse, parse_qs, ParseResult
 
 false_params = [
     "interface_language",
@@ -24,38 +23,32 @@ def MakeTemplate(url: str) -> str:
     Returns:
         str: A string formatted as a 'petscan list' containing the parsed URL parameters.
     """
-    temp = []
-    # ---
     parsed_url: ParseResult = urlparse(url)
     if not parsed_url.query:
         raise ValueError("URL must contain query parameters")
-    # ---
-    # Parse URL then add keys and values to temp
-    # ---
-    query_params = parse_qs(urlparse(url).query)
-    # ---
+
+    query_params = parse_qs(parsed_url.query)
+    temp = []
+
     for key, values in query_params.items():
         if key in false_params:
             continue
-        # ---
-        values = list(set([value.strip() for value in values if value.strip()]))
-        # ---
+
+        values = list({value.strip() for value in values if value.strip()})
         if not values:
             continue
-        # ---
+
         value = values[0]
-        # ---
+
         if len(value.split("\n")) > 1:
-            value = "\n* " + "\n* ".join([x.strip() for x in value.split("\n") if x.strip()])
-        # ---
-        # print(key, [value])
-        # ---
+            value = "\n* " + "\n* ".join(x.strip() for x in value.split("\n") if x.strip())
+
         temp.append(f"{key}={value}")
-    # ---
+
     params = "\n| ".join(temp)
-    # ---
+
     temp = f"{{{{petscan list\n| {params}\n}}}}"
-    # ---
+
     return temp
 
 
