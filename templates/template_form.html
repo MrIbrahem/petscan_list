@@ -1,0 +1,82 @@
+{% extends "main.html" %}
+
+{% block title %}القالب!{% endblock %}
+
+{% block content %}
+<div class="card card_form">
+    <div class="card-header text-white text-center py-2">
+        <h4 class="card-title">
+            مساعد إنشاء القالب!
+        </h4>
+    </div>
+    <div class="card-body p-4">
+        {% if not result %}
+        <form action="/template" method="POST">
+            <div class="form-group mb-4">
+                <label for="url" class="form-label fw-bold mb-2">
+                    <i class="fas fa-link me-2"></i> أدخل مسار petscan:
+                </label>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text border-0">
+                        <i class="fas fa-file-alt text-primary"></i>
+                    </span>
+                    <input type="text" id="url" required name="url" value="{{ url }}"
+                        class="form-control form-control-lg border-2 input-group-input ltr_left"
+                        pattern="https?:\/\/petscan\.(wmflabs|wmcloud)\.org.*"
+                        placeholder="https://petscan.wmcloud.org/?...." autocomplete="off">
+                </div>
+            </div>
+        </form>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">
+                إنشاء
+            </button>
+        </div>
+        {% else %}
+        <div class="input-group mb-3">
+            <textarea class="form-control ltr_left" rows="1">{{ url }}</textarea>
+        </div>
+        <form id='editform' name='editform' method='POST' target="_blank"
+            action='https://ar.wikipedia.org/w/index.php?title=وب:ملعب&action=submit'>
+            <input type='hidden' value='' name='wpEdittime' />
+            <input type='hidden' value='' name='wpStarttime' />
+            <input type='hidden' value='' name='wpScrolltop' id='wpScrolltop' />
+            <input type='hidden' value='12' name='parentRevId' />
+            <input type='hidden' value='wikitext' name='model' />
+            <input type='hidden' value='text/x-wiki' name='format' />
+            <input type='hidden' value='1' name='wpUltimateParam' />
+            <input type='hidden' name='wpSummary' value='[[قالب:Petscan list]] تجربة!'>
+            <input type='hidden' id='wikitext-old' value=''>
+
+            <div class="input-group mb-3">
+                <textarea id='wikitext-new' class='form-control ltr_left' rows="6"
+                    name='wpTextbox1'>{{ result }}</textarea>
+            </div>
+            <div class='editOptions aligncenter gap-2'>
+                <button class="btn btn-outline-secondary" type="button" onclick="copyText()">
+                    <i class="fas fa-copy"></i> نسخ
+                </button>
+                <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]'
+                    accesskey='p' name='wpPreview' value='معاينة في الملعب!' />
+                <div class='editButtons'>
+                </div>
+            </div>
+        </form>
+        <script>
+            function copyText() {
+                var copyText = document.querySelector('#wikitext-new');
+                copyText.select();
+                document.execCommand('copy');
+            }
+        </script>
+        {% endif %}
+        {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ error }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

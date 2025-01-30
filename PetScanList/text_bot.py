@@ -13,7 +13,7 @@ def fix_value(value):
     # ---
     # if value looks  like this: (* item1\n* item2 ...) then make it list
     # ---
-    if len(value.split("\n")) > 1:
+    if len(value.split("\n")) > 1 or value.startswith("*"):
         lista = [x.replace("*", "").strip() for x in value.split("\n")]
         return "%0D%0A".join(lista)
     # ---

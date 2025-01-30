@@ -51,7 +51,7 @@ body {
 /* Navbar Styling */
 .navbar {
     background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end)) !important;
-    padding: 1rem;
+    padding: 0.8rem;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -60,6 +60,12 @@ body {
     display: flex;
     align-items: center;
     color: var(--light-text) !important;
+}
+
+.aligncenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .navbar-brand img {
@@ -92,10 +98,13 @@ body {
     border: none;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card_form {
     transition: all 0.3s ease;
 }
 
-.card:hover {
+.card_form:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
@@ -259,4 +268,10 @@ body {
     .navbar-nav {
         margin-right: 0 !important;
     }
+}
+
+
+.ltr_left {
+    text-align: left;
+    direction: ltr
 }
