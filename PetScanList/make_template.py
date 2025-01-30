@@ -1,9 +1,12 @@
-from urllib.parse import urlparse, parse_qs
-
 # -*- coding: utf-8 -*-
 """
+
 from .make_template import MakeTemplate
+
 """
+from urllib.parse import urlparse, parse_qs
+from urllib.parse import ParseResult
+
 false_params = [
     "interface_language",
     "active_tab",
@@ -22,6 +25,10 @@ def MakeTemplate(url: str) -> str:
         str: A string formatted as a 'petscan list' containing the parsed URL parameters.
     """
     temp = []
+    # ---
+    parsed_url: ParseResult = urlparse(url)
+    if not parsed_url.query:
+        raise ValueError("URL must contain query parameters")
     # ---
     # Parse URL then add keys and values to temp
     # ---

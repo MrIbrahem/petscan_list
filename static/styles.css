@@ -51,7 +51,7 @@ body {
 /* Navbar Styling */
 .navbar {
     background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end)) !important;
-    padding: 1rem;
+    padding: 0.8rem;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -92,10 +92,13 @@ body {
     border: none;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card_form {
     transition: all 0.3s ease;
 }
 
-.card:hover {
+.card_form:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }

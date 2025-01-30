@@ -3,14 +3,15 @@
 {% block title %}القالب!{% endblock %}
 
 {% block content %}
-<div class="card">
+<div class="card card_form">
     <div class="card-header text-white text-center py-2">
         <h4 class="card-title">
             إنشاء القالب!
         </h4>
     </div>
     <div class="card-body p-4">
-        <form action="/template_result" method="POST">
+        <form action="/template" method="POST">
+            {% if not result %}
             <div class="form-group mb-4">
                 <label for="url" class="form-label fw-bold mb-2">
                     <i class="fas fa-link me-2"></i> أدخل مسار petscan:
@@ -19,11 +20,39 @@
                     <span class="input-group-text border-0">
                         <i class="fas fa-file-alt text-primary"></i>
                     </span>
-                    <input type="text" id="url" name="url"
-                        class="form-control form-control-lg border-2 input-group-input" style="text-align: left; direction: ltr" required
+                    <input type="text" id="url" required name="url" value="{{ url }}"
+                        class="form-control form-control-lg border-2 input-group-input"
+                        style="text-align: left; direction: ltr" pattern="https?:\/\/petscan\.(wmflabs|wmcloud)\.org.*"
                         placeholder="https://petscan.wmcloud.org/?...." autocomplete="off">
                 </div>
             </div>
+            {% else %}
+            <div class="input-group mb-3">
+                <textarea class="form-control" rows="1" style="text-align: left; direction: ltr">{{ url }}</textarea>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="copyText()">
+                        <i class="fas fa-copy"></i> نسخ
+                    </button>
+                </div>
+                <textarea class="form-control" rows="8" id="result"
+                    style="text-align: left; direction: ltr">{{ result }}</textarea>
+            </div>
+            <script>
+                function copyText() {
+                    var copyText = document.querySelector('#result');
+                    copyText.select();
+                    document.execCommand('copy');
+                }
+            </script>
+            {% endif %}
+            {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ error }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary btn-lg">
                     <i class="fas fa-play me-2"></i>
