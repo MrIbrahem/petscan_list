@@ -104,13 +104,9 @@ def process_petscan_results(data: Dict, lang: str = "ar") -> Dict[str, Dict]:
         full_title = f"{prefix}:{title}" if prefix else title
         full_title = full_title.replace("_", " ").strip()
 
-        results[full_title] = {
-            "touched": item.get("touched", ""),
-            "Q": item.get("q", ""),
-            "ns": ns,
-            "len": item.get("len", 0),
-            "title": full_title,
-        }
+        results[full_title] = item
+
+        results[full_title]["title"] = full_title
 
     return results
 
