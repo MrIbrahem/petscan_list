@@ -42,7 +42,7 @@ NAMESPACE_MAPPINGS = {
     },
 }
 
-DEFAULT_PARAMS = {"combination": "union", "common_wiki": "cats", "depth": "0", "format": "json"}
+DEFAULT_PARAMS = {"format": "json"}  # "combination": "union", "common_wiki": "cats", "depth": "0",
 
 PETSCAN_URL = "https://petscan.wmflabs.org/"
 
@@ -56,6 +56,7 @@ def encode_title(title: str) -> str:
 def build_petscan_url(params: Dict[str, str]) -> str:
     """Construct PetScan API URL with parameters."""
     base_params = {**DEFAULT_PARAMS, **params}
+
     query_string = urllib.parse.urlencode({k: v for k, v in base_params.items() if v is not None}, doseq=True)
     return f"{PETSCAN_URL}?doit=Do_it&{query_string}"
 
