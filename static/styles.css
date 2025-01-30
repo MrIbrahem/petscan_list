@@ -62,6 +62,12 @@ body {
     color: var(--light-text) !important;
 }
 
+.aligncenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .navbar-brand img {
     margin-left: 0.5rem;
     width: 35px;
