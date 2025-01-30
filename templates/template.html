@@ -1,0 +1,16 @@
+{% extends "main.html" %}
+
+{% block title %}القالب!{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header text-white text-center py-2">
+        <h4 class="card-title">
+            القالب:
+        </h4>
+    </div>
+    <div class="card-body p-4">
+        <textarea class="form-control" rows="10" style="text-align: left; direction: ltr">{{ result }}</textarea>
+    </div>
+</div>
+{% endblock %}

@@ -1,8 +1,25 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory
-from PetScanList import one_page
+from flask import Flask, request, render_template
+from PetScanList import one_page, MakeTemplate
 from urllib.parse import quote
 
 app = Flask(__name__)
+
+
+@app.route("/template", methods=["GET"])
+def template():
+    return render_template("template_form.html")
+
+
+@app.route("/template_result", methods=["POST", "GET"])
+def template_post():
+    url = request.form.get("url")
+
+    if not url:
+        return render_template("template_form.html")
+
+    result = MakeTemplate(url)
+
+    return render_template("template.html", result=result)
 
 
 @app.route("/update", methods=["GET"])
