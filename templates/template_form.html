@@ -64,9 +64,15 @@
         </form>
         <script>
             function copyText() {
-                var copyText = document.querySelector('#wikitext-new');
-                copyText.select();
-                document.execCommand('copy');
+                const copyText = document.querySelector('#wikitext-new');
+                navigator.clipboard.writeText(copyText.value)
+                    .then(() => {
+                        // Optional: Show success message
+                        console.log('Text copied to clipboard');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy text:', err);
+                    });
             }
         </script>
         {% endif %}
