@@ -80,12 +80,12 @@ def fetch_petscan_data(params: Dict[str, str]) -> Union[Dict, List]:
         logger.info("Generated PetScan URL: %s", url)
 
     try:
-        response = requests.get(url, timeout=15)
+        response = requests.get(url, timeout=25)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
         logger.error("Request failed: %s", str(e))
-        return [] if params.get("return_dict") else {}
+        return {}
 
 
 def process_petscan_results(data: Dict, lang: str = "ar") -> Dict[str, Dict]:
@@ -103,27 +103,33 @@ def process_petscan_results(data: Dict, lang: str = "ar") -> Dict[str, Dict]:
         full_title = f"{prefix}:{title}" if prefix else title
         full_title = full_title.replace("_", " ").strip()
 
-        results[full_title] = {"touched": item.get("touched", ""), "Q": item.get("q", ""), "ns": ns, "len": item.get("len", 0), "title": full_title}
+        results[full_title] = {
+            "touched": item.get("touched", ""),
+            "Q": item.get("q", ""),
+            "ns": ns,
+            "len": item.get("len", 0),
+            "title": full_title,
+        }
 
     return results
 
 
-def get_petscan_results(params: Dict[str, str], return_dict: bool = False) -> Union[Dict, List]:
+def get_petscan_results(params: Dict[str, str]) -> Union[Dict, List]:
     """Main function to get PetScan results."""
     raw_data = fetch_petscan_data(params)
 
     if not raw_data:
-        return {} if return_dict else []
+        return {}
 
     processed = process_petscan_results(raw_data, params.get("language", "ar"))
-    return processed if return_dict else list(processed.keys())
+    return processed
 
 
 # Example usage
 if __name__ == "__main__":
     params = {"categories": "Arabic literature", "ns": 0, "language": "ar"}
 
-    results = get_petscan_results(params, return_dict=True)
+    results = get_petscan_results(params)
     print(f"Found {len(results)} results:")
     for title, data in results.items():
         print(f"- {title} (QID: {data['Q']}, Length: {data['len']})")

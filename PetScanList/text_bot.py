@@ -7,6 +7,8 @@ from .wikitable import wiki_table
 from . import petscan_bot as petscan
 import wikitextparser as wtp
 
+DEFAULT_SECTION_HEADER = "قائمة"  # Arabic for "List"
+
 
 def fix_value(value):
     """
@@ -37,7 +39,12 @@ def make_petscan_list(template):
         elif name == "ns":
             # Handle namespace parameters (e.g., "ns=0,1,2")
             for ns in value.split(","):
-                petscan_params[f"ns%5B{ns.strip()}%5D"] = 1
+                try:
+                    ns = int(ns.strip())  # Validate namespace is a number
+                    petscan_params[f"ns%5B{ns}%5D"] = 1
+                except ValueError:
+                    print(f"Warning: Invalid namespace value '{ns}'")
+                    continue
         else:
             # Fix and format the value for PetScan
             value = fix_value(value)
@@ -45,7 +52,7 @@ def make_petscan_list(template):
             petscan_params[name] = value
 
     # Generate the PetScan list
-    lista = petscan.get_petscan_results(petscan_params, return_dict=True)
+    lista = petscan.get_petscan_results(petscan_params)
     return lista, other_params
 
 
@@ -86,7 +93,7 @@ def process_text(text):
         return text
 
     formatted_list = format_list_as_text(p_list, other_params)
-    return template.string + "\n\n== قائمة ==\n\n" + formatted_list
+    return f"{template.string}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
 
 
 # Example usage

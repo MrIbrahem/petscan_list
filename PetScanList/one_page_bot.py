@@ -21,7 +21,11 @@ def initialize_site():
     """
     if not sites[1]:
         sites[1] = mwclient.Site("ar.wikipedia.org")
-        sites[1].login(username, password)
+        try:
+            sites[1].login(username, password)
+        except mwclient.errors.LoginError as e:
+            logging.error(f"Error logging in: {e}")
+            return None
     return sites[1]
 
 
