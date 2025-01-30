@@ -16,9 +16,9 @@ def fix_value(value):
     """
     value = value.strip()
     if "\n" in value or value.startswith("*"):
-        # Convert list-like values into a single string separated by "%0D%0A"
+        # Convert list-like values into a single string separated by "\r\n"
         lista = [item.replace("*", "").strip() for item in value.split("\n")]
-        return "%0D%0A".join(lista)
+        return "\r\n".join(lista)
     return value
 
 
