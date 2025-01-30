@@ -9,7 +9,9 @@ from urllib.parse import urlparse, parse_qs, ParseResult
 false_params = [
     "interface_language",
     "active_tab",
+    "output_compatability",
     "format",
+    "json-pretty",
 ]
 
 

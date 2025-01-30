@@ -22,6 +22,15 @@ def fix_value(value):
     return value
 
 
+false_params = [
+    "interface_language",
+    "active_tab",
+    "output_compatability",
+    "format",
+    "json-pretty",
+]
+
+
 def make_petscan_list(template):
     """
     Extract parameters from the `petscan list` template and generate a PetScan query.
@@ -45,7 +54,7 @@ def make_petscan_list(template):
                 except ValueError:
                     print(f"Warning: Invalid namespace value '{ns}'")
                     continue
-        else:
+        elif name not in false_params:
             # Fix and format the value for PetScan
             value = fix_value(value)
             value = value.replace(" ", "_")

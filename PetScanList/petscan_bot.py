@@ -95,7 +95,7 @@ def process_petscan_results(data: Dict, lang: str = "ar") -> Dict[str, Dict]:
 
     if not data or "*" not in data or not data["*"]:
         return results
-
+    # print(data)
     for item in data["*"][0]["a"]["*"]:
         ns = str(item.get("namespace", ""))
         title = item.get("title", "")

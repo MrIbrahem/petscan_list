@@ -9,9 +9,12 @@ head_labels = {
     "namespace": "النطاق",
     "ns": "النطاق",
     "len": "الحجم",
+    "image": "صورة",
+    "disambiguation": "صفحة توضيح؟",
 }
 
 head_formats = {
+    "image": "[[File:{}|50px]]",
     "title": "[[{}]]",
     "q": "{{{{Q|{}}}}}",
     "Q": "{{{{Q|{}}}}}",
@@ -34,13 +37,20 @@ def generate_table_header(table_head):
 def generate_table_row(row_data, table_head, row_number):
     """Generate a single row of the table."""
     row = []
+    # ---
+    data2 = {x: str(v) for x, v in row_data.items()}
+    # ---
+    if "metadata" in row_data:
+        for x, v in row_data["metadata"].items():
+            data2[x] = str(v)
+    # ---
     for x in table_head:
         if x == "#":
             formatted_x = str(row_number)
         elif x == "touched":
-            formatted_x = format_timestamp(row_data.get(x, ""))
+            formatted_x = format_timestamp(data2.get(x, ""))
         else:
-            formatted_x = head_formats.get(x, "{}").format(row_data.get(x, ""))
+            formatted_x = head_formats.get(x, "{}").format(data2.get(x, "")) if data2.get(x, "") else ""
         row.append(formatted_x)
     return "! " + "\n| ".join(row)
 
@@ -54,6 +64,9 @@ def wiki_table(tab):
     for row_number, data in enumerate(tab.values(), start=1):
         if not table_head:
             table_head = table_head2 + list(data.keys())
+            if "metadata" in data:
+                table_head.extend(list(data["metadata"].keys()))
+                table_head.remove("metadata")
 
         row = generate_table_row(data, table_head, row_number)
         rows.append(row)
