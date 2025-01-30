@@ -39,6 +39,7 @@ def template():
     return render_template("template_form.html", result=result, url=url)
 
 
+@app.route("/update", methods=["GET"])
 def update():
     title = request.args.get("title")
     encoded_title = quote(title)
