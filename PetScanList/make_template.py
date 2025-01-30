@@ -48,7 +48,7 @@ def MakeTemplate(url: str) -> str:
         if len(value.split("\n")) > 1:
             value = "\n* " + "\n* ".join([x.strip() for x in value.split("\n") if x.strip()])
         # ---
-        print(key, [value])
+        # print(key, [value])
         # ---
         temp.append(f"{key}={value}")
     # ---
