@@ -1,64 +1,97 @@
 # -*- coding: utf-8 -*-
 """
-from .one_page_bot import one_page
+This module handles updating a single Wikipedia page using a bot.
 """
+
 import logging
-
-logging.basicConfig(level=logging.WARNING)
-
 import mwclient
 from . import text_bot
 from .account import username, password
 
-season = {1: False, "csrftoken": False}
+# Configure logging
+logging.basicConfig(level=logging.WARNING)
 
+# Global variables
 sites = {1: False}
 
 
-def one_page(x):
-    # ---
-    x2 = x.lower().strip().replace("_", " ")
-    # ---
-    print("x2", x2)
-    # ---
-    if x2.find("petscan list") != -1:
-        return "لا يمكن تحديث قالب:Petscan list!"
-    # ---
+def initialize_site():
+    """
+    Initialize and log in to the Wikipedia site if not already done.
+    """
     if not sites[1]:
         sites[1] = mwclient.Site("ar.wikipedia.org")
-        sites[1].login(username, password)
-    # ---
-    page = sites[1].Pages[x]
+        try:
+            sites[1].login(username, password)
+        except mwclient.errors.LoginError as e:
+            logging.error(f"Error logging in: {e}")
+            return None
+    return sites[1]
+
+
+def is_petscan_list_page(page_title):
+    """
+    Check if the page title indicates it contains a `petscan list` template.
+    """
+    return "petscan list" in page_title.lower().strip().replace("_", " ")
+
+
+def update_page_content(page_title):
+    """
+    Update the content of a Wikipedia page using the `text_bot.process_text` function.
+    """
+    if is_petscan_list_page(page_title):
+        return "لا يمكن تحديث قالب:Petscan list!"
+
+    site = initialize_site()
+    page = site.Pages[page_title]
     text = page.text()
-    # ---
+
     if not text:
-        print("no text")
+        logging.warning(f"No text found for page: {page_title}")
         return "no text"
-    # ---
-    newtext = text_bot.change_it(text)
-    # ---
+
+    newtext = text_bot.process_text(text)
+
     if text == newtext:
-        print("no changes")
+        logging.info("No changes detected in the page content.")
         return "no changes"
-    # ---
+
     summary = "بوت: تحديث قائمة (تجريبي)"
-    # ---
-    save = {}
-    # ---
     try:
-        save = page.save(newtext, summary=summary)
+        save_result = page.save(newtext, summary=summary)
     except Exception as e:
-        print(f"Exception {e}")
+        logging.error(f"Exception occurred while saving page: {e}")
         return str(e)
-    # ---
-    if isinstance(save, dict):
-        # OrderedDict([('result', 'Success'), ('pageid', 9857018), ('title', 'ويكيبيديا:برنامج قراءة ويكيبيديا في الصف - اليمن 2/مقالات مقترحة/لا مصدر'), ('contentmodel', 'wikitext'), ('oldrevid', 69427827), ('newrevid', 69427829), ('newtimestamp', '2025-01-29T00:41:53Z')])
-        if save.get("result") == "Success":
-            te = "save success"
+
+    return handle_save_result(save_result)
+
+
+def handle_save_result(save_result):
+    """
+    Handle the result of the page save operation.
+    """
+    if isinstance(save_result, dict):
+        if save_result.get("result") == "Success":
+            return "save success"
         else:
-            te = str(save)
+            return str(save_result)
     else:
-        te = f"save failed: {save}"
-    # ---
-    print(te)
-    return te
+        return f"save failed: {save_result}"
+
+
+def one_page(page_title):
+    """
+    Main function to process and update a single Wikipedia page.
+    """
+    logging.info(f"Processing page: {page_title}")
+    result = update_page_content(page_title)
+    logging.info(result)
+    return result
+
+
+# Example usage
+if __name__ == "__main__":
+    page_title = "ويكيبيديا:برنامج قراءة ويكيبيديا في الصف - اليمن 2/مقالات مقترحة/لا مصدر"
+    result = one_page(page_title)
+    print(result)

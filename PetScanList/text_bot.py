@@ -1,96 +1,109 @@
 # -*- coding: utf-8 -*-
 """
-from petscan_list import text_bot
-
+This module processes text containing a `petscan list` template and generates a formatted list or table.
 """
+
 from .wikitable import wiki_table
 from . import petscan_bot as petscan
 import wikitextparser as wtp
 
+DEFAULT_SECTION_HEADER = "قائمة"  # Arabic for "List"
+
 
 def fix_value(value):
+    """
+    Clean and format the value. If the value is a list (e.g., "* item1\n* item2"), convert it to a single string.
+    """
     value = value.strip()
-    # ---
-    # if value looks  like this: (* item1\n* item2 ...) then make it list
-    # ---
-    if len(value.split("\n")) > 1 or value.startswith("*"):
-        lista = [x.replace("*", "").strip() for x in value.split("\n")]
+    if "\n" in value or value.startswith("*"):
+        # Convert list-like values into a single string separated by "%0D%0A"
+        lista = [item.replace("*", "").strip() for item in value.split("\n")]
         return "%0D%0A".join(lista)
-    # ---
     return value
 
 
-def make_petscan_list(temp):
-    # ---
-    other_params = {}
-    # ---
+def make_petscan_list(template):
+    """
+    Extract parameters from the `petscan list` template and generate a PetScan query.
+    """
     petscan_params = {}
-    for param in temp.arguments:
-        name = str(param.name).strip()
-        # ---
-        value = str(param.value).strip()
-        # ---
-        if name.startswith("_"):
-            other_params[name] = value
+    other_params = {}
 
-        if name == "ns":
-            ns_list = [x.strip() for x in value.split(",")]
-            for x in ns_list:
-                petscan_params[f"ns%5B{x}%5D"] = 1
+    for param in template.arguments:
+        name = str(param.name).strip()
+        value = str(param.value).strip()
+
+        if name.startswith("_"):
+            # Handle special parameters (those starting with "_")
+            other_params[name] = value
+        elif name == "ns":
+            # Handle namespace parameters (e.g., "ns=0,1,2")
+            for ns in value.split(","):
+                try:
+                    ns = int(ns.strip())  # Validate namespace is a number
+                    petscan_params[f"ns%5B{ns}%5D"] = 1
+                except ValueError:
+                    print(f"Warning: Invalid namespace value '{ns}'")
+                    continue
         else:
+            # Fix and format the value for PetScan
             value = fix_value(value)
             value = value.replace(" ", "_")
             petscan_params[name] = value
-    # ---
-    # petscan_params["lang"] = petscan_params.get("language") or petscan_params.get("lang") or ""
-    # ---
-    # print(petscan_params)
-    # ---
-    lista = petscan.make_petscan(petscan_params, return_dict=True)
-    # ---
+
+    # Generate the PetScan list
+    lista = petscan.get_petscan_results(petscan_params)
     return lista, other_params
 
 
-def get_petscan_temp(text):
-    prased = wtp.parse(text)
-    # ---
-    for temp in prased.templates:
-        name = str(temp.normal_name()).strip().lower().replace("_", " ")
+def get_petscan_template(text):
+    """
+    Find and return the `petscan list` template from the given text.
+    """
+    parsed = wtp.parse(text)
+    for template in parsed.templates:
+        name = str(template.normal_name()).strip().lower().replace("_", " ")
         if name == "petscan list":
-            return temp
-
+            return template
     return None
 
 
-def change_list_to_text(p_list, other_params):
-    # ---
-    format_table = other_params.get("_result_", "").strip() == "table"
-    # ---
-    if format_table:
+def format_list_as_text(p_list, other_params):
+    """
+    Format the list as either a wikitable or a bulleted list, depending on the parameters.
+    """
+    if other_params.get("_result_", "").strip() == "table":
         return wiki_table(p_list)
-    # ---
+
+    # Format as a bulleted list inside a Div col
     text = "\n".join([f"# [[:{x}]]" for x in p_list])
-    # ---
-    text = "{{Div col|colwidth=20em}}" + "\n\n" + text + "\n\n{{Div col end}}"
-    # ---
-    return text
+    return "{{Div col|colwidth=20em}}\n\n" + text + "\n\n{{Div col end}}"
 
 
-def change_it(text):
-    newtext = text
-    # ---
-    temp = get_petscan_temp(text)
-    # ---
-    if not temp:
-        return newtext
-    # --
-    p_list, other_params = make_petscan_list(temp)
-    # ---
+def process_text(text):
+    """
+    Process the input text, find the `petscan list` template, and generate the formatted output.
+    """
+    template = get_petscan_template(text)
+    if not template:
+        return text
+
+    p_list, other_params = make_petscan_list(template)
     if not p_list:
-        return newtext
-    # ---
-    list_to_text = change_list_to_text(p_list, other_params)
-    # ---
-    newtext = temp.string + "\n\n== قائمة ==\n\n" + list_to_text
-    # ---
-    return newtext
+        return text
+
+    formatted_list = format_list_as_text(p_list, other_params)
+    return f"{template.string}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
+
+
+# Example usage
+if __name__ == "__main__":
+    input_text = """
+    {{petscan list
+    |ns=0,1
+    |title=Test
+    |_result_=table
+    }}
+    """
+    output_text = process_text(input_text)
+    print(output_text)

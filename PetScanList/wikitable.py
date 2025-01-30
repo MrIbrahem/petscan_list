@@ -1,7 +1,6 @@
-"""
-"""
 import time
 
+# Define labels and formats for table headers
 head_labels = {
     "title": "العنوان",
     "touched": "آخر تعديل",
@@ -12,61 +11,51 @@ head_labels = {
 
 head_formats = {
     "title": "[[{}]]",
-    # "touched": "{{{{subst:#time:j M Y (H:i)|{}}}}}",
     "Q": "{{{{Q|{}}}}}",
     "ns": "{}",
     "len": "{}",
 }
 
 
+def format_timestamp(timestamp):
+    """Format a timestamp from 'YYYYMMDDHHMMSS' to 'YYYY-MM-DD HH:MM:SS'."""
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.strptime(timestamp, "%Y%m%d%H%M%S"))
+
+
+def generate_table_header(table_head):
+    """Generate the table header row based on the provided headers."""
+    header_row = "\n".join(f"! {head_labels.get(x, x)}" for x in table_head)
+    return header_row
+
+
+def generate_table_row(row_data, table_head, row_number):
+    """Generate a single row of the table."""
+    row = []
+    for x in table_head:
+        if x == "#":
+            formatted_x = str(row_number)
+        elif x == "touched":
+            formatted_x = format_timestamp(row_data.get(x, ""))
+        else:
+            formatted_x = head_formats.get(x, "{}").format(row_data.get(x, ""))
+        row.append(formatted_x)
+    return "! " + "\n| ".join(row)
+
+
 def wiki_table(tab):
-    # ---
+    """Generate a wikitable from the provided data."""
     table_head2 = ["#", "title"]
     table_head = []
-    # ---
     rows = []
-    # ---
-    n = 0
-    # ---
-    for row, data in tab.items():
-        # print(data)
-        # {'touched': '20230327144419', 'Q': 'Q6853789', 'ns': 0, 'len': 3393, 'title': 'محمد حسين هيثم'}
-        # ---
-        n += 1
-        # ---
+
+    for row_number, data in enumerate(tab.values(), start=1):
         if not table_head:
-            table_head = [x for x in data.keys() if x not in table_head2]
-            table_head = table_head2 + table_head
-        # ---
-        # row = f"! [[{data.get('title')}]]"
-        row = []
-        # ---
-        for x in table_head:
-            if x == "#":
-                formated_x = str(n)
-            elif x == "touched":
-                formated_x = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime(data.get(x), "%Y%m%d%H%M%S"))
-            else:
-                formated_x = head_formats.get(x, "{}").format(data.get(x, ""))
-            row.append(formated_x)
-        # ---
-        row = "! " + "\n| ".join(row)
-        # ---
+            table_head = table_head2 + [x for x in data.keys() if x not in table_head2]
+
+        row = generate_table_row(data, table_head, row_number)
         rows.append(row)
-    # ---
-    text = '{| class="wikitable sortable"\n|-'
-    # ---
-    # text += "\n! title"
-    # ---
-    for x in table_head:
-        ar_x = head_labels.get(x, x)
-        text += f"\n! {ar_x}"
-    # ---
-    text += "\n|-\n"
-    # ---
-    text += "\n|-\n".join(rows)
-    text += "\n|}"
-    # ---
-    # print(text)
-    # ---
-    return text
+
+    # Generate the full table
+    table = '{| class="wikitable sortable"\n|-\n' + f"{generate_table_header(table_head)}\n|-\n" + "\n|-\n".join(rows) + "\n|}"
+
+    return table

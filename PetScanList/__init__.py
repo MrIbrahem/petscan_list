@@ -1,9 +1,9 @@
-from .petscan_bot import make_petscan
+from .petscan_bot import get_petscan_results
 from .one_page_bot import one_page
 from .make_template import MakeTemplate
 
 __all__ = [
-    "make_petscan",
+    "get_petscan_results",
     "one_page",
     "MakeTemplate",
 ]
