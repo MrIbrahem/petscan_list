@@ -4,13 +4,16 @@ import time
 head_labels = {
     "title": "العنوان",
     "touched": "آخر تعديل",
+    "q": "معرف ويكي بيانات",
     "Q": "معرف ويكي بيانات",
+    "namespace": "النطاق",
     "ns": "النطاق",
     "len": "الحجم",
 }
 
 head_formats = {
     "title": "[[{}]]",
+    "q": "{{{{Q|{}}}}}",
     "Q": "{{{{Q|{}}}}}",
     "ns": "{}",
     "len": "{}",
@@ -44,13 +47,13 @@ def generate_table_row(row_data, table_head, row_number):
 
 def wiki_table(tab):
     """Generate a wikitable from the provided data."""
-    table_head2 = ["#", "title"]
+    table_head2 = ["#"]
     table_head = []
     rows = []
 
     for row_number, data in enumerate(tab.values(), start=1):
         if not table_head:
-            table_head = table_head2 + [x for x in data.keys() if x not in table_head2]
+            table_head = table_head2 + list(data.keys())
 
         row = generate_table_row(data, table_head, row_number)
         rows.append(row)
@@ -59,3 +62,19 @@ def wiki_table(tab):
     table = '{| class="wikitable sortable"\n|-\n' + f"{generate_table_header(table_head)}\n|-\n" + "\n|-\n".join(rows) + "\n|}"
 
     return table
+
+
+if __name__ == "__main__":
+    tab = {
+        "Q44835215": {
+            "id": 46019515,
+            "len": 9167,
+            "n": "page",
+            "namespace": 0,
+            "nstext": "",
+            "title": "Q44835215",
+            "touched": "20240314021723",
+        },
+    }
+
+    print(wiki_table(tab))
