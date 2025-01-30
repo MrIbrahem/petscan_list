@@ -263,3 +263,9 @@ body {
         margin-right: 0 !important;
     }
 }
+
+
+.ltr_left {
+    text-align: left;
+    direction: ltr
+}

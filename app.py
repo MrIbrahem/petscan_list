@@ -36,7 +36,7 @@ def template():
     except Exception as e:
         return render_template("template_form.html", error=str(e), url=url), 400
 
-    return render_template("template.html", result=result, url=url)
+    return render_template("template_form.html", result=result, url=url)
 
 
 def update():
