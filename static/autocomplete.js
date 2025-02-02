@@ -10,7 +10,7 @@ $(function () {
                     $("#notloading").hide();
                 },
                 error: function (xhr, status, error) {
-                    console.error("API request failed:", error);
+                    console.error("API request failed:", error.toString().replace(/[<>'"]/g, ''));
                     response([]);
                 },
                 complete: function () {
