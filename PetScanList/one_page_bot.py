@@ -49,7 +49,7 @@ def update_page_content(page_title, wiki):
     """
     # ---
     if is_petscan_list_page(page_title):
-        error = translations["pet_scan_page_error"]
+        error = "pet_scan_page_error"
         return error, CLASS_ERROR
 
     site = initialize_site(wiki)
@@ -58,7 +58,7 @@ def update_page_content(page_title, wiki):
 
     if not text:
         logging.warning(f"No text found for page: {page_title}")
-        return translations["empty_page"], CLASS_WARNING
+        return "empty_page", CLASS_WARNING
 
     newtext, mssg = text_bot.process_text(text)
     if mssg != "":
@@ -67,7 +67,7 @@ def update_page_content(page_title, wiki):
 
     if text == newtext:
         logging.info("No changes detected in the page content.")
-        return translations["no_changes"], CLASS_WARNING
+        return "no_changes", CLASS_WARNING
 
     summary = translations["summary"]
 
@@ -79,11 +79,12 @@ def update_page_content(page_title, wiki):
     # ---
     if isinstance(save_result, dict):
         if save_result.get("result") == "Success":
-            return translations["save_success"], CLASS_SUCCESS
+            return "save_success", CLASS_SUCCESS
         else:
             return str(save_result), CLASS_ERROR
     else:
-        msg = translations["save_error"].format(error=str(save_result))
+        # msg = translations["save_error"].format(error=str(save_result))
+        msg = "save_error"
         return msg, CLASS_ERROR
 
 

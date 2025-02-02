@@ -2,11 +2,8 @@ from flask import Flask, request, render_template, jsonify
 from urllib.parse import quote
 from PetScanList import one_page, MakeTemplate
 from PetScanList import valid_wikis
-from PetScanList.I18n import get_translations
 
 app = Flask(__name__)
-
-translations = get_translations()
 
 
 def is_valid_petscan_url(url: str) -> bool:
@@ -39,12 +36,11 @@ def template():
 
     # Validate and sanitize the URL
     if not is_valid_petscan_url(url):
-        return render_template("template_form.html", error=translations["invalid_url"], url=url)
+        return render_template("template_form.html", url=url, tt="invalid_url")
     try:
         result = MakeTemplate(url)
     except Exception as e:
-        error = translations["unexpected_error"].format(error=str(e))
-        return render_template("template_form.html", error=error, url=url), 400
+        return render_template("template_form.html", url=url, tt="unexpected_error", tt1=str(e)), 400
 
     return render_template("template_form.html", result=result, url=url)
 
@@ -57,27 +53,26 @@ def update():
     url = f"https://{wiki}/wiki/{encoded_title}"
     # ---
     if wiki not in valid_wikis:
-        error = translations["wiki_not_supported"].format(wiki=wiki)
-        return render_template("result.html", title=title, result=error, url=url, result_class="danger"), 400
+        return render_template("result.html", title=title, url=url, result_class="danger", tt="wiki_not_supported", tt1=wiki), 400
     # ---
     result_class = ""
     # ---
     if not title:
-        return render_template("result.html", title=title, result=translations["title_required"], url=url, result_class="danger"), 400
+        return render_template("result.html", title=title, url=url, result_class="danger", tt="title_required"),
+
+    # result, result_class = one_page(title, wiki)
+
     try:
         result, result_class = one_page(title, wiki)
 
     except ValueError as ve:
-        error = translations["value_error"].format(error=str(ve))
-        return render_template("result.html", title=title, result=error, url=url, result_class="danger"), 400
+        return render_template("result.html", title=title, url=url, result_class="danger", tt="value_error", tt1=str(ve)), 400
 
     except ConnectionError as ce:
-        error = translations["connection_error"].format(error=str(ce))
-        return render_template("result.html", title=title, result=error, url=url, result_class="danger"), 400
+        return render_template("result.html", title=title, url=url, result_class="danger", tt="connection_error", tt1=str(ce)), 400
 
     except Exception as e:
-        error = translations["unexpected_error"].format(error=str(e))
-        return render_template("result.html", title=title, result=error, url=url, result_class="danger"), 400
+        return render_template("result.html", title=title, url=url, result_class="danger", tt="unexpected_error", tt1=str(e)), 400
 
     return render_template("result.html", title=title, result=result, url=url, result_class=result_class)
 
@@ -89,12 +84,12 @@ def index():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template("error.html", title=translations["invalid_url"], error=str(e)), 404
+    return render_template("error.html", tt="invalid_url", error=str(e)), 404
 
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    return render_template("error.html", title=translations["unexpected_error"], error=str(e)), 500
+    return render_template("error.html", tt="unexpected_error", error=str(e)), 500
 
 
 if __name__ == "__main__":

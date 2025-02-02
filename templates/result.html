@@ -6,14 +6,17 @@
 <div class="card">
     <div class="card-header text-white text-center py-3">
         <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
-            نتيجة تحديث: {{ title }}
+            <span tt='up_result'></span> {{ title }}
         </h4>
     </div>
     <div class="card-body p-4">
         <div class="alert alert-{{ result_class }} alert-dismissible fade show mb-3" role="alert">
+            {% if tt %}
+            <span tt="{{ tt }}" tt_var=""></span> {{ tt1 }}
+            {% endif %}
             {{ result }}
         </div>
-        <a href="{{ url }}" target="_blank" class="btn btn-primary">افتح الصفحة</a>
+        <a href="{{ url }}" target="_blank" class="btn btn-primary"><span tt='open_in_new_tab'></span></a>
     </div>
 </div>
 {% endblock %}
