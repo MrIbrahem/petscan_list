@@ -8,12 +8,12 @@ from PetScanList import valid_projects
 
 
 def start():
-    Tab = {}
-    # ---
-    Tab["templates_any"] = "petscan list"
-    # ---
     for project, langs in valid_projects.items():
         for lang in langs:
+            Tab = {}
+            # ---
+            Tab["templates_any"] = "petscan list"
+            # ---
             Tab["project"] = project
             Tab["language"] = lang
             # ---

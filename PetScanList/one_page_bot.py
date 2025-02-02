@@ -7,6 +7,9 @@ import logging
 import mwclient
 from . import text_bot
 from .account import username, password
+from .I18n import get_translations
+
+translations = get_translations()
 
 # Configure logging
 logging.basicConfig(level=logging.WARNING)
@@ -45,10 +48,9 @@ def update_page_content(page_title, wiki):
     Update the content of a Wikipedia page using the `text_bot.process_text` function.
     """
     # ---
-    result_class = ""
-    # ---
     if is_petscan_list_page(page_title):
-        return "لا يمكن تحديث قالب:Petscan list!", CLASS_ERROR
+        error = translations["pet_scan_page_error"]
+        return error, CLASS_ERROR
 
     site = initialize_site(wiki)
     page = site.Pages[page_title]
@@ -56,18 +58,18 @@ def update_page_content(page_title, wiki):
 
     if not text:
         logging.warning(f"No text found for page: {page_title}")
-        return "الصفحة فارغة أو غير موجودة!", CLASS_WARNING
+        return translations["empty_page"], CLASS_WARNING
 
     newtext, mssg = text_bot.process_text(text)
     if mssg != "":
         logging.info(mssg)
-        return mssg
+        return mssg, CLASS_WARNING
 
     if text == newtext:
         logging.info("No changes detected in the page content.")
-        return "لا يوجد أي تغيير!", CLASS_WARNING
+        return translations["no_changes"], CLASS_WARNING
 
-    summary = "بوت: تحديث قائمة (تجريبي)"
+    summary = translations["summary"]
 
     try:
         save_result = page.save(newtext, summary=summary)
@@ -77,11 +79,12 @@ def update_page_content(page_title, wiki):
     # ---
     if isinstance(save_result, dict):
         if save_result.get("result") == "Success":
-            return "تم الحفظ بنجاح!", CLASS_SUCCESS
+            return translations["save_success"], CLASS_SUCCESS
         else:
             return str(save_result), CLASS_ERROR
     else:
-        return f"save failed: {save_result}", CLASS_ERROR
+        msg = translations["save_error"].format(error=str(save_result))
+        return msg, CLASS_ERROR
 
 
 def one_page(page_title, wiki):
@@ -94,7 +97,6 @@ def one_page(page_title, wiki):
     # ---
     logging.info(result_class)
     logging.info(result)
-    # ---
     # ---
     return result, result_class
 
