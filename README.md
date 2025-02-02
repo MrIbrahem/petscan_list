@@ -108,4 +108,14 @@ The bot mode:
 
 ## Development
 
-The application runs in debug mode by default when running locally, which provides detailed error messages and automatic reloading when code changes are made. 
+The application runs in debug mode by default when running locally, which provides detailed error messages and automatic reloading when code changes are made.
+
+
+## Template Format Params
+
+These parameters are optional:
+
+- **`|_result_=table`**:  to display the result in wikitable.
+- **`|_line_format_=`**: Table to modify the value format, example:
+  ```wiki
+  |_line_format_ = # {{user:Mr. Ibrahem/link|$1}}
