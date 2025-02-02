@@ -95,14 +95,16 @@ def process_text(text):
     """
     template = get_petscan_template(text)
     if not template:
-        return text
+        return text, "القالب غير مستخدم في الصفحة!"
 
     p_list, other_params = make_petscan_list(template)
     if not p_list:
-        return text
+        return text, "لم تعثر الأداة على نتيجة من PetScan"
 
     formatted_list = format_list_as_text(p_list, other_params)
-    return f"{template.string}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
+    text = f"{template.string}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
+
+    return text, ""
 
 
 # Example usage
@@ -114,5 +116,5 @@ if __name__ == "__main__":
     |_result_=table
     }}
     """
-    output_text = process_text(input_text)
+    output_text, mssg = process_text(input_text)
     print(output_text)

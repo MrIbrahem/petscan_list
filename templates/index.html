@@ -12,26 +12,43 @@
                         class="me-2"
                         style="width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
                     تحديث قائمة PetScan
+
                 </h2>
             </div>
             <div class="card-body p-4">
                 <form action="/update" method="get">
                     <div class="form-group mb-4">
-                        <label for="title" class="form-label fw-bold mb-2">
-                            <i class="fas fa-edit me-2"></i> أدخل عنوان المقالة:
+                        <label for="wiki" class="form-label fw-bold mb-2">
+                            <i class="bi bi-wikipedia"></i> الويكي:
                         </label>
                         <div class="input-group input-group-lg">
                             <span class="input-group-text border-0">
-                                <i class="fas fa-file-alt text-primary"></i>
+                                <i class="bi bi-wikipedia" aria-hidden="true"></i>
                             </span>
-                            <input type="text" id="title" name="title" class="form-control form-control-lg border-2 input-group-input"
-                                required placeholder="اسم الصفحة" autocomplete="off">
+                            <select id="wiki" name="wiki" class="selectpicker form-control border-2"
+                                data-live-search="true" required>
+                                {% for wiki in wikis %}
+                                <option value="{{ wiki }}">{{ wiki }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="title" class="form-label fw-bold mb-2">
+                            <i class="bi bi-pencil-square"></i> أدخل عنوان الصفحة:
+                        </label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text border-0">
+                                <i class="bi bi-file-earmark-bar-graph  text-primary"></i>
+                            </span>
+                            <input type="text" id="title" name="title"
+                                class="form-control form-control-lg border-2 input-group-input" required
+                                placeholder="اسم الصفحة" autocomplete="off">
                         </div>
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-play me-2"></i>
-                            بدء التحديث
+                            بدء التحديث <i class="bi bi-skip-start-circle"></i>
                         </button>
                     </div>
                 </form>
@@ -39,7 +56,7 @@
             <div class="card-footer text-center py-3">
                 <small class="">
                     <i class="fas fa-info-circle me-1"></i>
-                    قم بإدخال عنوان المقالة للبدء في تحديث قائمة PetScan
+                    قم بإدخال عنوان الصفحة للبدء في تحديث قائمة PetScan
                 </small>
             </div>
         </div>

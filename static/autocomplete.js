@@ -1,8 +1,9 @@
 $(function () {
     $("#title").autocomplete({
         source: function (request, response) {
+            var wiki = $("#wiki").val(); // moved inside the function to get updated value
             $.ajax({
-                url: "https://ar.wikipedia.org/w/api.php",
+                url: "https://" + wiki + "/w/api.php",
                 dataType: "jsonp",
                 data: {
                     action: "opensearch",

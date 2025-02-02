@@ -10,8 +10,12 @@
         </h4>
     </div>
     <div class="card-body p-4">
-        <p class="card-text">{{ result }}</p>
-        <a href="{{ url }}" target="_blank" class="btn btn-primary">رابط المقالة</a>
+        <p class="card-text">
+        <div class="alert alert-{{ result_class }} alert-dismissible fade show" role="alert">
+            {{ result }}
+        </div>
+        </p>
+        <a href="{{ url }}" target="_blank" class="btn btn-primary">رابط الصفحة</a>
     </div>
 </div>
 {% endblock %}
