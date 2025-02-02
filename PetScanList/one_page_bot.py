@@ -7,6 +7,9 @@ import logging
 import mwclient
 from . import text_bot
 from .account import username, password
+from .I18n import get_translations
+
+translations = get_translations()
 
 # Configure logging
 logging.basicConfig(level=logging.WARNING)
@@ -14,19 +17,23 @@ logging.basicConfig(level=logging.WARNING)
 # Global variables
 sites = {1: False}
 
+CLASS_ERROR = "danger"
+CLASS_WARNING = "warning"
+CLASS_SUCCESS = "success"
 
-def initialize_site():
+
+def initialize_site(wiki="ar.wikipedia.org"):
     """
     Initialize and log in to the Wikipedia site if not already done.
     """
-    if not sites[1]:
-        sites[1] = mwclient.Site("ar.wikipedia.org")
+    if not sites.get(wiki):
+        sites[wiki] = mwclient.Site(wiki)
         try:
-            sites[1].login(username, password)
+            sites[wiki].login(username, password)
         except mwclient.errors.LoginError as e:
             logging.error(f"Error logging in: {e}")
             return None
-    return sites[1]
+    return sites[wiki]
 
 
 def is_petscan_list_page(page_title):
@@ -36,62 +43,66 @@ def is_petscan_list_page(page_title):
     return "petscan list" in page_title.lower().strip().replace("_", " ")
 
 
-def update_page_content(page_title):
+def update_page_content(page_title, wiki):
     """
     Update the content of a Wikipedia page using the `text_bot.process_text` function.
     """
+    # ---
     if is_petscan_list_page(page_title):
-        return "لا يمكن تحديث قالب:Petscan list!"
+        error = translations["pet_scan_page_error"]
+        return error, CLASS_ERROR
 
-    site = initialize_site()
+    site = initialize_site(wiki)
     page = site.Pages[page_title]
     text = page.text()
 
     if not text:
         logging.warning(f"No text found for page: {page_title}")
-        return "no text"
+        return translations["empty_page"], CLASS_WARNING
 
-    newtext = text_bot.process_text(text)
+    newtext, mssg = text_bot.process_text(text)
+    if mssg != "":
+        logging.info(mssg)
+        return mssg, CLASS_WARNING
 
     if text == newtext:
         logging.info("No changes detected in the page content.")
-        return "no changes"
+        return translations["no_changes"], CLASS_WARNING
 
-    summary = "بوت: تحديث قائمة (تجريبي)"
+    summary = translations["summary"]
+
     try:
         save_result = page.save(newtext, summary=summary)
     except Exception as e:
         logging.error(f"Exception occurred while saving page: {e}")
-        return str(e)
-
-    return handle_save_result(save_result)
-
-
-def handle_save_result(save_result):
-    """
-    Handle the result of the page save operation.
-    """
+        return str(e), CLASS_ERROR
+    # ---
     if isinstance(save_result, dict):
         if save_result.get("result") == "Success":
-            return "save success"
+            return translations["save_success"], CLASS_SUCCESS
         else:
-            return str(save_result)
+            return str(save_result), CLASS_ERROR
     else:
-        return f"save failed: {save_result}"
+        msg = translations["save_error"].format(error=str(save_result))
+        return msg, CLASS_ERROR
 
 
-def one_page(page_title):
+def one_page(page_title, wiki):
     """
     Main function to process and update a single Wikipedia page.
     """
     logging.info(f"Processing page: {page_title}")
-    result = update_page_content(page_title)
+    # ---
+    result, result_class = update_page_content(page_title, wiki)
+    # ---
+    logging.info(result_class)
     logging.info(result)
-    return result
+    # ---
+    return result, result_class
 
 
 # Example usage
 if __name__ == "__main__":
     page_title = "ويكيبيديا:برنامج قراءة ويكيبيديا في الصف - اليمن 2/مقالات مقترحة/لا مصدر"
-    result = one_page(page_title)
+    result = one_page(page_title, "ar.wikipedia.org")
     print(result)
