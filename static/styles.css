@@ -1,4 +1,5 @@
 :root {
+    --tool_icon: url('https://upload.wikimedia.org/wikipedia/commons/1/1c/MediaWiki-2020-large-icon-%28black%29.svg');
     --bs-body-color: #212529;
     --bs-footer-color: #000000;
     --bs-body-bg: #fff;
@@ -16,6 +17,7 @@
 }
 
 :root[data-bs-theme="dark"] {
+    --tool_icon: url('https://upload.wikimedia.org/wikipedia/commons/c/ca/MediaWiki-2020-icon-%28white%29.svg');
     --bs-body-color: #fafafa;
     --bs-body-bg: #718293;
     --bs-footer-color: #dee2e6;
@@ -41,12 +43,19 @@
     /* Darker gradient end */
 }
 
-/*
 
-html {
-    direction: rtl;
-    text-align: right;
-} */
+.tool_icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-image: var(--tool_icon);
+    background-size: cover;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+
+}
 
 body {
     background-color: var(--background-color);
@@ -55,7 +64,8 @@ body {
 
 /* Navbar Styling */
 .navbar {
-    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end)) !important;
+    /* background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end)) !important; */
+    background: var(--gradient-start);
     padding: 0.8rem;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
