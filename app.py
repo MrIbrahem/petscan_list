@@ -5,6 +5,7 @@ from PetScanList import valid_wikis
 
 app = Flask(__name__)
 
+
 def is_valid_petscan_url(url: str) -> bool:
     """
     Checks if the given URL is a valid PetScan URL.
@@ -57,7 +58,10 @@ def update():
     result_class = ""
     # ---
     if not title:
-        return render_template("result.html", title=title, url=url, result_class="danger", tt="title_required"), 400
+        return render_template("result.html", title=title, url=url, result_class="danger", tt="title_required"),
+
+    # result, result_class = one_page(title, wiki)
+
     try:
         result, result_class = one_page(title, wiki)
 

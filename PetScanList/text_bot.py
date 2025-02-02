@@ -84,8 +84,15 @@ def format_list_as_text(p_list, other_params):
     if other_params.get("_result_", "").strip() == "table":
         return wiki_table(p_list)
 
+    line_format = "# [[:$1]]"
+
+    _line_format_ = other_params.get("_line_format_", "").strip()
+
+    if _line_format_.find("$1") != -1:
+        line_format = _line_format_
+
     # Format as a bulleted list inside a Div col
-    text = "\n".join([f"# [[:{x}]]" for x in p_list])
+    text = "\n".join([line_format.replace("$1", x) for x in p_list])
     return "{{Div col|colwidth=20em}}\n\n" + text + "\n\n{{Div col end}}"
 
 
@@ -95,11 +102,11 @@ def process_text(text):
     """
     template = get_petscan_template(text)
     if not template:
-        return text, "القالب غير مستخدم في الصفحة!"
+        return text, "no_template"
 
     p_list, other_params = make_petscan_list(template)
     if not p_list:
-        return text, "لم تعثر الأداة على نتيجة من PetScan"
+        return text, "no_result_petscan"
 
     formatted_list = format_list_as_text(p_list, other_params)
     text = f"{template.string}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
