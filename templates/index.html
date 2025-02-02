@@ -1,7 +1,5 @@
 {% extends "main.html" %}
 
-{% block title %}تحديث قائمة PetScan{% endblock %}
-
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
@@ -11,15 +9,15 @@
                     <img src="https://www.mediawiki.org/static/images/project-logos/mediawikiwiki.png" alt="Logo"
                         class="me-2"
                         style="width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                    تحديث قائمة PetScan
-
+                    <p tt='main_head'></p>
                 </h2>
             </div>
             <div class="card-body p-4">
                 <form action="/update" method="get">
                     <div class="form-group mb-4">
                         <label for="wiki" class="form-label fw-bold mb-2">
-                            <i class="bi bi-wikipedia"></i> الويكي:
+                            <i class="bi bi-wikipedia"></i>
+                            <span tt='main_wiki'></span>
                         </label>
                         <div class="input-group input-group-lg">
                             <span class="input-group-text border-0">
@@ -35,23 +33,25 @@
                     </div>
                     <div class="form-group mb-4">
                         <label for="title" class="form-label fw-bold mb-2">
-                            <i class="bi bi-pencil-square"></i> أدخل عنوان الصفحة:
+                            <i class="bi bi-pencil-square"></i><span tt='insert_title'></span>
+
                         </label>
                         <div class="input-group input-group-lg">
                             <span class="input-group-text border-0">
                                 <i class="bi bi-file-earmark-bar-graph text-primary" id="notloading"></i>
-                                <div class="spinner-border text-secondary" id="loading" role="status" style="display: none;">
+                                <div class="spinner-border text-secondary" id="loading" role="status"
+                                    style="display: none;">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                             </span>
                             <input type="text" id="title" name="title"
                                 class="form-control form-control-lg border-2 input-group-input" required
-                                placeholder="اسم الصفحة" autocomplete="off">
+                                autocomplete="off">
                         </div>
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            بدء التحديث <i class="bi bi-skip-start-circle"></i>
+                            <span tt='start_update'></span> <i class="bi bi-skip-start-circle"></i>
                         </button>
                     </div>
                 </form>
@@ -59,7 +59,7 @@
             <div class="card-footer text-center py-3">
                 <small class="">
                     <i class="fas fa-info-circle me-1"></i>
-                    قم بإدخال عنوان الصفحة للبدء في تحديث قائمة PetScan
+                    <span tt='footer_note'></span>
                 </small>
             </div>
         </div>

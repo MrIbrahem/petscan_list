@@ -5,14 +5,15 @@
 {% block content %}
 <div class="card card_form">
     <div class="card-header text-white text-center py-2">
-        <h4 class="card-title">مساعد إنشاء القالب!</h4>
+        <h4 class="card-title"><span tt='template_helps_title'></span>
+        </h4>
     </div>
     <div class="card-body p-4">
         {% if not result %}
         <form action="/template" method="POST">
             <div class="form-group mb-4">
                 <label for="url" class="form-label fw-bold mb-2">
-                    <i class="fas fa-link me-2"></i> أدخل مسار petscan:
+                    <i class="fas fa-link me-2"></i><span tt="insert_petscan_url"></span>
                 </label>
                 <div class="input-group input-group-lg">
                     <span class="input-group-text border-0">
@@ -25,7 +26,9 @@
                 </div>
             </div>
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary btn-lg">إنشاء</button>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <span tt="create"></span>
+                </button>
             </div>
         </form>
         {% else %}
@@ -33,7 +36,7 @@
             <textarea class="form-control ltr_left" rows="1">{{ url }}</textarea>
         </div>
         <form id="editform" name="editform" method="POST" target="_blank"
-            action="https://ar.wikipedia.org/w/index.php?title=وب:ملعب&action=submit">
+            action="https://ar.wikipedia.org/w/index.php?title=Special:Mypage/sandbox&action=submit">
             <input type="hidden" name="wpEdittime" value="">
             <input type="hidden" name="wpStarttime" value="">
             <input type="hidden" name="wpScrolltop" id="wpScrolltop" value="">
@@ -41,7 +44,7 @@
             <input type="hidden" name="model" value="wikitext">
             <input type="hidden" name="format" value="text/x-wiki">
             <input type="hidden" name="wpUltimateParam" value="1">
-            <input type="hidden" name="wpSummary" value="[[قالب:Petscan list]] تجربة!">
+            <input type="hidden" name="wpSummary" value="[[Template:Petscan list]] test!">
             <input type="hidden" id="wikitext-old" value="">
 
             <div class="input-group mb-3">
@@ -50,10 +53,10 @@
             </div>
             <div class="editOptions aligncenter gap-2">
                 <button class="btn btn-outline-secondary" type="button" onclick="copyText()">
-                    <i class="fas fa-copy"></i> نسخ
+                    <i class="fas fa-copy"></i> <span tt="copy"></span>
                 </button>
                 <input id="wpPreview" type="submit" class="btn btn-outline-primary" tabindex="5" title="[p]"
-                    accesskey="p" name="wpPreview" value="معاينة في الملعب!">
+                    accesskey="p" name="wpPreview" tt_value="preview_at_sandbox">
             </div>
         </form>
         <script>
@@ -65,9 +68,9 @@
             }
         </script>
         {% endif %}
-        {% if error %}
+        {% if tt %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ error }}
+            <span tt="{{ tt }}" tt_var="{{ tt1 }}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}

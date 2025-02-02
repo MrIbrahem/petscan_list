@@ -41,9 +41,14 @@
     /* Darker gradient end */
 }
 
-body {
+/*
+
+html {
     direction: rtl;
     text-align: right;
+} */
+
+body {
     background-color: var(--background-color);
     color: var(--text-color);
 }
