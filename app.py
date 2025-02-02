@@ -64,6 +64,7 @@ def update():
 
     try:
         result, result_class = one_page(title, wiki)
+        return render_template("result.html", title=title, url=url, result_class=result_class, tt=result)
 
     except ValueError as ve:
         return render_template("result.html", title=title, url=url, result_class="danger", tt="value_error", tt1=str(ve)), 400
@@ -73,8 +74,6 @@ def update():
 
     except Exception as e:
         return render_template("result.html", title=title, url=url, result_class="danger", tt="unexpected_error", tt1=str(e)), 400
-
-    return render_template("result.html", title=title, result=result, url=url, result_class=result_class)
 
 
 @app.route("/", methods=["GET"])

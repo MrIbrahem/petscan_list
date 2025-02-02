@@ -13,5 +13,7 @@ $(document).ready(function () {
     // wait 1 second before doing next
     setTimeout(function () {
         $('#interface_language_wrapper>form>a').hide();
+        // <option value="ar" selected="">AR</option> change AR to "العربية"
+        $('option[value="ar"]').text('العربية');
     }, 1000);
 });
