@@ -4,7 +4,7 @@
 from .make_template import MakeTemplate
 
 """
-from urllib.parse import urlparse, parse_qs, ParseResult
+from urllib.parse import urlparse, parse_qs, ParseResult, unquote
 
 false_params = [
     "interface_language",
@@ -46,6 +46,10 @@ def MakeTemplate(url: str) -> str:
             value = "\n* " + "\n* ".join(x.strip() for x in value.split("\n") if x.strip())
 
         temp.append(f"{key}={value}")
+
+    # // decode arabic characters
+    # decoded_url = unquote(url)
+    temp.append(f"_url_={url}")
 
     params = "\n| ".join(temp)
 
