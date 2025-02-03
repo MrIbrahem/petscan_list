@@ -4,8 +4,9 @@
 
 {% block content %}
 <div class="card card_form">
-    <div class="card-header text-white text-center py-2">
-        <h4 class="card-title"><span tt='template_helps_title'></span>
+    <div class="card-header text-white text-center py-3">
+        <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
+            <span tt='template_helps_title'></span>
         </h4>
     </div>
     <div class="card-body p-4">
@@ -16,9 +17,6 @@
                     <i class="fas fa-link me-2"></i><span tt="insert_petscan_url"></span>
                 </label>
                 <div class="input-group input-group-lg">
-                    <span class="input-group-text border-0">
-                        <i class="fas fa-file-alt text-primary"></i>
-                    </span>
                     <input type="text" id="url" required name="url" value="{{ url }}"
                         class="form-control form-control-lg border-2 input-group-input ltr_left"
                         pattern="https?:\/\/petscan\.(wmflabs|wmcloud)\.org.*"

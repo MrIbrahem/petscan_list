@@ -7,7 +7,7 @@ $(function () {
                 timeout: 5000,
                 beforeSend: function () {
                     $("#loading").show();
-                    $("#notloading").hide();
+                    // $("#notloading").hide();
                 },
                 error: function (xhr, status, error) {
                     console.error("API request failed:", error.toString().replace(/[<>'"]/g, ''));
@@ -15,7 +15,7 @@ $(function () {
                 },
                 complete: function () {
                     $("#loading").hide();
-                    $("#notloading").show();
+                    // $("#notloading").show();
                 },
                 dataType: "jsonp",
                 data: {

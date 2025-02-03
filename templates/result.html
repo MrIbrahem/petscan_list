@@ -3,7 +3,7 @@
 {% block title %}النتيجة{% endblock %}
 
 {% block content %}
-<div class="card">
+<div class="card card_form">
     <div class="card-header text-white text-center py-3">
         <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
             <span tt='up_result'></span> {{ title }}
@@ -16,7 +16,10 @@
             {% endif %}
             {{ result }}
         </div>
-        <a href="{{ url }}" target="_blank" class="btn btn-primary"><span tt='open_in_new_tab'></span></a>
+        <div class="editOptions aligncenter gap-2">
+            <a href="{{ url }}" target="_blank" class="btn btn-outline-primary"><span tt='open_in_new_tab'></span></a>
+        </div>
+
     </div>
 </div>
 {% endblock %}
