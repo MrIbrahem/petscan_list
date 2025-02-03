@@ -1,66 +1,55 @@
 {% extends "main.html" %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <div class="card card_form">
-            <div class="card-header text-white text-center py-3">
-                <h2 class="card-title mb-0 d-flex align-items-center justify-content-center">
-                    <span class="tool_icon me-2"></span>
-                    <p tt='main_head'></p>
-                </h2>
+<div class="card card_form">
+    <div class="card-header text-white text-center py-3">
+        <h2 class="card-title mb-0 d-flex align-items-center justify-content-center">
+            <span class="tool_icon me-2"></span>
+            <p tt='main_head'></p>
+        </h2>
+    </div>
+    <div class="card-body p-4">
+        <form action="/update" method="get">
+            <div class="form-group mb-4">
+                <label for="wiki" class="form-label fw-bold mb-2">
+                    <i class="bi bi-wikipedia"></i>
+                    <span tt='main_wiki'></span>
+                </label>
+                <div class="input-group input-group-lg">
+                    <select aria-label="Wiki" class="selectpicker" id='wiki' name='wiki' data-live-search="true"
+                        data-container="body" data-live-search-style="begins" data-bs-theme="auto"
+                        data-style='btn active' data-width="100%" required>
+                        {% for wiki in wikis %}
+                        <option value="{{ wiki }}">{{ wiki }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-            <div class="card-body p-4">
-                <form action="/update" method="get">
-                    <div class="form-group mb-4">
-                        <label for="wiki" class="form-label fw-bold mb-2">
-                            <i class="bi bi-wikipedia"></i>
-                            <span tt='main_wiki'></span>
-                        </label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text border-0">
-                                <i class="bi bi-wikipedia" aria-hidden="true"></i>
-                            </span>
-                            <select id="wiki" name="wiki" class="selectpicker form-control border-2"
-                                data-live-search="true" required>
-                                {% for wiki in wikis %}
-                                <option value="{{ wiki }}">{{ wiki }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+            <div class="form-group mb-4">
+                <label for="title" class="form-label fw-bold mb-2">
+                    <i class="bi bi-pencil-square"></i> <span tt='insert_title'></span>
+                    <div class="spinner-border" id="loading" role="status" style="display: none;">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
-                    <div class="form-group mb-4">
-                        <label for="title" class="form-label fw-bold mb-2">
-                            <i class="bi bi-pencil-square"></i><span tt='insert_title'></span>
-
-                        </label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text border-0">
-                                <i class="bi bi-file-earmark-bar-graph text-primary" id="notloading"></i>
-                                <div class="spinner-border text-secondary" id="loading" role="status"
-                                    style="display: none;">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </span>
-                            <input type="text" id="title" name="title"
-                                class="form-control form-control-lg border-2 input-group-input" required
-                                autocomplete="off" tt_placeholder="title_placeholder">
-                        </div>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <span tt='start_update'></span> <i class="bi bi-skip-start-circle"></i>
-                        </button>
-                    </div>
-                </form>
+                </label>
+                <div class="input-group input-group-lg">
+                    <input type="text" id="title" name="title"
+                        class="form-control form-control-lg border-2 input-group-input" required autocomplete="off"
+                        tt_placeholder="title_placeholder">
+                </div>
             </div>
-            <div class="card-footer text-center py-3">
-                <small class="">
-                    <i class="fas fa-info-circle me-1"></i>
-                    <span tt='footer_note'></span>
-                </small>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <span tt='start_update'></span> <i class="bi bi-skip-start-circle"></i>
+                </button>
             </div>
-        </div>
+        </form>
+    </div>
+    <div class="card-footer text-center py-3">
+        <small class="">
+            <i class="fas fa-info-circle me-1"></i>
+            <span tt='footer_note'></span>
+        </small>
     </div>
 </div>
 

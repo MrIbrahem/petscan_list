@@ -356,7 +356,7 @@ function ToolTranslation(intitial_params) {
             }
             var h = '';
             h += "<form class='form-inline' style='display:inline-block'>";
-            h += "<select class='form-control custom-select'>";
+            h += "<select class='form-control custom-select' data-bs-theme='auto'>";
             me.toolinfo.languages.sort();
             $.each(me.toolinfo.languages, function (dummy, language) {
                 var language_name = me.language_cache[language];
