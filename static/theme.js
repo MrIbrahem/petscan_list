@@ -7,15 +7,15 @@ const htmlElement = document.documentElement;
 const themes = {
     system: {
         icon: 'bi-circle-half',
-        label: 'تلقائي'
+        label: 'Auto'
     },
     dark: {
         icon: 'bi-moon-stars-fill',
-        label: 'مظلم'
+        label: 'Dark'
     },
     light: {
         icon: 'bi-sun-fill',
-        label: 'مضيئ'
+        label: 'Light'
     }
 };
 
@@ -48,6 +48,7 @@ function createThemeMenu() {
     Object.entries(themes).forEach(([value, { icon, label }]) => {
         const item = document.createElement('button');
         item.className = 'theme-menu-item';
+        // item.innerHTML = `<i class="bi ${icon}"></i> <span tt='theme_${label}'></span>`;
         item.innerHTML = `<i class="bi ${icon}"></i> ${label}`;
         item.addEventListener('click', () => {
             localStorage.setItem('theme', value);
