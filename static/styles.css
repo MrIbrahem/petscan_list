@@ -177,6 +177,7 @@ body {
 }
 
 .card-header {
+    color: var(--light-text);
     background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
     border: none;
 }
