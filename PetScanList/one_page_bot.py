@@ -96,6 +96,9 @@ def one_page(page_title, wiki):
     # ---
     result, result_class = update_page_content(page_title, wiki)
     # ---
+    if result == "By default, mwclient protects you from accidentally editing without being logged in. If you actually want to edit without logging in, you can set force_login on the Site object to False.":
+        result = "save error, not logged in"
+    # ---
     logging.info(result_class)
     logging.info(result)
     # ---
