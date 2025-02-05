@@ -11,10 +11,7 @@
     </div>
     <div class="card-body p-4">
         <div class="alert alert-{{ result_class }} alert-dismissible fade show mb-3" role="alert">
-            {% if tt %}
             <span tt="{{ tt }}" tt1="{{ tt1 }}"></span>
-            {% endif %}
-            {{ result }}
         </div>
         <div class="editOptions aligncenter gap-2">
             <a href="{{ url }}" target="_blank" class="btn btn-outline-primary"><span tt='open_in_new_tab'></span></a>
