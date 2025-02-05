@@ -38,7 +38,7 @@ def template():
     if not is_valid_petscan_url(url):
         return render_template("template_form.html", url=url, tt="invalid_url")
     try:
-        result = MakeTemplate(url)
+        result = MakeTemplate(url, request.form)
     except Exception as e:
         return render_template("template_form.html", url=url, tt="unexpected_error", tt1=str(e)), 400
 

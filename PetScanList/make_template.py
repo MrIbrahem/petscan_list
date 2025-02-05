@@ -15,7 +15,21 @@ false_params = [
 ]
 
 
-def MakeTemplate(url: str) -> str:
+def is_valid_line_format(line_format):
+    if not line_format:
+        return False
+    line_format = line_format.strip()
+
+    if line_format == "$1":
+        return False
+
+    if line_format.find("$1") == -1:
+        return False
+
+    return True
+
+
+def MakeTemplate(url, request_form) -> str:
     """
     Create a template string for a 'petscan list' by processing a given URL.
 
@@ -25,12 +39,16 @@ def MakeTemplate(url: str) -> str:
     Returns:
         str: A string formatted as a 'petscan list' containing the parsed URL parameters.
     """
+    line_format = request_form.get("_line_format_")
     parsed_url: ParseResult = urlparse(url)
     if not parsed_url.query:
         raise ValueError("URL must contain query parameters")
 
     query_params = parse_qs(parsed_url.query)
     temp = []
+
+    if is_valid_line_format(line_format):
+        temp.append(f"_line_format_={line_format}")
 
     for key, values in query_params.items():
         if key in false_params:
