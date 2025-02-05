@@ -15,6 +15,7 @@
     <link href="{{ cdn_base }}/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <link href="{{ cdn_base }}/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css" rel='stylesheet' type='text/css'>
 
+    <!-- <link href="{{ url_for('static', filename='lokas-styles.css') }}" rel="stylesheet"> -->
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='theme.css') }}" rel="stylesheet">
     <script src="{{ cdn_base }}/jquery/3.7.0/jquery.min.js"></script>
@@ -27,7 +28,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow mb-4">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="/">
                 <span class="tool_icon me-2"></span> <span tt='tool_title'></span>
@@ -48,7 +49,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="https://ar.wikipedia.org/wiki/Template:Petscan_list"
                             target="_blank"><i class="fas fa-link ml-1">
-                            </i><span tt='template_title'></span></a>
+                            </i> <span tt='template_title'></span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" target="_blank" href="https://github.com/MrIbrahem/petscan_list"><i
