@@ -63,8 +63,8 @@ def update():
     # result, result_class = one_page(title, wiki)
 
     try:
-        result, result_class = one_page(title, wiki)
-        return render_template("result.html", title=title, url=url, result_class=result_class, tt=result)
+        result1, result_class = one_page(title, wiki)
+        return render_template("result.html", title=title, url=url, result_class=result_class, tt=result1, tt1=""), 200
 
     except ValueError as ve:
         return render_template("result.html", title=title, url=url, result_class="danger", tt="value_error", tt1=str(ve)), 400
