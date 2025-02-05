@@ -23,6 +23,32 @@
                         placeholder="https://petscan.wmcloud.org/?...." autocomplete="off">
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <label for="wiki" class="form-label fw-bold mb-2">
+                            <i class="bi bi-braces-asterisk"></i>
+                            <span tt='line_format'></span> <span tt='optional'></span>
+                        </label>
+                        <div class="input-group input-group-lg">
+                            <input type="text" id="_line_format_" name="_line_format_" value=""
+                                class="form-control form-control-lg border-2 input-group-input ltr_left"
+                                placeholder="# [[:en:$1]]" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-4">
+                        <div class="form-check form-switch">
+                            <label class="check-label" for="divcol">
+                                <span tt=''></span> <span tt='div_col_start'></span> <span tt='at_start'></span><br>
+                                <span tt='div_col_end'></span> <span tt='at_end'></span>
+                            </label>
+                            <input class="form-check-input" type="checkbox" id="divcol" name="divcol" value="1" checked>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary btn-lg">
                     <span tt="create"></span>

@@ -109,7 +109,13 @@ def process_text(text):
         return text, "no_result_petscan"
 
     formatted_list = format_list_as_text(p_list, other_params)
-    text = f"{template.string}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
+
+    section0 = template.string
+    # ---
+    if text.find(section0) != -1:
+        section0 = text.split(section0)[0] + section0
+    # ---
+    text = f"{section0}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
 
     return text, ""
 
