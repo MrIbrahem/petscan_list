@@ -1,0 +1,125 @@
+:root {
+    --tool_icon: url('https://upload.wikimedia.org/wikipedia/commons/1/1c/MediaWiki-2020-large-icon-%28black%29.svg');
+    --background-color: #ecf0f1;
+}
+
+:root[data-bs-theme="dark"] {
+    --tool_icon: url('https://upload.wikimedia.org/wikipedia/commons/c/ca/MediaWiki-2020-icon-%28white%29.svg');
+    --background-color: #2c3e50;
+}
+
+
+.tool_icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-image: var(--tool_icon);
+    background-size: cover;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+/*
+body {
+    background-color: var(--background-color);
+} */
+
+.navbar-brand {
+    margin-right: 0;
+    display: flex;
+    align-items: center;
+}
+
+.aligncenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ltr_left {
+    text-align: left;
+    direction: ltr
+}
+
+@media (prefers-color-scheme: dark) {
+    .spinner-border {
+        color: #f8f9fa !important;
+    }
+}
+
+.nav-link {
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+}
+
+.card_form {
+    transition: all 0.3s ease;
+}
+
+.card_form1:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.form-control {
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    transform: translateY(-1px);
+}
+
+.input-group:focus-within .input-group-text i {
+    transform: scale(1.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Icon Animations */
+.fas,
+.fab {
+    transition: transform 0.3s ease;
+}
+
+.form-label:hover .fas,
+.btn:hover .fas,
+.card-footer:hover .fas {
+    transform: scale(1.1);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        border-radius: 10px;
+        border: 1px solid rgba(44, 62, 80, 0.98);
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .navbar-toggler {
+        margin-right: auto;
+        margin-left: 0;
+        border: none;
+        color: var(--light-text);
+    }
+
+    .navbar-nav {
+        margin-right: 0 !important;
+    }
+}
+

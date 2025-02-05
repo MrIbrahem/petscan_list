@@ -125,7 +125,7 @@ body {
 }
 
 /* Button Styling */
-.btn-primary {
+.btn-outline-primary {
     background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
     border: none;
     border-radius: 8px;
@@ -133,7 +133,7 @@ body {
     transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
+.btn-outline-primary:hover {
     background: linear-gradient(45deg, var(--gradient-end), var(--gradient-start));
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -177,6 +177,7 @@ body {
 }
 
 .card-header {
+    color: var(--light-text);
     background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
     border: none;
 }
@@ -217,20 +218,20 @@ body {
 }
 
 /* Button Animation */
-.btn-primary {
+.btn-outline-primary {
     background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
     border: none;
     position: relative;
     overflow: hidden;
 }
 
-.btn-primary:hover {
+.btn-outline-primary:hover {
     background: linear-gradient(45deg, var(--gradient-end), var(--gradient-start));
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.btn-primary:active {
+.btn-outline-primary:active {
     transform: translateY(0);
 }
 

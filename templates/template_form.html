@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="card card_form">
-    <div class="card-header text-white text-center py-3">
+    <div class="card-header text-center py-3">
         <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
             <span tt='template_helps_title'></span>
         </h4>
@@ -16,7 +16,7 @@
                 <div class="col-md-12">
                     <div class="form-group mb-4">
                         <label for="url" class="form-label fw-bold mb-2">
-                            <i class="fas fa-link me-2"></i><span tt="insert_petscan_url"></span>
+                            <i class="fas fa-link me-2"></i> <span tt="insert_petscan_url"></span>
                         </label>
                         <div class="input-group input-group-lg">
                             <input type="text" id="url" required name="url" value="{{ url }}"
@@ -29,8 +29,7 @@
                 <div class="col-md-12">
                     <div class="form-group mb-4">
                         <label for="wiki" class="form-label fw-bold mb-2">
-                            <i class="bi bi-braces-asterisk"></i>
-                            <span tt='line_format'></span> <span tt='optional'></span>
+                            <i class="bi bi-braces-asterisk"></i> <span tt='line_format'></span> <span tt='optional'></span>
                         </label>
                         <div class="input-group input-group-lg">
                             <input type="text" id="_line_format_" name="_line_format_" value=""
@@ -52,7 +51,7 @@
                 </div> -->
             </div>
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary btn-lg">
+                <button type="submit" class="btn btn-outline-primary btn-lg">
                     <span tt="create"></span>
                 </button>
             </div>
