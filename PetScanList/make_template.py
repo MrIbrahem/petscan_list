@@ -67,7 +67,7 @@ def MakeTemplate(url, request_form) -> str:
 
     # // decode arabic characters
     # decoded_url = unquote(url)
-    temp.append(f"_url_={url}")
+    # temp.append(f"_url_={url}")
 
     params = "\n| ".join(temp)
 
