@@ -56,8 +56,8 @@ def update_page_content(page_title, wiki):
     page = site.Pages[page_title]
     text = page.text()
     ns = page.namespace
-    if not text:
-        logging.warning(f"Namespace 0 aren't Supported: {page_title}")
+    if str(ns) == "0":
+        logging.warning(f"Namespace 0 is not supported: {page_title}")
         return "ns0_not_supported", CLASS_WARNING
     if not text:
         logging.warning(f"No text found for page: {page_title}")
