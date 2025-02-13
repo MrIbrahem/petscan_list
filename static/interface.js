@@ -2,7 +2,7 @@
 $(document).ready(function () {
     var tt = new ToolTranslation({
         tool: 'petscan-list',
-        language: "ar",
+        // language: "ar",
         fallback: "en",
         highlight_missing: true,
         callback: function () {
