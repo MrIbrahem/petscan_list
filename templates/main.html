@@ -8,7 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="https://www.mediawiki.org/static/images/icons/mediawikiwiki.svg" type="image/svg+xml">
-    <title tt='tool_title'>{% block title %}{% endblock %}</title>
+    {% block title %}
+    <title tt='tool_title'></title>
+    {% endblock %}
     <link href="{{ cdn_base }}/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ cdn_base }}/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel='stylesheet' type='text/css'>
     <link href="{{ cdn_base }}/jqueryui/1.13.2/themes/base/jquery-ui.min.css" rel="stylesheet">
@@ -60,7 +62,8 @@
                             <i class="fa fa-earth ml-1"></i> <span tt='help_translate'></span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://meta.wikimedia.org/wiki/User:PetScanListBot">PetScanListBot</a>
+                        <a class="nav-link" target="_blank"
+                            href="https://meta.wikimedia.org/wiki/User:PetScanListBot">PetScanListBot</a>
                     </li>
                     <li class="nav-item">
                         <span id='interface_language_wrapper'></span>

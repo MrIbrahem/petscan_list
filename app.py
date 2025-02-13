@@ -81,6 +81,11 @@ def index():
     return render_template("index.html", wikis=valid_wikis)
 
 
+@app.route("/tutorials", methods=["GET"])
+def tutorials():
+    return render_template("tutorials.html", wikis=valid_wikis)
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("error.html", tt="invalid_url", error=str(e)), 404
