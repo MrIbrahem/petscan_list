@@ -1,15 +1,4 @@
 {
-    "invalid_url": "عنوان URL غير صالح",
-    "title_required": "العنوان مطلوب!",
-    "wiki_not_supported": "الويكي ({wiki}) غير مدعوم !!",
-    "value_error": "خطأ في القيمة: ({error})",
-    "connection_error": "خطأ في الاتصال: ({error})",
-    "unexpected_error": "خطأ غير متوقع: ({error})",
-    "save_success": "تم حفظ الصفحة بنجاح",
-    "save_error": "خطأ في حفظ الصفحة: ({error})",
-    "load_error": "خطأ في تحميل الصفحة: ({error})",
-    "no_changes": "لا توجد تغييرات لحفظها!",
-    "empty_page": "الصفحة فارغة أو غير موجودة!",
-    "pet_scan_page_error": "لا يمكن تحديث قالب:Petscan list!",
-    "summary": "بوت: تحديث قائمة (تجريبي)"
+    "summary": "بوت: تحديث قائمة (تجريبي)",
+    "section_title": "قائمة"
 }

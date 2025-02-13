@@ -6,10 +6,17 @@ logger = logging.getLogger(__name__)
 
 
 def get_translations(lang: str = "ar") -> Dict[str, str]:
-    # Load Arabic translations
+    translations_path = Path(__file__).parent.parent / "I18n"
     try:
-        translations_path = Path(__file__).parent.parent / "I18n/ar.json"
-        with open(translations_path, "r", encoding="utf-8") as f:
+        file = translations_path / f"{lang}.json"
+        with open(file, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        logger.error(f"Failed to load translations for {lang}: {e}")
+        return {}
+    try:
+        file = translations_path / "ar.json"
+        with open(file, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         logger.error(f"Failed to load translations for {lang}: {e}")
