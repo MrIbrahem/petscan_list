@@ -13,35 +13,6 @@ import requests
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Constants
-NAMESPACE_MAPPINGS = {
-    "category": {"en": "Category", "commons": "Category", "ar": "تصنيف"},
-    "template": {"en": "Template", "commons": "Template", "ar": "قالب"},
-    "ns_text": {
-        "0": "",
-        "1": "نقاش",
-        "2": "مستخدم",
-        "3": "نقاش المستخدم",
-        "4": "ويكيبيديا",
-        "5": "نقاش ويكيبيديا",
-        "6": "ملف",
-        "7": "نقاش الملف",
-        "10": "قالب",
-        "11": "نقاش القالب",
-        "12": "مساعدة",
-        "13": "نقاش المساعدة",
-        "14": "تصنيف",
-        "15": "نقاش التصنيف",
-        "100": "بوابة",
-        "101": "نقاش البوابة",
-        "828": "وحدة",
-        "829": "نقاش الوحدة",
-        "2600": "موضوع",
-        "1728": "فعالية",
-        "1729": "نقاش الفعالية",
-    },
-}
-
 DEFAULT_PARAMS = {"format": "json"}  # "combination": "union", "common_wiki": "cats", "depth": "0",
 
 PETSCAN_URL = "https://petscan.wmflabs.org/"
@@ -59,19 +30,6 @@ def build_petscan_url(params: Dict[str, str]) -> str:
 
     query_string = urllib.parse.urlencode({k: v for k, v in base_params.items() if v is not None}, doseq=True)
     return f"{PETSCAN_URL}?doit=Do_it&{query_string}"
-
-
-def get_namespace_prefix(ns: str, lang: str = "ar") -> str:
-    """Get namespace prefix based on namespace number and language."""
-    ns_text = NAMESPACE_MAPPINGS["ns_text"].get(ns, "")
-
-    if ns == "14":
-        return NAMESPACE_MAPPINGS["category"].get(lang, "Category")
-    if ns == "10":
-        return NAMESPACE_MAPPINGS["template"].get(lang, "Template")
-
-    return ns_text if ns_text else ""
-
 
 def fetch_petscan_data(params: Dict[str, str]) -> Union[Dict, List]:
     """Fetch and process data from PetScan API."""
@@ -100,7 +58,7 @@ def process_petscan_results(data: Dict, lang: str = "ar") -> Dict[str, Dict]:
         ns = str(item.get("namespace", ""))
         title = item.get("title", "")
 
-        prefix = get_namespace_prefix(ns, lang)
+        prefix = item.get("nstext", "")
         full_title = f"{prefix}:{title}" if prefix else title
         full_title = full_title.replace("_", " ").strip()
 
