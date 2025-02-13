@@ -6,9 +6,10 @@ This module processes text containing a `petscan list` template and generates a 
 from .wikitable import wiki_table
 from . import petscan_bot as petscan
 import wikitextparser as wtp
+from .I18n import get_translations
 
-DEFAULT_SECTION_HEADER = "قائمة"  # Arabic for "List"
-
+translations = get_translations()
+DEFAULT_SECTION_HEADER = translations["section_title"]
 
 def fix_value(value):
     """
