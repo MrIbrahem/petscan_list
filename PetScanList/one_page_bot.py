@@ -53,9 +53,21 @@ def update_page_content(page_title, wiki):
         return error, CLASS_ERROR
 
     site = initialize_site(wiki)
-    page = site.Pages[page_title]
-    text = page.text()
-    ns = page.namespace
+
+    if not site:
+        logging.warning(f"Failed to initialize site: {wiki}")
+        return "site_not_initialized", CLASS_WARNING
+    try:
+        page = site.Pages[page_title]
+        text = page.text()
+        ns = page.namespace
+    except mwclient.errors.PageError as e:
+        logging.warning(f"Page not found: {e}")
+        return "page_not_found", CLASS_WARNING
+    except Exception as e:
+        logging.error(f"Exception occurred while fetching page: {e}")
+        return "error", CLASS_ERROR
+
     if str(ns) == "0":
         logging.warning(f"Namespace 0 is not supported: {page_title}")
         return "ns0_not_supported", CLASS_WARNING
@@ -64,6 +76,7 @@ def update_page_content(page_title, wiki):
         return "empty_page", CLASS_WARNING
 
     newtext, mssg = text_bot.process_text(text)
+
     if mssg != "":
         logging.info(mssg)
         return mssg, CLASS_WARNING
