@@ -10,11 +10,10 @@
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
             <div class="card card_form">
-                <div class="card-header text-center">
-                    <h2 class="card-title mb-0 d-flex align-items-center justify-content-center">
-                        <span class="tool_icon me-2"></span>
-                        <p tt='how_to_use'></p>
-                    </h2>
+                <div class="card-header text-center py-3">
+                    <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-puzzle"></i> <span tt='how_to_use'></span>
+                    </h4>
                 </div>
                 <div class="card-body p-4">
                     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -39,7 +38,9 @@
                                 <img src="{{ url_for('static', filename='images/Petscan_list_tool_1.png') }}"
                                     class="d-block w-100">
                                 <div class="carousel-caption d-nonex d-md-block">
-                                    <h5><span tt='how_to_use_slide_2_title'></span></h5>
+                                    <h5>
+                                        <span tt='how_to_use_slide_2_title'></span>
+                                    </h5>
                                     <!-- <p><span tt='how_to_use_slide_2_text'></span></p> -->
                                 </div>
                             </div>
