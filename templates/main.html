@@ -35,10 +35,15 @@
             <a class="navbar-brand fw-bold" href="/">
                 <span class="tool_icon me-2"></span> <span tt='tool_title'></span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="theme-toggle btn" aria-label="Toggle theme">
+                <i class="bi bi-moon-stars-fill"></i>
             </button>
+            <div class="d-flex">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <!-- <li class="nav-item">
@@ -70,11 +75,6 @@
                     </li>
                 </ul>
             </div>
-            <div class="d-flex">
-                <button class="theme-toggle btn" aria-label="Toggle theme">
-                    <i class="bi bi-moon-stars-fill"></i>
-                </button>
-            </div>
         </div>
     </nav>
     <div class="container">
@@ -84,6 +84,7 @@
             </div>
         </div>
     </div>
+    {% block content2 %}{% endblock %}
     <script src="{{ url_for('static', filename='theme.js') }}"></script>
     <script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
     <script src="{{ url_for('static', filename='interface.js') }}"></script>
