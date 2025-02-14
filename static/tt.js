@@ -79,10 +79,14 @@ function ToolTranslation(intitial_params) {
 
     var language_from_cookie = this.getCookie('interface_language');
     var m = window.location.href.match(/[\#\&\?]interface_language=([a-z_-]+)/);
-    if (m != null) this.language = m[1];
+    if (m != null) {
+        this.language = m[1];
+        console.log("Using language from URL: " + this.language);
+    }
     else if (language_from_cookie != '') this.language = language_from_cookie;
     else this.language = window.navigator.userLanguage || window.navigator.language || 'en';
     this.language = this.language.replace(/-.+$/, ''); // Main language only
+
     this.translation_cache = {};
 
     this.onUpdateInterface = function () { }; // Dummy
@@ -391,11 +395,13 @@ function ToolTranslation(intitial_params) {
     // CONSTRUCTOR
     var to_load = [];
     var language_from_cookie = this.getCookie('interface_language');
-    if (typeof intitial_params.language !== 'undefined' && intitial_params.language != '' && intitial_params.language != null) {
+    if (typeof intitial_params.language !== 'undefined' && intitial_params.language != '' && intitial_params.language != null && !this.language) {
         this.language = intitial_params.language;
+        console.log("Language from parameter: " + intitial_params.language);
         if (intitial_params.language != 'en') to_load.push(intitial_params.language);
-    } else if (language_from_cookie != '') {
+    } else if (language_from_cookie != '' && !this.language) {
         this.language = language_from_cookie;
+        console.log("Language from cookie: " + language_from_cookie);
         if (language_from_cookie != 'en') to_load.push(language_from_cookie);
     }
     if (typeof intitial_params.languages != 'undefined') {
@@ -407,4 +413,5 @@ function ToolTranslation(intitial_params) {
     to_load.push('en');
     if (-1 == $.inArray(this.language, to_load)) to_load.push(this.language);
     this.loadToolTranslation(to_load, intitial_params.callback);
+    me.setLanguage(this.language);
 }

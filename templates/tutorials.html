@@ -1,0 +1,76 @@
+{% extends "main.html" %}
+
+{% block title %}
+<title tt='how_to_use'></title>
+{% endblock %}
+
+{% block content2 %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card card_form">
+                <div class="card-header text-center py-3">
+                    <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-puzzle"></i> <span tt='how_to_use'></span>
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" data-bs-interval="10000">
+                                <img src="{{ url_for('static', filename='images/PetScan_screenshot.png') }}"
+                                    class="d-block w-100" alt="PetScan interface screenshot">
+                                <div class="carousel-caption">
+                                    <h5><span tt='how_to_use_slide_1_title'></span></h5>
+                                    <!-- <p><span tt='how_to_use_slide_1_text'></span></p> -->
+                                </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2000">
+                                <img src="{{ url_for('static', filename='images/Petscan_list_tool_1.png') }}"
+                                    class="d-block w-100" alt="PetScanList interface screenshot">
+                                <div class="carousel-caption">
+                                    <h5>
+                                        <span tt='how_to_use_slide_2_title'></span>
+                                    </h5>
+                                    <!-- <p><span tt='how_to_use_slide_2_text'></span></p> -->
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ url_for('static', filename='images/Petscan_list_tool_2.png') }}"
+                                    class="d-block w-100" alt="PetScanList interface screenshot">
+                                <div class="carousel-caption">
+                                    <h5><span tt='how_to_use_slide_3_title'></span></h5>
+                                    <!-- <p><span tt='how_to_use_slide_3_text'></span></p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="card-footer text-center py-3">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
