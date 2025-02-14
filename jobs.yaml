@@ -1,6 +1,6 @@
-# tfj run runall --image python3.9 --command "$HOME/runall.sh"
+# tfj run runall --image python3.11 --command "$HOME/runall.sh"
 - name: runall
   command: "$HOME/runall.sh"
   schedule: '@daily'
-  image: bullseye
+  image: python3.11
   emails: none
