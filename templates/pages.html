@@ -1,0 +1,43 @@
+{% extends "main.html" %}
+
+{% block content %}
+<!-- work in wikis {'wikipedia': ['ar'], 'wikisource': ['ar']} -->
+
+<div class="card card_form">
+    {% if not pages %}
+    <div class="card-header text-center py-3">
+        <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
+            <span tt='sites_list_title'></span>
+        </h4>
+    </div>
+    <div class="card-body p-4">
+        <ul class="list-group">
+            {% for wiki in wikis %}
+            {% for lang in wikis[wiki] %}
+            {% set wiki_url = lang + "." + wiki + ".org" %}
+            <li class="list-group-item"><a href="/pages?lang={{ lang }}&project={{ wiki }}">{{ wiki_url }}</a></li>
+            {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    {% set project_url = lang + "." + project + ".org" %}
+    <div class="card-header text-center py-3">
+        <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
+            <a href="https://petscan.wmcloud.org/?doit=Do_it&templates_any=petscan+list&project={{ project }}&language={{ lang }}"
+                target="_blank" class="me-2 ms-2">{{ project_url }}</a>
+        </h4>
+    </div>
+    <div class="card-body p-4">
+        <ul class="list-group">
+            {% for page in pages %}
+            <li class="list-group-item">
+                <a href="https://{{ project_url }}/wiki/{{ page }}">{{ page }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% endif %}
+</div>
+{% endblock %}
