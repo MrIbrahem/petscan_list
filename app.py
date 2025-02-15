@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 from urllib.parse import quote
-from PetScanList import one_page, MakeTemplate
-from PetScanList import valid_wikis
+from PetScanList import one_page, MakeTemplate, valid_wikis, valid_projects, get_all_pages
 
 app = Flask(__name__)
 
@@ -25,6 +24,31 @@ def is_valid_petscan_url(url: str) -> bool:
 @app.route("/wikis", methods=["GET"])
 def get_valid_wikis():
     return jsonify(valid_wikis)
+
+
+@app.route("/wiki_pages", methods=["GET"])
+def get_wiki_pages():
+    lang = request.args.get("lang")
+    project = request.args.get("project")
+    # ---
+    if not lang or not project:
+        return jsonify([])
+    # ---
+    pages = get_all_pages(lang, project)
+    # ---
+    return jsonify(pages)
+
+
+@app.route("/pages", methods=["GET"])
+def get_pages():
+    project = request.args.get("project")
+    lang = request.args.get("lang")
+    # ---
+    if lang and project:
+        pages = get_all_pages(lang, project)
+        return render_template("pages.html", pages=pages, lang=lang, project=project), 200
+    # ---
+    return render_template("pages.html", wikis=valid_projects), 200
 
 
 @app.route("/template", methods=["POST", "GET"])

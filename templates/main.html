@@ -61,46 +61,14 @@
                         </a>
                     </li>
                     <li class="nav-item col-4 col-lg-auto">
+                        <a class="nav-link" href="/pages">
+                            <i class="bi bi-folder"></i> <span tt='pages_title'></span>
+                        </a>
+                    </li>
+                    <li class="nav-item col-4 col-lg-auto">
                         <a class="nav-link" target="_blank" href="https://tooltranslate.toolforge.org/#tool=78">
                             <i class="bi bi-globe-central-south-asia"></i> <span tt='help_translate'></span>
                         </a>
-                    </li>
-                    <li class="nav-item dropdown d-none">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <span tt='dropdown_title'></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="https://ar.wikipedia.org/wiki/Template:Petscan_list"
-                                    target="_blank">
-                                    <i class="bi bi-link ml-1"></i> <span tt='template_title'></span>
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item" target="_blank"
-                                    href="https://meta.wikimedia.org/wiki/User:PetScanListBot">
-                                    PetScanListBot
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item col-4 col-lg-auto">
-                        <a class="nav-link" target="_blank" href="https://ar.wikipedia.org/wiki/Template:Petscan_list">
-                            <i class="bi bi-link ml-1"></i> <span tt='template_title'></span>
-                        </a>
-                    </li>
-                    <li class="nav-item col-4 col-lg-auto">
-                        <a class="nav-link" target="_blank" href="https://meta.wikimedia.org/wiki/User:PetScanListBot">
-                            <i class="bi bi-link ml-1"></i> PetScanListBot
-                        </a>
-                    </li>
-                    <li class="nav-item col-4 col-lg-auto">
-                        <a class="nav-link" target="_blank" href="https://github.com/MrIbrahem/petscan_list"><i
-                                class="bi bi-github ml-1"></i> <span tt='gitub_title'></span></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav me-ms-auto">
@@ -122,7 +90,27 @@
     <script src="{{ url_for('static', filename='theme.js') }}"></script>
     <script src="{{ url_for('static', filename='autocomplete.js') }}"></script>
     <script src="{{ url_for('static', filename='interface.js') }}"></script>
-
+    <footer class="footer mt-5 py-0">
+        <ul class="nav justify-content-center pb-3 mb-3 bg-body-tertiary">
+            <li class="nav-item">
+                <a class="nav-link text-body-secondary" target="_blank"
+                    href="https://meta.wikimedia.org/wiki/User:PetScanListBot">
+                    <i class="bi bi-link ml-1"></i> PetScanListBot
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-body-secondary" target="_blank" href="https://ar.wikipedia.org/wiki/Template:Petscan_list">
+                    <i class="bi bi-link ml-1"></i> <span tt='template_title'></span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-body-secondary" target="_blank"
+                    href="https://github.com/MrIbrahem/petscan_list"><i class="bi bi-github ml-1"></i> <span
+                        tt='gitub_title'></span>
+                </a>
+            </li>
+        </ul>
+    </footer>
 </body>
 
 </html>
