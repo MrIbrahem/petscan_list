@@ -24,4 +24,6 @@ def get_all_pages(lang, project):
 
 
 if __name__ == "__main__":
-    get_all_pages()
+    # Example usage:
+    pages = get_all_pages("en", "wikipedia")
+    print(pages)
