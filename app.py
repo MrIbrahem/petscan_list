@@ -30,12 +30,11 @@ def get_valid_wikis():
 def get_wiki_pages():
     lang = request.args.get("lang")
     project = request.args.get("project")
-    # ---
     if not lang or not project:
-        return jsonify([])
-    # ---
+        return jsonify({"error": "Both lang and project parameters are required"}), 400
+    if project not in valid_projects or lang not in valid_projects[project]:
+        return jsonify({"error": f"Invalid project or language: {project}/{lang}"}), 400
     pages = get_all_pages(lang, project)
-    # ---
     return jsonify(pages)
 
 
