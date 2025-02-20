@@ -89,10 +89,12 @@ class WikiBot:
         logging.info(f"Processing page: {page_title}")
         result = self.update_page_content(page_title, wiki)
         result_text = result.get("result_text", "")
+        
         if result_text.startswith('By default, mwclient'):
             result["result_text"] = "save error, not logged in"
+            
         logging.info(result.get("result_class", ""))
-        logging.info(result_text)
+        logging.info(result["result_text"])
         return result
         
 def one_page(title, site):
