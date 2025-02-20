@@ -7,9 +7,8 @@ import logging
 import mwclient
 from . import text_bot
 from .account import username, password
-from .I18n import get_translations
+from .I18n import make_translations
 
-translations = get_translations()
 
 # Configure logging
 logging.basicConfig(level=logging.WARNING)
@@ -75,7 +74,8 @@ def update_page_content(page_title, wiki):
         logging.warning(f"No text found for page: {page_title}")
         return "empty_page", CLASS_WARNING
 
-    newtext, mssg = text_bot.process_text(text)
+    lang = wiki.split(".")[0]
+    newtext, mssg = text_bot.process_text(text, lang)
 
     if mssg != "":
         logging.info(mssg)
@@ -85,7 +85,7 @@ def update_page_content(page_title, wiki):
         logging.info("No changes detected in the page content.")
         return "no_changes", CLASS_WARNING
 
-    summary = translations["summary"]
+    summary = make_translations("summary", lang)
 
     try:
         save_result = page.save(newtext, summary=summary)

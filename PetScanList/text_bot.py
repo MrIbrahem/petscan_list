@@ -6,10 +6,8 @@ This module processes text containing a `petscan list` template and generates a 
 from .wikitable import wiki_table
 from . import petscan_bot as petscan
 import wikitextparser as wtp
-from .I18n import get_translations
+from .I18n import make_translations
 
-translations = get_translations()
-DEFAULT_SECTION_HEADER = translations["section_title"]
 
 def fix_value(value):
     """
@@ -63,6 +61,7 @@ def make_petscan_list(template):
 
     # Generate the PetScan list
     lista = petscan.get_petscan_results(petscan_params)
+
     return lista, other_params
 
 
@@ -97,7 +96,7 @@ def format_list_as_text(p_list, other_params):
     return "{{Div col|colwidth=20em}}\n\n" + text + "\n\n{{Div col end}}"
 
 
-def process_text(text):
+def process_text(text, lang):
     """
     Process the input text, find the `petscan list` template, and generate the formatted output.
     """
@@ -106,7 +105,8 @@ def process_text(text):
         return text, "no_template"
 
     p_list, other_params = make_petscan_list(template)
-    if not p_list:
+
+    if not p_list or len(p_list) == 1 and p_list[0] == "":
         return text, "no_result_petscan"
 
     formatted_list = format_list_as_text(p_list, other_params)
@@ -115,6 +115,8 @@ def process_text(text):
     # ---
     if text.find(section0) != -1:
         section0 = text.split(section0)[0] + section0
+    # ---
+    DEFAULT_SECTION_HEADER = make_translations("section_title", lang)
     # ---
     text = f"{section0}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
 
@@ -130,5 +132,5 @@ if __name__ == "__main__":
     |_result_=table
     }}
     """
-    output_text, mssg = process_text(input_text)
+    output_text, mssg = process_text(input_text, "ar")
     print(output_text)

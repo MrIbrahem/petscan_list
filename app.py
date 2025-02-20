@@ -44,7 +44,7 @@ def get_pages():
     lang = request.args.get("lang")
     # ---
     if lang and project:
-        pages = get_all_pages(lang, project)
+        pages = get_all_pages(lang, project, split_by_ns=True)
         return render_template("pages.html", pages=pages, lang=lang, project=project), 200
     # ---
     return render_template("pages.html", wikis=valid_projects), 200
@@ -72,18 +72,14 @@ def template():
 def update():
     title = request.args.get("title")
     wiki = request.args.get("wiki")
-    encoded_title = quote(title)
+    encoded_title = quote(title) if title else ""
     url = f"https://{wiki}/wiki/{encoded_title}"
-    # ---
+
     if wiki not in valid_wikis:
         return render_template("result.html", title=title, url=url, result_class="danger", tt="wiki_not_supported", tt1=wiki), 400
-    # ---
-    result_class = ""
-    # ---
-    if not title:
-        return render_template("result.html", title=title, url=url, result_class="danger", tt="title_required"),
 
-    # result, result_class = one_page(title, wiki)
+    if not title:
+        return render_template("result.html", title=title, url=url, result_class="danger", tt="title_required"), 400
 
     try:
         result1, result_class = one_page(title, wiki)

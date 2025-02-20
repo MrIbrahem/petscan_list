@@ -4,7 +4,7 @@
 from PetScanList import get_petscan_results
 
 
-def get_all_pages(lang, project):
+def get_all_pages(lang, project, split_by_ns=False):
     # ---
     Tab = {}
     # ---
@@ -15,7 +15,7 @@ def get_all_pages(lang, project):
     # ---
     # wiki = f"{lang}.{project}.org"
     # ---
-    pages = get_petscan_results(Tab)
+    pages = get_petscan_results(Tab, split_by_ns=split_by_ns)
     # ---
     if not pages:
         return ["No pages found"]

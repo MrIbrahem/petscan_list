@@ -13,7 +13,11 @@ import requests
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-DEFAULT_PARAMS = {"format": "json"}  # "combination": "union", "common_wiki": "cats", "depth": "0",
+DEFAULT_PARAMS = {
+    "format": "json",
+    "output_limit" : 1000
+}
+# "combination": "union", "common_wiki": "cats", "depth": "0",
 
 PETSCAN_URL = "https://petscan.wmflabs.org/"
 
@@ -24,12 +28,29 @@ def encode_title(title: str) -> str:
     return urllib.parse.quote(title.replace(" ", "_"), safe=":")
 
 
+def CheckParams(params: Dict[str, str]) -> str:
+    # ---
+    output_limit = params.get("output_limit", "0")
+    # ---
+    if str(output_limit).isdigit():
+        output_limit = int(output_limit)
+        if output_limit < 1000:
+            return params
+    # ---
+    params["output_limit"] = 1000
+    # ---
+    return params
+
+
 def build_petscan_url(params: Dict[str, str]) -> str:
     """Construct PetScan API URL with parameters."""
     base_params = {**DEFAULT_PARAMS, **params}
-
+    # ---
+    base_params = CheckParams(base_params)
+    # ---
     query_string = urllib.parse.urlencode({k: v for k, v in base_params.items() if v is not None}, doseq=True)
     return f"{PETSCAN_URL}?doit=Do_it&{query_string}"
+
 
 def fetch_petscan_data(params: Dict[str, str]) -> Union[Dict, List]:
     """Fetch and process data from PetScan API."""
@@ -47,7 +68,7 @@ def fetch_petscan_data(params: Dict[str, str]) -> Union[Dict, List]:
         return {}
 
 
-def process_petscan_results(data: Dict, lang: str = "ar") -> Dict[str, Dict]:
+def process_petscan_results(data: Dict, split_by_ns: False) -> Dict[str, Dict]:
     """Process raw PetScan results into structured data."""
     results = {}
 
@@ -55,28 +76,35 @@ def process_petscan_results(data: Dict, lang: str = "ar") -> Dict[str, Dict]:
         return results
     # print(data)
     for item in data["*"][0]["a"]["*"]:
-        ns = str(item.get("namespace", ""))
+        # ns = str(item.get("namespace", ""))
         title = item.get("title", "")
 
         prefix = item.get("nstext", "")
+
+        if split_by_ns:
+            if prefix not in results:
+                results[prefix] = {}
+
         full_title = f"{prefix}:{title}" if prefix else title
         full_title = full_title.replace("_", " ").strip()
 
-        results[full_title] = item
-
-        results[full_title]["title"] = full_title
+        item["title"] = full_title
+        if split_by_ns:
+            results[prefix][full_title] = item
+        else:
+            results[full_title] = item
 
     return results
 
 
-def get_petscan_results(params: Dict[str, str]) -> Union[Dict, List]:
+def get_petscan_results(params: Dict[str, str], split_by_ns: bool = False) -> Union[Dict, List]:
     """Main function to get PetScan results."""
     raw_data = fetch_petscan_data(params)
 
     if not raw_data:
         return {}
 
-    processed = process_petscan_results(raw_data, params.get("language", "ar"))
+    processed = process_petscan_results(raw_data, split_by_ns=split_by_ns)
     return processed
 
 
