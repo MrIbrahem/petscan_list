@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_PARAMS = {
     "format": "json",
-    "output_limit" : 1000
+    "output_limit" : 3000
 }
 # "combination": "union", "common_wiki": "cats", "depth": "0",
 
@@ -34,10 +34,10 @@ def CheckParams(params: Dict[str, str]) -> str:
     # ---
     if str(output_limit).isdigit():
         output_limit = int(output_limit)
-        if output_limit < 1000:
+        if output_limit < 3000:
             return params
     # ---
-    params["output_limit"] = 1000
+    params["output_limit"] = 3000
     # ---
     return params
 
