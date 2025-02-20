@@ -20,7 +20,7 @@ def is_valid_line_format(line_format: str) -> bool:
     line_format = line_format.strip()
     return line_format != "$1" and "$1" in line_format
 
-def make_template(url: str, request_form: dict) -> str:
+def MakeTemplate(url: str, request_form: dict) -> str:
     """
     Create a template string for a 'petscan list' by processing a given URL.
 
