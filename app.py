@@ -54,10 +54,12 @@ def update():
     wiki = request.args.get("wiki")
     if not title or not wiki:
         return render_template("result.html", result_class="danger", tt="title_or_wiki_required"), 400
-    if wiki not in valid_wikis:
-        return render_template("result.html", title=title, url=url, result_class="danger", tt="wiki_not_supported", tt1=wiki), 400
+    
     encoded_title = quote(title)
     url = f"https://{wiki}/wiki/{encoded_title}"
+    
+    if wiki not in valid_wikis:
+        return render_template("result.html", title=title, url=url, result_class="danger", tt="wiki_not_supported", tt1=wiki), 400
     try:
         result1 = one_page(title, wiki)
         result_class = result1.get("result_class", "")
