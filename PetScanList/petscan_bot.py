@@ -30,9 +30,9 @@ def encode_title(title: str) -> str:
 
 def CheckParams(params: Dict[str, str]) -> str:
     # ---
-    output_limit = params.get("output_limit", "0")
+    output_limit = str(params.get("output_limit", "0"))
     # ---
-    if str(output_limit).isdigit():
+    if output_limit and str(output_limit).isdigit():
         output_limit = int(output_limit)
         if output_limit <= 3000:
             return params
@@ -44,16 +44,17 @@ def CheckParams(params: Dict[str, str]) -> str:
 
 def build_petscan_url(params: Dict[str, str]) -> str:
     """Construct PetScan API URL with parameters."""
-    base_params = {**DEFAULT_PARAMS, **params}
-    # ---
-    base_params = CheckParams(base_params)
-    # ---
-    query_string = urllib.parse.urlencode({k: v for k, v in base_params.items() if v is not None}, doseq=True)
+    query_string = urllib.parse.urlencode({k: v for k, v in params.items() if v is not None}, doseq=True)
     return f"{PETSCAN_URL}?doit=Do_it&{query_string}"
 
 
 def fetch_petscan_data(params: Dict[str, str]) -> Union[Dict, List]:
     """Fetch and process data from PetScan API."""
+
+    params = {**DEFAULT_PARAMS, **params}
+    # ---
+    params = CheckParams(params)
+    # ---
     url = build_petscan_url(params)
 
     if "printurl" in sys.argv:
