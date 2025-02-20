@@ -119,3 +119,7 @@ These parameters are optional:
 - **`|_line_format_=`**: Table to modify the value format, example:
   ```wiki
   |_line_format_ = # {{user:Mr. Ibrahem/link|$1}}
+
+
+## Default Values
+- **`|output_limit = 3000`**: Maximum number of results to display.
