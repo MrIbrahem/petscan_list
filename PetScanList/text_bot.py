@@ -102,12 +102,12 @@ def process_text(text, lang):
     """
     template = get_petscan_template(text)
     if not template:
-        return text, "no_template"
+        return {}, "no_template"
 
     p_list, other_params = make_petscan_list(template)
 
     if not p_list or len(p_list) == 1 and p_list[0] == "":
-        return text, "no_result_petscan"
+        return {}, "no_result_petscan"
 
     formatted_list = format_list_as_text(p_list, other_params)
 
@@ -122,7 +122,7 @@ def process_text(text, lang):
     # ---
     tab = {
         "text": new_text,
-        "length": len(text),
+        "length": len(p_list),
     }
 
     return tab, ""

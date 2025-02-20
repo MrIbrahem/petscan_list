@@ -9,4 +9,5 @@ from PetScanList import one_page
 if __name__ == "__main__":
     title = "User:Mr. Ibrahem/جيدة"
     wiki = "ar.wikipedia.org"
-    one_page(title, wiki)
+    tab = one_page(title, wiki)
+    print(tab)

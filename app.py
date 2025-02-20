@@ -82,8 +82,16 @@ def update():
         return render_template("result.html", title=title, url=url, result_class="danger", tt="title_required"), 400
 
     try:
-        result1, result_class = one_page(title, wiki)
-        return render_template("result.html", title=title, url=url, result_class=result_class, tt=result1, tt1=""), 200
+        result1 = one_page(title, wiki)
+        # ---
+        result_class = result1.get("result_class", "")
+        result_text = result1.get("result_text", "")
+        length = result1.get("length", 0)
+        newrevid = result1.get("newrevid", 0)
+        # ---
+        result1["wiki"] = wiki
+        # ---
+        return render_template("result.html", title=title, url=url, result_class=result_class, tt=result_text, tt1="", result_tab=result1), 200
 
     except ValueError as ve:
         return render_template("result.html", title=title, url=url, result_class="danger", tt="value_error", tt1=str(ve)), 400

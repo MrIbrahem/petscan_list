@@ -13,6 +13,20 @@
     height: 20rem;
 }
 
+[dir="ltr"] .me_ms_by_dir {
+    margin-left: auto !important;
+    margin-right: 0px !important;
+}
+
+[dir="ltr"] .nav_title {
+    padding-right: 40px !important;
+}
+
+[dir="rtl"] .me_ms_by_dir {
+    margin-right: auto !important;
+    margin-left: 0px !important;
+}
+
 .me-ms-auto {
     margin-inline-start: auto !important;
 }
