@@ -1,5 +1,8 @@
 
+.env
 *.pyc
 /old
 /env
 /.vscode
+confs/user.ini
+*.ini
