@@ -119,10 +119,10 @@ def process_text(text, lang):
 
     p_list, other_params = make_petscan_list(template)
     
-    if not p_list or len(p_list) == 0:
+    if not p_list:
         return {}, NO_RESULT_MESSAGE
-    
-    if type(p_list) == list and  p_list[0] == "":
+
+    if isinstance(p_list, list) and p_list[0] == "":
         return {}, NO_RESULT_MESSAGE
 
     formatted_list = format_list_as_text(p_list, other_params)
