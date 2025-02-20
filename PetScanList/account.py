@@ -23,5 +23,5 @@ try:
 except (configparser.Error, KeyError) as e:
     # Handle error (e.g., log it, raise an exception, or use default values)
     print(f"Error reading config file: {e}")
-    username = ''
-    password = ''
+    username = os.getenv('botusername','')
+    password = os.getenv('botpassword','')
