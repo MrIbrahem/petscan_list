@@ -11,8 +11,6 @@
         <div class="alert alert-{{ result_class }} alert-dismissible fade show mb-3" role="alert">
             <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                 <span tt="{{ tt }}" tt1="{{ tt1 }}"></span>
-                <a href="#" target="_blank"
-                    class="btn btn-md border border-1 border-{{ result_class }}">(<span tt='diff_word'></span>)</a>
                 {% if result_tab %}
                 {% if result_tab.newrevid %}
                 <a href="https://{{ result_tab.wiki }}/w/index.php?diff={{ result_tab.newrevid }}" target="_blank"
