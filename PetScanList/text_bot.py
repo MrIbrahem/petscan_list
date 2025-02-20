@@ -118,9 +118,14 @@ def process_text(text, lang):
     # ---
     DEFAULT_SECTION_HEADER = make_translations("section_title", lang)
     # ---
-    text = f"{section0}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
+    new_text = f"{section0}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
+    # ---
+    tab = {
+        "text": new_text,
+        "length": len(text),
+    }
 
-    return text, ""
+    return tab, ""
 
 
 # Example usage

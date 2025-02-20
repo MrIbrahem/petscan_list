@@ -75,17 +75,24 @@ def update_page_content(page_title, wiki):
         return "empty_page", CLASS_WARNING
 
     lang = wiki.split(".")[0]
+
     newtext, mssg = text_bot.process_text(text, lang)
 
     if mssg != "":
         logging.info(mssg)
         return mssg, CLASS_WARNING
 
+    length = 0
+
+    if isinstance(newtext, dict):
+        newtext = newtext["text"]
+        length = newtext["length"]
+
     if text == newtext:
         logging.info("No changes detected in the page content.")
         return "no_changes", CLASS_WARNING
 
-    summary = make_translations("summary", lang)
+    summary = make_translations("summary", lang) + f" ({length})"
 
     try:
         save_result = page.save(newtext, summary=summary)
@@ -123,6 +130,6 @@ def one_page(page_title, wiki):
 
 # Example usage
 if __name__ == "__main__":
-    page_title = "ويكيبيديا:برنامج قراءة ويكيبيديا في الصف - اليمن 2/مقالات مقترحة/لا مصدر"
+    page_title = "User:Mr. Ibrahem/جيدة"
     result = one_page(page_title, "ar.wikipedia.org")
     print(result)
