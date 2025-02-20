@@ -95,9 +95,14 @@ class WikiBot:
         logging.info(result.get("result_class", ""))
         logging.info(result_text)
         return result
-
-if __name__ == "__main__":
+        
+def one_page(title, site):
     bot = WikiBot(username, password)
     page_title = "User:Mr. Ibrahem/جيدة"
     result = bot.one_page(page_title, "ar.wikipedia.org")
+    return result
+    
+if __name__ == "__main__":
+    page_title = "User:Mr. Ibrahem/جيدة"
+    result = one_page(page_title, "ar.wikipedia.org")
     print(result)
