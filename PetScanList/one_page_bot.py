@@ -1,169 +1,103 @@
-# -*- coding: utf-8 -*-
-"""
-This module handles updating a single Wikipedia page using a bot.
-"""
-
 import logging
 import mwclient
-from . import text_bot
 from .account import username, password
 from .I18n import make_translations
+from . import text_bot
 
+LOGGING_LEVEL = logging.DEBUG
+logging.basicConfig(level=LOGGING_LEVEL)
 
-# Configure logging
-logging.basicConfig(level=logging.WARNING)
+class WikiBot:
+    sites = {}
+    CLASS_ERROR = "danger"
+    CLASS_WARNING = "warning"
+    CLASS_SUCCESS = "success"
+    
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
 
-# Global variables
-sites = {1: False}
+    def initialize_site(self, wiki):
+        if not self.sites.get(wiki):
+            self.sites[wiki] = mwclient.Site(wiki)
+            try:
+                self.sites[wiki].login(self.username, self.password)
+            except mwclient.errors.LoginError as e:
+                logging.error(f"Error logging in: {e}")
+                return None
+        return self.sites[wiki]
 
-CLASS_ERROR = "danger"
-CLASS_WARNING = "warning"
-CLASS_SUCCESS = "success"
+    def return_tab(self, result_text, result_class):
+        return {
+            "result_text": result_text,
+            "result_class": result_class,
+        }
 
-
-def initialize_site(wiki="ar.wikipedia.org"):
-    """
-    Initialize and log in to the Wikipedia site if not already done.
-    """
-    if not sites.get(wiki):
-        sites[wiki] = mwclient.Site(wiki)
+    def extract_lang_code(self, wiki_url: str) -> str:
         try:
-            sites[wiki].login(username, password)
-        except mwclient.errors.LoginError as e:
-            logging.error(f"Error logging in: {e}")
-            return None
-    return sites[wiki]
+            return wiki_url.split(".")[0].lower()
+        except (AttributeError, IndexError):
+            return "en"
 
+    def update_page_content(self, page_title, wiki):
+        site = self.initialize_site(wiki)
+        if not site:
+            return self.return_tab("site_not_initialized", self.CLASS_WARNING)
 
-def is_petscan_list_page(page_title):
-    """
-    Check if the page title indicates it contains a `petscan list` template.
-    """
-    return "petscan list" in page_title.lower().strip().replace("_", " ")
+        try:
+            page = site.Pages[page_title]
+            text = page.text()
+            ns = page.namespace
+        except mwclient.errors.PageError as e:
+            return self.return_tab("page_not_found", self.CLASS_WARNING)
+        except Exception as e:
+            return self.return_tab("error", self.CLASS_ERROR)
 
+        if ns == 0:
+            return self.return_tab("ns0_not_supported", self.CLASS_WARNING)
+        if not text:
+            return self.return_tab("empty_page", self.CLASS_WARNING)
 
-def return_tab(result_text, result_class):
+        lang = self.extract_lang_code(wiki)
+        new_tab, mssg = text_bot.process_text(text, lang)
 
-    return {
-        "result_text": result_text,
-        "result_class": result_class,
-    }
+        if mssg:
+            return self.return_tab(mssg, self.CLASS_WARNING)
 
+        newtext = new_tab.get("text", "")
+        length = new_tab.get("length", 0)
 
-def extract_lang_code(wiki_url: str) -> str:
-    """Extract language code from wiki URL safely."""
-    try:
-        return wiki_url.split(".")[0].lower()
-    except (AttributeError, IndexError):
-        return "en"  # Default to English
+        if text == newtext or not newtext.strip():
+            return self.return_tab("no_changes", self.CLASS_WARNING)
 
+        summary = make_translations("summary", lang) + f" ({length})"
+        try:
+            save_result = page.save(newtext, summary=summary)
+        except Exception as e:
+            return self.return_tab(str(e), self.CLASS_ERROR)
 
-def update_page_content(page_title, wiki):
-    """
-    Update the content of a Wikipedia page using the `text_bot.process_text` function.
-    """
-    # ---
-    if is_petscan_list_page(page_title):
-        error = "pet_scan_page_error"
-        # ---
-        return return_tab(error, CLASS_ERROR)
+        if not isinstance(save_result, dict) or save_result.get("result") != "Success":
+            return self.return_tab("save_error", self.CLASS_ERROR)
 
-    site = initialize_site(wiki)
+        return {
+            "result_text": "save_success",
+            "result_class": self.CLASS_SUCCESS,
+            "newrevid": save_result.get("newrevid"),
+            "length": length
+        }
 
-    if not site:
-        logging.warning(f"Failed to initialize site: {wiki}")
-        return return_tab("site_not_initialized", CLASS_WARNING)
-    try:
-        page = site.Pages[page_title]
-        text = page.text()
-        ns = page.namespace
+    def one_page(self, page_title, wiki):
+        logging.info(f"Processing page: {page_title}")
+        result = self.update_page_content(page_title, wiki)
+        result_text = result.get("result_text", "")
+        if result_text.startswith('By default, mwclient'):
+            result["result_text"] = "save error, not logged in"
+        logging.info(result.get("result_class", ""))
+        logging.info(result_text)
+        return result
 
-    except mwclient.errors.PageError as e:
-        logging.warning(f"Page not found: {e}")
-        return return_tab("page_not_found", CLASS_WARNING)
-
-    except Exception as e:
-        logging.error(f"Exception occurred while fetching page: {e}")
-        return return_tab("error", CLASS_ERROR)
-
-    if str(ns) == "0":
-        logging.warning(f"Namespace 0 is not supported: {page_title}")
-        return return_tab("ns0_not_supported", CLASS_WARNING)
-    if not text:
-        logging.warning(f"No text found for page: {page_title}")
-        return return_tab("empty_page", CLASS_WARNING)
-
-    lang = extract_lang_code(wiki)
-
-    new_tab, mssg = text_bot.process_text(text, lang)
-
-    if mssg != "":
-        logging.info(mssg)
-        return return_tab(mssg, CLASS_WARNING)
-
-    length = 0
-
-    newtext = new_tab.get("text", "")
-    length = new_tab.get("length", 0)
-
-    if text == newtext:
-        logging.info("No changes detected in the page content.")
-        return return_tab("no_changes", CLASS_WARNING)
-
-    if not newtext.strip():
-        logging.info("No newtext generated....")
-        return return_tab("no_changes", CLASS_WARNING)
-
-    summary = make_translations("summary", lang) + f" ({length})"
-
-    try:
-        save_result = page.save(newtext, summary=summary)
-    except Exception as e:
-        logging.error(f"Exception occurred while saving page: {e}")
-        return return_tab(str(e), CLASS_ERROR)
-    # ---
-    if not isinstance(save_result, dict):
-        # msg = translations["save_error"].format(error=str(save_result))
-        msg = "save_error"
-        return return_tab(msg, CLASS_ERROR)
-    # ---
-    if save_result.get("result") != "Success":
-        return return_tab(str(save_result), CLASS_ERROR)
-
-    # print(save_result)
-    # {'result': 'Success', 'pageid': 9868421, 'title': 'مستخدم:Mr. Ibrahem/جيدة', 'contentmodel': 'wikitext', 'oldrevid': 69634440, 'newrevid': 69634441, 'newtimestamp': '2025-02-20T01:10:50Z'}
-
-    tab = {
-        "result_text": "save_success",
-        "result_class": CLASS_SUCCESS,
-        "newrevid": save_result.get("newrevid"),
-        "length" : length
-    }
-    return tab
-
-
-def one_page(page_title, wiki):
-    """
-    Main function to process and update a single Wikipedia page.
-    """
-    logging.info(f"Processing page: {page_title}")
-    # ---
-    result = update_page_content(page_title, wiki)
-    # ---
-    result_class = result.get("result_class", "")
-    result_text = result.get("result_text", "")
-    # ---
-    if result_text == "By default, mwclient protects you from accidentally editing without being logged in. If you actually want to edit without logging in, you can set force_login on the Site object to False.":
-        result_text = "save error, not logged in"
-    # ---
-    logging.info(result_class)
-    logging.info(result_text)
-    # ---
-    return result
-
-
-# Example usage
 if __name__ == "__main__":
+    bot = WikiBot(username, password)
     page_title = "User:Mr. Ibrahem/جيدة"
-    result = one_page(page_title, "ar.wikipedia.org")
+    result = bot.one_page(page_title, "ar.wikipedia.org")
     print(result)
