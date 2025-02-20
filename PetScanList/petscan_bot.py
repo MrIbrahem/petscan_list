@@ -34,7 +34,7 @@ def CheckParams(params: Dict[str, str]) -> str:
     # ---
     if str(output_limit).isdigit():
         output_limit = int(output_limit)
-        if output_limit < 3000:
+        if output_limit <= 3000:
             return params
     # ---
     params["output_limit"] = 3000
