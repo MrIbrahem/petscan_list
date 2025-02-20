@@ -98,8 +98,7 @@ class WikiBot:
         
 def one_page(title, site):
     bot = WikiBot(username, password)
-    page_title = "User:Mr. Ibrahem/جيدة"
-    result = bot.one_page(page_title, "ar.wikipedia.org")
+    result = bot.one_page(title, site)
     return result
     
 if __name__ == "__main__":
