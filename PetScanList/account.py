@@ -3,7 +3,7 @@ import configparser
 import logging
 logger = logging.getLogger(__name__)
 
-project = project = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+project = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # ---
 config = configparser.ConfigParser()
 config.read(f"{project}/confs/user.ini")

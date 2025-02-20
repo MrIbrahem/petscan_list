@@ -50,6 +50,14 @@ def return_tab(result_text, result_class):
     }
 
 
+def extract_lang_code(wiki_url: str) -> str:
+    """Extract language code from wiki URL safely."""
+    try:
+        return wiki_url.split(".")[0].lower()
+    except (AttributeError, IndexError):
+        return "en"  # Default to English
+
+
 def update_page_content(page_title, wiki):
     """
     Update the content of a Wikipedia page using the `text_bot.process_text` function.
@@ -85,7 +93,7 @@ def update_page_content(page_title, wiki):
         logging.warning(f"No text found for page: {page_title}")
         return return_tab("empty_page", CLASS_WARNING)
 
-    lang = wiki.split(".")[0]
+    lang = extract_lang_code(wiki)
 
     new_tab, mssg = text_bot.process_text(text, lang)
 

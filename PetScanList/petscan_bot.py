@@ -28,7 +28,7 @@ def encode_title(title: str) -> str:
     return urllib.parse.quote(title.replace(" ", "_"), safe=":")
 
 
-def CheckParams(params: Dict[str, str]) -> str:
+def check_params(params: Dict[str, str]) -> str:
     # ---
     output_limit = str(params.get("output_limit", "0"))
     # ---
@@ -54,7 +54,7 @@ def fetch_petscan_data(params: Dict[str, str]) -> Union[Dict, List]:
 
     params = {**DEFAULT_PARAMS, **params}
     # ---
-    params = CheckParams(params)
+    params = check_params(params)
     # ---
     url = build_petscan_url(params)
 
