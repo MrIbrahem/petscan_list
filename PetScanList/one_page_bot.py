@@ -8,15 +8,14 @@ LOGGING_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOGGING_LEVEL)
 
 class WikiBot:
-    sites = {}
     CLASS_ERROR = "danger"
     CLASS_WARNING = "warning"
     CLASS_SUCCESS = "success"
     
     def __init__(self, username, password):
+        self.sites = {}
         self.username = username
         self.password = password
-
     def initialize_site(self, wiki):
         if not self.sites.get(wiki):
             self.sites[wiki] = mwclient.Site(wiki)
