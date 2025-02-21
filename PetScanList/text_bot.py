@@ -6,12 +6,13 @@ This module processes text containing a `petscan list` template and generates a 
 from .wikitable import wiki_table
 from . import petscan_bot as petscan
 import wikitextparser as wtp
-from .I18n import make_translations
+# from .I18n import make_translations
 
 # Constants
 DEFAULT_SECTION_HEADER_KEY = "section_title"
 NO_TEMPLATE_MESSAGE = "no_template"
 NO_RESULT_MESSAGE = "no_result_petscan"
+
 
 def fix_value(value):
     """
@@ -69,14 +70,13 @@ def make_petscan_list(template):
     return lista, other_params
 
 
-def get_petscan_template(text):
+def get_petscan_template(parsed, title):
     """
     Find and return the `petscan list` template from the given text.
     """
-    parsed = wtp.parse(text)
     for template in parsed.templates:
         name = str(template.normal_name()).strip().lower().replace("_", " ")
-        if name == "petscan list":
+        if name == title:
             return template
     return None
 
@@ -100,6 +100,39 @@ def format_list_as_text(p_list, other_params):
     return "{{Div col|colwidth=20em}}\n\n" + text + "\n\n{{Div col end}}"
 
 
+def is_false_edit(the_removed_text):
+    parsed = wtp.parse(the_removed_text)
+
+    template = get_petscan_template(parsed, "petscan list")
+    template_end = get_petscan_template(parsed, "petscan list end")
+
+    if template or template_end:
+        print("warning: multiple templates in text")
+        return True
+
+    return False
+
+
+def add_result_to_text(text, formatted_list, template_string, template_end_string):
+    # ---
+    new_temp = template_string + "\n" + formatted_list + "\n" + template_end_string
+    # ---
+    # match the text between the 2 templates
+    start = text.find(template_string)
+    end = text.find(template_end_string) + len(template_end_string)
+    # ---
+    end_text = text[end:]
+    # ---
+    the_removed_text = text[start:end]
+    # ---
+    if is_false_edit(the_removed_text):
+        return text
+    # ---
+    text = text[:start] + new_temp + end_text
+    # ---
+    return text
+
+
 def construct_section0(text, template_string):
     """
     Construct the section0 part of the text.
@@ -113,12 +146,19 @@ def process_text(text, lang):
     """
     Process the input text, find the `petscan list` template, and generate the formatted output.
     """
-    template = get_petscan_template(text)
+    parsed = wtp.parse(text)
+    # ---
+    template = get_petscan_template(parsed, "petscan list")
+    template_end = get_petscan_template(parsed, "petscan list end")
+
     if not template:
         return {}, NO_TEMPLATE_MESSAGE
 
+    if not template_end:
+        return {}, NO_TEMPLATE_MESSAGE
+
     p_list, other_params = make_petscan_list(template)
-    
+
     if not p_list:
         return {}, NO_RESULT_MESSAGE
 
@@ -127,9 +167,17 @@ def process_text(text, lang):
 
     formatted_list = format_list_as_text(p_list, other_params)
 
-    section0 = construct_section0(text, template.string)
-    DEFAULT_SECTION_HEADER = make_translations(DEFAULT_SECTION_HEADER_KEY, lang)
-    new_text = f"{section0}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
+    # section0 = construct_section0(text, template.string)
+
+    if template.has_arg("_url_"):
+        template.del_arg("_url_")
+        text = parsed.string
+
+    new_text = add_result_to_text(text, formatted_list, template.string, template_end.string)
+    # new_text = parsed.string
+
+    # DEFAULT_SECTION_HEADER = make_translations(DEFAULT_SECTION_HEADER_KEY, lang)
+    # new_text = f"{section0}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
 
     tab = {
         "text": new_text,
@@ -137,6 +185,7 @@ def process_text(text, lang):
     }
 
     return tab, ""
+
 
 # Example usage
 if __name__ == "__main__":
