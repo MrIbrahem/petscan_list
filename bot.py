@@ -5,8 +5,9 @@ www/python/venv/bin/python3 www/python/src/bot.py
 python3 core8/pwb.py petscan_list/bot
 python3 I:\core\bots\new\petscan_list\bot.py
 """
-from PetScanList import get_petscan_results, one_site_pages
+from PetScanList import get_petscan_results, one_page
 from PetScanList import valid_projects
+
 
 def start():
     for project, langs in valid_projects.items():
@@ -22,7 +23,11 @@ def start():
             # ---
             pages = get_petscan_results(Tab)
             # ---
-            one_site_pages(pages, wiki)
+            for n, x in enumerate(pages):
+                print("_______________")
+                print(f"p: {n}/{len(pages)} title: {x} ({wiki=})")
+                # ---
+                one_page(x, wiki)
 
 
 if __name__ == "__main__":

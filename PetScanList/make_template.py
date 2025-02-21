@@ -57,7 +57,7 @@ def MakeTemplate(url: str, request_form: dict) -> str:
         temp.append(f"{key}={value}")
 
     params = "\n| ".join(temp)
-    template = f"{{{{petscan list\n| {params}\n}}}}\n{{{{Petscan list end}}}}"
+    template = f"{{{{petscan list\n| {params}\n}}}}"
 
     return template
 
