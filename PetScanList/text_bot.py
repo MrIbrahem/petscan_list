@@ -8,6 +8,10 @@ from . import petscan_bot as petscan
 import wikitextparser as wtp
 from .I18n import make_translations
 
+# Constants
+DEFAULT_SECTION_HEADER_KEY = "section_title"
+NO_TEMPLATE_MESSAGE = "no_template"
+NO_RESULT_MESSAGE = "no_result_petscan"
 
 def fix_value(value):
     """
@@ -96,37 +100,43 @@ def format_list_as_text(p_list, other_params):
     return "{{Div col|colwidth=20em}}\n\n" + text + "\n\n{{Div col end}}"
 
 
+def construct_section0(text, template_string):
+    """
+    Construct the section0 part of the text.
+    """
+    if text.find(template_string) != -1:
+        return text.split(template_string)[0] + template_string
+    return template_string
+
+
 def process_text(text, lang):
     """
     Process the input text, find the `petscan list` template, and generate the formatted output.
     """
     template = get_petscan_template(text)
     if not template:
-        return {}, "no_template"
+        return {}, NO_TEMPLATE_MESSAGE
 
     p_list, other_params = make_petscan_list(template)
+    
+    if not p_list:
+        return {}, NO_RESULT_MESSAGE
 
-    if not p_list or len(p_list) == 1 and p_list[0] == "":
-        return {}, "no_result_petscan"
+    if isinstance(p_list, list) and p_list[0] == "":
+        return {}, NO_RESULT_MESSAGE
 
     formatted_list = format_list_as_text(p_list, other_params)
 
-    section0 = template.string
-    # ---
-    if text.find(section0) != -1:
-        section0 = text.split(section0)[0] + section0
-    # ---
-    DEFAULT_SECTION_HEADER = make_translations("section_title", lang)
-    # ---
+    section0 = construct_section0(text, template.string)
+    DEFAULT_SECTION_HEADER = make_translations(DEFAULT_SECTION_HEADER_KEY, lang)
     new_text = f"{section0}\n\n== {DEFAULT_SECTION_HEADER} ==\n\n{formatted_list}"
-    # ---
+
     tab = {
         "text": new_text,
         "length": len(p_list),
     }
 
     return tab, ""
-
 
 # Example usage
 if __name__ == "__main__":

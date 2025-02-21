@@ -11,23 +11,23 @@ A Flask web application that helps manage and process PetScan lists for Wikipedi
 ## Installation
 
 1. Clone this repository:
-```bash
-git clone https://github.com/MrIbrahem/petscan_list.git
-cd petscan_list
-```
+   ```bash
+   git clone https://github.com/MrIbrahem/petscan_list.git
+   cd petscan_list
+   ```
 
 2. Create a virtual environment (recommended):
-```bash
-python -m venv venv
-source venv/bin/activate  # On Linux/Mac
-# or
-.\venv\Scripts\activate  # On Windows
-```
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Linux/Mac
+   # or
+   .\venv\Scripts\activate  # On Windows
+   ```
 
 3. Install the required dependencies:
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Configuration
 
@@ -37,10 +37,10 @@ pip install -r requirements.txt
 
 2. Set up your credentials:
    - Create a file `confs/user.ini` with the following content:
-   ```ini
-   botusername = "YOUR_USERNAME"
-   botpassword = "YOUR_BOT_PASSWORD"
-   ```
+     ```ini
+     botusername = "YOUR_USERNAME"
+     botpassword = "YOUR_BOT_PASSWORD"
+     ```
    Replace `YOUR_USERNAME` with your Wikipedia username and `YOUR_BOT_PASSWORD` with your bot password.
 
 ## Running the Application
@@ -110,16 +110,15 @@ The bot mode:
 
 The application runs in debug mode by default when running locally, which provides detailed error messages and automatic reloading when code changes are made.
 
-
 ## Template Format Params
 
 These parameters are optional:
 
 - **`|_result_=table`**:  to display the result in wikitable.
 - **`|_line_format_=`**: Table to modify the value format, example:
-  ```wiki
-  |_line_format_ = # {{user:Mr. Ibrahem/link|$1}}
-
+   ```wiki
+   |_line_format_ = # {{user:Mr. Ibrahem/link|$1}}
+   ```
 
 ## Default Values
 - **`|output_limit = 3000`**: Maximum number of results to display.

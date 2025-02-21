@@ -1,3 +1,4 @@
+
 #!/usr/bin/python3
 """
 PetScan API Client Module
@@ -9,53 +10,44 @@ import urllib.parse
 from typing import Dict, List, Union
 import requests
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Constants
+PETSCAN_URL = "https://petscan.wmflabs.org/"
+OUTPUT_LIMIT = 3000
+
+# Configure logging in the main guard
 logger = logging.getLogger(__name__)
 
 DEFAULT_PARAMS = {
     "format": "json",
-    "output_limit" : 3000
+    "output_limit": OUTPUT_LIMIT
 }
-# "combination": "union", "common_wiki": "cats", "depth": "0",
-
-PETSCAN_URL = "https://petscan.wmflabs.org/"
-
 
 def encode_title(title: str) -> str:
     """URL-encode page titles with special handling for specific characters."""
     # Handle en-dash specifically if needed
     return urllib.parse.quote(title.replace(" ", "_"), safe=":")
 
-
-def check_params(params: Dict[str, str]) -> str:
-    # ---
-    output_limit = str(params.get("output_limit", "0"))
-    # ---
-    if output_limit and str(output_limit).isdigit():
+def validate_and_sanitize_params(params: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+    """Validate and sanitize the parameters."""
+    output_limit = params.get("output_limit", 0)
+    if isinstance(output_limit, str) and output_limit.isdigit():
         output_limit = int(output_limit)
-        if output_limit > 3000:
-            # ---
-            logger.error("Invalid output_limit: %s", output_limit)
-            # ---
-            params["output_limit"] = 3000
-    # ---
+    
+    if output_limit > OUTPUT_LIMIT:
+        logger.error("Invalid output_limit: %s", output_limit)
+        params["output_limit"] = OUTPUT_LIMIT
+    
     return params
 
-
-def build_petscan_url(params: Dict[str, str]) -> str:
+def build_petscan_url(params: Dict[str, Union[str, int]]) -> str:
     """Construct PetScan API URL with parameters."""
     query_string = urllib.parse.urlencode({k: v for k, v in params.items() if v is not None}, doseq=True)
     return f"{PETSCAN_URL}?doit=Do_it&{query_string}"
 
-
-def fetch_petscan_data(params: Dict[str, str]) -> Union[Dict, List]:
+def fetch_petscan_data(params: Dict[str, Union[str, int]]) -> Union[Dict, List]:
     """Fetch and process data from PetScan API."""
-
     params = {**DEFAULT_PARAMS, **params}
-    # ---
-    params = check_params(params)
-    # ---
+    params = validate_and_sanitize_params(params)
     url = build_petscan_url(params)
 
     if "printurl" in sys.argv:
@@ -65,22 +57,26 @@ def fetch_petscan_data(params: Dict[str, str]) -> Union[Dict, List]:
         response = requests.get(url, timeout=25)
         response.raise_for_status()
         return response.json()
-    except requests.exceptions.RequestException as e:
-        logger.error("Request failed: %s", str(e))
-        return {}
+    except requests.exceptions.HTTPError as http_err:
+        logger.error("HTTP error occurred: %s", str(http_err))
+    except requests.exceptions.ConnectionError as conn_err:
+        logger.error("Connection error occurred: %s", str(conn_err))
+    except requests.exceptions.Timeout as timeout_err:
+        logger.error("Timeout error occurred: %s", str(timeout_err))
+    except requests.exceptions.RequestException as req_err:
+        logger.error("Request error occurred: %s", str(req_err))
+    
+    return {}
 
-
-def process_petscan_results(data: Dict, split_by_ns: False) -> Dict[str, Dict]:
+def process_petscan_results(data: Dict, split_by_ns: bool = False) -> Dict[str, Dict]:
     """Process raw PetScan results into structured data."""
     results = {}
 
     if not data or "*" not in data or not data["*"]:
         return results
-    # print(data)
-    for item in data["*"][0]["a"]["*"]:
-        # ns = str(item.get("namespace", ""))
-        title = item.get("title", "")
 
+    for item in data["*"][0]["a"]["*"]:
+        title = item.get("title", "")
         prefix = item.get("nstext", "")
 
         if split_by_ns:
@@ -98,8 +94,7 @@ def process_petscan_results(data: Dict, split_by_ns: False) -> Dict[str, Dict]:
 
     return results
 
-
-def get_petscan_results(params: Dict[str, str], split_by_ns: bool = False) -> Union[Dict, List]:
+def get_petscan_results(params: Dict[str, Union[str, int]], split_by_ns: bool = False) -> Union[Dict, List]:
     """Main function to get PetScan results."""
     raw_data = fetch_petscan_data(params)
 
@@ -109,9 +104,11 @@ def get_petscan_results(params: Dict[str, str], split_by_ns: bool = False) -> Un
     processed = process_petscan_results(raw_data, split_by_ns=split_by_ns)
     return processed
 
-
-# Example usage
+# Example usage in the main guard
 if __name__ == "__main__":
+    # Configure logging
+    logging.basicConfig(level=logging.INFO)
+    
     params = {"categories": "Arabic literature", "ns": 0, "language": "ar"}
 
     results = get_petscan_results(params)
