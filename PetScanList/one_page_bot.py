@@ -80,10 +80,11 @@ class WikiBot:
 
         lang = self.extract_lang_code(wiki)
 
-        if text.lower().find("{{petscan list end}}") == -1 and text.find("== قائمة ==") != -1:
-            text = text.replace("== قائمة ==", "")
-            text += "\n{{Petscan list end}}"
-            save_result = self.save(page, text, summary="بوت: تعديل القائمة")
+        # if text.lower().find("{{petscan list end}}") == -1 and text.find("== قائمة ==") != -1:
+        #     text = text.replace("== قائمة ==", "")
+        #     text += "\n{{Petscan list end}}"
+        #     save_result = self.save(page, text, summary="بوت: تعديل القائمة")
+        #     return
 
         new_tab, mssg = text_bot.process_text(text, lang)
 

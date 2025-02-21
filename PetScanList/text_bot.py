@@ -108,6 +108,7 @@ def is_false_edit(the_removed_text):
 
     if template or template_end:
         print("warning: multiple templates in text")
+        print(the_removed_text)
         return True
 
     return False
@@ -125,7 +126,7 @@ def add_result_to_text(text, formatted_list, template_string, template_end_strin
     # ---
     the_removed_text = text[start:end]
     # ---
-    if is_false_edit(the_removed_text):
+    if the_removed_text != text and is_false_edit(the_removed_text):
         return text
     # ---
     text = text[:start] + new_temp + end_text
