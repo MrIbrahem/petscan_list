@@ -117,6 +117,32 @@ def is_false_edit(the_removed_text):
     return False
 
 
+def add_result_to_text_old(text, formatted_list, template_string, template_end_string):
+    # ---
+    new_temp = template_string + "\n" + formatted_list + "\n" + template_end_string
+    # ---
+    pet_section = text.split(template_string)[1].split(template_end_string)[0] + template_end_string
+    # ---
+    print(f"///////\n{pet_section}\n ///////////")
+    # ---
+    # match the text between the 2 templates
+    start = text.find(template_string)
+    end = text.find(template_end_string) + len(template_end_string)
+    # ---
+    end_text = text[end:]
+    # ---
+    the_removed_text = text[start:end]
+    # ---
+    if the_removed_text.find(template_end_string) == -1:
+        if the_removed_text.strip() != text.strip() and is_false_edit(the_removed_text):
+            # print(text)
+            return text
+    # ---
+    text = text[:start] + new_temp + end_text
+    # ---
+    return text
+
+
 def add_result_to_text(text, formatted_list, template_string, template_end_string):
     # ---
     new_temp = template_string + "\n" + formatted_list + "\n" + template_end_string

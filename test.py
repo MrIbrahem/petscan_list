@@ -49,7 +49,7 @@ results = """{| class="wikitable sortable"
 | Q970381
 |}"""
 
-text = f"{temp}\n{results}\nsdsd"
+text = f"{temp}\n{results}\n{temp_end}"
 text += f"\n==2323==\n{temp1}\n{results}\n{temp_end}"
 
 
