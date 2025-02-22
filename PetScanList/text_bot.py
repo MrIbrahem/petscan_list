@@ -61,7 +61,7 @@ def make_petscan_list(template):
         elif name not in false_params:
             # Fix and format the value for PetScan
             value = fix_value(value)
-            value = value.replace(" ", "_")
+            # value = value.replace(" ", "_")
             petscan_params[name] = value
 
     # Generate the PetScan list
@@ -90,6 +90,8 @@ def format_list_as_text(p_list, other_params):
 
     line_format = "# [[:$1]]"
 
+    _at_start_ = other_params.get("_at_start_", "").strip() or "{{Div col|colwidth=20em}}"
+    _at_end_ = other_params.get("_at_end_", "").strip() or "{{Div col end}}"
     _line_format_ = other_params.get("_line_format_", "").strip()
 
     if _line_format_.find("$1") != -1:
@@ -97,7 +99,8 @@ def format_list_as_text(p_list, other_params):
 
     # Format as a bulleted list inside a Div col
     text = "\n".join([line_format.replace("$1", x) for x in p_list])
-    return "{{Div col|colwidth=20em}}\n\n" + text + "\n\n{{Div col end}}"
+    # ---
+    return f"{_at_start_}\n{text}\n{_at_end_}"
 
 
 def is_false_edit(the_removed_text):
@@ -126,8 +129,10 @@ def add_result_to_text(text, formatted_list, template_string, template_end_strin
     # ---
     the_removed_text = text[start:end]
     # ---
-    if the_removed_text != text and is_false_edit(the_removed_text):
-        return text
+    if the_removed_text.find(template_end_string) == -1:
+        if the_removed_text.strip() != text.strip() and is_false_edit(the_removed_text):
+            # print(text)
+            return text
     # ---
     text = text[:start] + new_temp + end_text
     # ---

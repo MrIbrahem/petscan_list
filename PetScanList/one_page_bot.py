@@ -6,8 +6,8 @@ from .I18n import make_translations
 from . import text_bot
 from . import printe
 
-# LOGGING_LEVEL = logging.DEBUG
-LOGGING_LEVEL = logging.INFO
+LOGGING_LEVEL = logging.DEBUG
+# LOGGING_LEVEL = logging.INFO
 logging.basicConfig(level=LOGGING_LEVEL)
 
 
