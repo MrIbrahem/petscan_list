@@ -5,18 +5,7 @@ Script to create a template string for a 'petscan list' by processing a given UR
 """
 
 from urllib.parse import urlparse, parse_qs, ParseResult
-
-no_new_line_params = [
-    "sparql"
-]
-
-FALSE_PARAMS = [
-    "interface_language",
-    "active_tab",
-    "output_compatability",
-    "format",
-    "json-pretty",
-]
+from .params import no_new_line_params, false_params
 
 
 def is_valid_line_format(line_format: str) -> bool:
@@ -58,7 +47,7 @@ def MakeTemplate(url: str, request_form: dict) -> str:
         temp.append(f"_at_end_={at_end}")
 
     for key, values in query_params.items():
-        if key in FALSE_PARAMS:
+        if key in false_params:
             continue
 
         values = list({value.strip() for value in values if value.strip()})
