@@ -7,23 +7,11 @@ from .wikitable import wiki_table
 from . import petscan_bot as petscan
 import wikitextparser as wtp
 # from .I18n import make_translations
-
+from .params import no_new_line_params, false_params
 # Constants
 DEFAULT_SECTION_HEADER_KEY = "section_title"
 NO_TEMPLATE_MESSAGE = "no_template"
 NO_RESULT_MESSAGE = "no_result_petscan"
-
-no_new_line_params = [
-    "sparql"
-]
-
-false_params = [
-    "interface_language",
-    "active_tab",
-    "output_compatability",
-    "format",
-    "json-pretty",
-]
 
 
 def fix_value(value):
