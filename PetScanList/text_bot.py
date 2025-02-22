@@ -13,6 +13,18 @@ DEFAULT_SECTION_HEADER_KEY = "section_title"
 NO_TEMPLATE_MESSAGE = "no_template"
 NO_RESULT_MESSAGE = "no_result_petscan"
 
+no_new_line_params = [
+    "sparql"
+]
+
+false_params = [
+    "interface_language",
+    "active_tab",
+    "output_compatability",
+    "format",
+    "json-pretty",
+]
+
 
 def fix_value(value):
     """
@@ -24,15 +36,6 @@ def fix_value(value):
         lista = [item.replace("*", "").strip() for item in value.split("\n")]
         return "\r\n".join(lista)
     return value
-
-
-false_params = [
-    "interface_language",
-    "active_tab",
-    "output_compatability",
-    "format",
-    "json-pretty",
-]
 
 
 def make_petscan_list(template):
@@ -60,7 +63,8 @@ def make_petscan_list(template):
                     continue
         elif name not in false_params:
             # Fix and format the value for PetScan
-            value = fix_value(value)
+            if name not in no_new_line_params:
+                value = fix_value(value)
             # value = value.replace(" ", "_")
             petscan_params[name] = value
 
