@@ -83,11 +83,11 @@ def format_list_as_text(p_list, other_params):
     line_format = "# [[:$1]]"
 
     _at_start_ = "{{Div col|colwidth=20em}}"
-    if "_at_start_" in other_params:
+    if "_at_start_" in other_params:  # Can be empty
         _at_start_ = other_params["_at_start_"].strip()
 
     _at_end_ = "{{Div col end}}"
-    if "_at_end_" in other_params:
+    if "_at_end_" in other_params:  # Can be empty
         _at_end_ = other_params["_at_end_"].strip()
 
     _line_format_ = other_params.get("_line_format_", "").strip()
