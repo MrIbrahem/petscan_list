@@ -17,8 +17,8 @@ local function fix_value(value, arg)
             v = mw.text.trim(v)
             v = mw.ustring.gsub(v, "^%s*%*%s*", "")
             table.insert(values, v)
-            value = table.concat(values, "\r\n")
         end
+        value = table.concat(values, "\r\n")
     end
     return value
 end
@@ -57,7 +57,7 @@ function p.url(frame)
             end
         end
     end
-    if params == 0 then
+    if #params == 0 then
         return ""
     end
     local url = "https://petscan.wmcloud.org/?" .. table.concat(params, "&")
