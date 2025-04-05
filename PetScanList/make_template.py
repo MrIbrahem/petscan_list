@@ -58,6 +58,8 @@ def MakeTemplate(url: str, request_form: dict) -> str:
 
         if key == "sparql":
             value = value.replace("{{", "{ {").replace("}}", "} }")
+            # value = value.replace("|", "{{!}}")
+            value = f"<nowiki>{value}</nowiki>"
 
         if len(value.split("\n")) > 1 and key not in no_new_line_params:
             value = "\n* " + "\n* ".join(x.strip() for x in value.split("\n") if x.strip())
