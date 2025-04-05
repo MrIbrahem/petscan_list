@@ -22,17 +22,25 @@ local function fix_value(value, arg)
     end
     return value
 end
+local function decode_html_entities(value)
+    value = string.gsub(value, "&gt;", ">")
+    value = string.gsub(value, "&lt;", "<")
+    value = string.gsub(value, "&amp;", "&")
+    value = string.gsub(value, "&quot;", '"')
+    value = string.gsub(value, "&#39;", "'")
+    return value
+end
 
 function p.url(frame)
     local args = frame:getParent().args
     local params = {}
     for arg, value in pairs(args) do
-        -- if mw.ustring.find(tostring(value), "UNIQ--nowiki") then
         if string.find(tostring(value), "UNIQ--nowiki", 1, true) then
             value = mw.text.unstripNoWiki(value)
+            value = decode_html_entities(value)
         end
         -- value = mw.text.unstripNoWiki(value)
-        value = mw.text.killMarkers(value)
+        -- value = decode_html_entities(value)
         value = mw.text.trim(value)
         arg = mw.text.trim(arg)
 
