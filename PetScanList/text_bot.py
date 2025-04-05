@@ -23,6 +23,9 @@ def fix_value(value):
         # Convert list-like values into a single string separated by "\r\n"
         lista = [item.replace("*", "").strip() for item in value.split("\n")]
         return "\r\n".join(lista)
+    # ---
+    value = value.replace("{{!}}", "|").replace("{{|}}", "|")
+    # ---
     return value
 
 
@@ -36,7 +39,12 @@ def make_petscan_list(template):
     for param in template.arguments:
         name = str(param.name).strip()
         value = str(param.value).strip()
-
+        value = value.replace("{{!}}", "|").replace("{{|}}", "|")
+        # ---
+        # sparql <nowiki></nowiki>
+        if value.startswith("<nowiki>"):
+            value = value.replace("<nowiki>", "").replace("</nowiki>", "")
+        # ---
         if name.startswith("_"):
             # Handle special parameters (those starting with "_")
             other_params[name] = value
