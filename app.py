@@ -26,17 +26,17 @@ def get_wiki_pages():
         return jsonify({"error": "Both lang and project parameters are required"}), 400
     if project not in valid_projects or lang not in valid_projects[project]:
         return jsonify({"error": f"Invalid project or language: {project}/{lang}"}), 400
-    pages = get_all_pages(lang, project)
-    return jsonify(pages)
+    pages_list = get_all_pages(lang, project)
+    return jsonify(pages_list)
 
 
 @app.route("/pages", methods=["GET"])
-def get_pages():
+def pages():
     project = request.args.get("project")
     lang = request.args.get("lang")
     if lang and project:
-        pages = get_all_pages(lang, project, split_by_ns=True)
-        return render_template("pages.html", pages_list=pages, lang=lang, project=project), 200
+        pages_list = get_all_pages(lang, project, split_by_ns=True)
+        return render_template("pages.html", pages_list=pages_list, lang=lang, project=project), 200
     return render_template("pages.html", wikis=valid_projects), 200
 
 

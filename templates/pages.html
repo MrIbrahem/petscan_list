@@ -15,7 +15,7 @@
             {% for wiki in wikis %}
             {% for lang in wikis[wiki] %}
             {% set wiki_url = lang + "." + wiki + ".org" %}
-            <a href="/pages?lang={{ lang }}&project={{ wiki }}" class="list-group-item list-group-item-action"
+            <a href="{{ url_for('pages', lang=lang, project=wiki) }}" class="list-group-item list-group-item-action"
                 aria-current="true">
                 {{ wiki_url }}
             </a>
