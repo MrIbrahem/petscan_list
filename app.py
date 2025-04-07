@@ -1,3 +1,5 @@
+
+import sys
 from flask import Flask, request, render_template, jsonify
 from urllib.parse import quote
 from PetScanList import one_page, MakeTemplate, valid_wikis, valid_projects, get_all_pages
@@ -101,4 +103,7 @@ def internal_server_error(e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=3500)
+    if "debug" in sys.argv:
+        app.run(debug=True, port=3500)
+    else:
+        app.run()
