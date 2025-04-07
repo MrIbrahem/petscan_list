@@ -3,7 +3,7 @@
 {% block content %}
 <!-- work in wikis {'wikipedia': ['ar'], 'wikisource': ['ar']} -->
 
-{% if not pages %}
+{% if not pages_list %}
 <div class="card card_form">
     <div class="card-header text-center py-3">
         <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
@@ -15,7 +15,7 @@
             {% for wiki in wikis %}
             {% for lang in wikis[wiki] %}
             {% set wiki_url = lang + "." + wiki + ".org" %}
-            <a href="/pages?lang={{ lang }}&project={{ wiki }}" class="list-group-item list-group-item-action"
+            <a href="{{ url_for('pages', lang=lang, project=wiki) }}" class="list-group-item list-group-item-action"
                 aria-current="true">
                 {{ wiki_url }}
             </a>
@@ -32,8 +32,8 @@
             target="_blank" class="me-2 ms-2">{{ project_url }}</a>
     </h4>
 </div>
-{% for ns in pages %}
-{% set pages_count = pages[ns]|length %}
+{% for ns in pages_list %}
+{% set pages_count = pages_list[ns]|length %}
 <div class="card card_form mb-3">
     <div class="card-header text-center">
         <h4 class="card-title mb-0 d-flex align-items-center justify-content-center">
@@ -42,12 +42,12 @@
     </div>
     <div class="card-body p-4">
         <ul class="list-group">
-            {% for page in pages[ns] %}
+            {% for page in pages_list[ns] %}
             <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                 <a class="me-2" href="https://{{ project_url }}/wiki/{{ page }}">{{ page }}</a>
                 <!-- <span class="badge bg-secondary rounded-pill" tt="update_word"></span> -->
                 <a class="btn btn-outline-primary btn-md border-1"
-                    href="/update?wiki={{ project_url }}&title={{ page }}" target="_blank">
+                    href="{{ url_for('update', wiki=project_url, title=page) }}" target="_blank">
                     <small tt="update_word"></small>
                 </a>
             </li>
