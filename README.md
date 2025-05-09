@@ -1,3 +1,5 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/MrIbrahem/petscan_list)
+
 # PetScan List Application
 
 A Flask web application that helps manage and process PetScan lists for Wikipedia articles.
