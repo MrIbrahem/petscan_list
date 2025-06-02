@@ -136,8 +136,7 @@ class WikiBot:
 
 def one_site_pages(titles, site):
     bot = WikiBot(username, password)
-    result = bot.many_pages(titles, site)
-    return result
+    bot.many_pages(titles, site)
 
 
 def one_page(title, site):
