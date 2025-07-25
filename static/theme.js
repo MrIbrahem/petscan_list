@@ -1,6 +1,6 @@
 // Theme toggle functionality
-const themeToggle = document.querySelector('.theme-toggle');
-const themeIcon = themeToggle.querySelector('i');
+let themeToggle;
+let themeIcon;
 const htmlElement = document.documentElement;
 
 // Available themes
@@ -24,19 +24,18 @@ function getSystemTheme() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
+// Update theme icon based on current theme
+function updateThemeIcon(preference) {
+    const { icon } = themes[preference];
+    themeIcon.className = `bi ${icon}`;
+}
+
 // Function to update theme based on preference
 function updateTheme(preference) {
     const theme = preference === 'system' ? getSystemTheme() : preference;
     htmlElement.setAttribute('data-bs-theme', theme);
     updateThemeIcon(preference);
 }
-
-// Update theme when system preference changes
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    if (localStorage.getItem('theme') === 'system') {
-        updateTheme('system');
-    }
-});
 
 // Function to create theme dropdown menu
 function createThemeMenu() {
@@ -61,59 +60,67 @@ function createThemeMenu() {
     return menu;
 }
 
-// Initialize theme
-const savedTheme = localStorage.getItem('theme') || 'system';
-updateTheme(savedTheme);
+document.addEventListener('DOMContentLoaded', () => {
+    themeToggle = document.querySelector('.theme-toggle');
+    themeIcon = themeToggle.querySelector('i');
 
-// Toggle theme menu on click
-let activeMenu = null;
-themeToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
+    // Update theme when system preference changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (localStorage.getItem('theme') === 'system') {
+            updateTheme('system');
+        }
+    });
 
-    if (activeMenu) {
-        activeMenu.remove();
-        activeMenu = null;
-        return;
-    }
+    // Initialize theme
+    const savedTheme = localStorage.getItem('theme') || 'system';
+    updateTheme(savedTheme);
 
-    const menu = createThemeMenu();
-    document.body.appendChild(menu);
+    // Toggle theme menu on click
+    let activeMenu = null;
+    themeToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
 
-    // Position menu below button
-    const buttonRect = themeToggle.getBoundingClientRect();
-    menu.style.position = 'fixed';
-    menu.style.top = `${buttonRect.bottom + 5}px`;
+        if (activeMenu) {
+            activeMenu.remove();
+            activeMenu = null;
+            return;
+        }
 
-    const isRTL = document.dir === 'rtl';
-    const horizontalPosition = isRTL ? buttonRect.left : (window.innerWidth - buttonRect.right);
+        const menu = createThemeMenu();
+        document.body.appendChild(menu);
 
-    // Ensure menu stays within viewport
-    const menuWidth = 150; // matches min-width from CSS
-    const safeOffset = 5;
-    const maxRight = window.innerWidth - menuWidth - safeOffset;
-    const right = Math.min(horizontalPosition - safeOffset, maxRight);
+        // Position menu below button
+        const buttonRect = themeToggle.getBoundingClientRect();
+        menu.style.position = 'fixed';
+        menu.style.top = `${buttonRect.bottom + 5}px`;
 
-    menu.style[isRTL ? 'left' : 'right'] = `${right}px`;
-    activeMenu = menu;
-});
+        const isRTL = document.dir === 'rtl';
+        const horizontalPosition = isRTL ? buttonRect.left : (window.innerWidth - buttonRect.right);
 
-// Close menu when clicking outside
-document.addEventListener('click', (event) => {
-    if (activeMenu) {
-        activeMenu.remove();
-        activeMenu = null;
-    }
-});
+        // Ensure menu stays within viewport
+        const menuWidth = 150; // matches min-width from CSS
+        const safeOffset = 5;
+        const maxRight = window.innerWidth - menuWidth - safeOffset;
+        const right = Math.min(horizontalPosition - safeOffset, maxRight);
 
-// Add keyboard navigation
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && activeMenu) {
-        activeMenu.remove();
-        activeMenu = null;
-    }
-});
-// Update theme icon based on current theme
-function updateThemeIcon(preference) {
-    const { icon } = themes[preference];
-    themeIcon.className = `bi ${icon}`;
-}
+        menu.style[isRTL ? 'left' : 'right'] = `${right}px`;
+        activeMenu = menu;
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (activeMenu) {
+            activeMenu.remove();
+            activeMenu = null;
+        }
+    });
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && activeMenu) {
+            activeMenu.remove();
+            activeMenu = null;
+        }
+    });
+
+})
