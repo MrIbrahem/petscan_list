@@ -57,8 +57,12 @@ def fetch_petscan_data(params: Dict[str, Union[str, int]]) -> Union[Dict, List]:
     if "printurl" in sys.argv:
         logger.info("Generated PetScan URL: %s", url)
 
+    # ---
+    session = requests.session()
+    session.headers.update({"User-Agent": "Himo bot/1.0 (https://himo.toolforge.org/; tools.himo@toolforge.org)"})
+    # ---
     try:
-        response = requests.get(url, timeout=25)
+        response = session.get(url, timeout=25)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.HTTPError as http_err:

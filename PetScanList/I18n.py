@@ -9,8 +9,12 @@ logger = logging.getLogger(__name__)
 def get_tt_translations(lang: str = "ar") -> Dict[str, str]:
     url = f"https://tools-static.wmflabs.org/tooltranslate/data/petscan-list/{lang}.json"
 
+    # ---
+    session = requests.session()
+    session.headers.update({"User-Agent": "Himo bot/1.0 (https://himo.toolforge.org/; tools.himo@toolforge.org)"})
+    # ---
     try:
-        response = requests.get(url, timeout=25)
+        response = session.get(url, timeout=25)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
