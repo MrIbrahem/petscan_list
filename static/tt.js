@@ -352,45 +352,61 @@ function ToolTranslation(intitial_params) {
         var me = this;
 
         function addDropdown() {
-            if (typeof me.toolinfo.languages == 'undefined') {
+            if (typeof me.toolinfo.languages === 'undefined') {
                 setTimeout(function () {
                     me.addILdropdown(target);
                 }, 100);
                 return;
             }
+
+            // إنشاء الـ Dropdown Bootstrap
             var h = '';
-            h += "<form class='form-inline' style='display:inline-block'>";
-            h += "<select class='form-control custom-select' data-bs-theme='auto'>";
+            h += '<div class="dropdown d-inline-block">';
+            h += '  <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">';
+            h += (me.language_cache[me.language] || me.language.toUpperCase());
+            h += '  </a>';
+            h += '  <ul class="dropdown-menu">';
+            h += '<li><a class="dropdown-item" href="https://tooltranslate.toolforge.org/#tool=' + me.toolinfo.meta.id + '" target="_blank"><i class="bi bi-globe-central-south-asia"></i> <span tt="help_translate"></span></a></li>';
+            h += '<li><hr class="dropdown-divider"></li>';
+
             me.toolinfo.languages.sort();
             $.each(me.toolinfo.languages, function (dummy, language) {
-                var language_name = me.language_cache[language];
-                if (typeof language_name == 'undefined') language_name = language.toUpperCase(); // Fallback, in case no language name is defined
-                h += "<option value='" + language + "'";
-                if (language == me.language) h += " selected";
-                h += ">" + language_name + "</option>";
+                var language_name = me.language_cache[language] || language.toUpperCase();
+                h += '    <li><a class="dropdown-item" href="#" data-lang="' + language + '">' + language_name + '</a></li>';
             });
-            h += "</select>";
-            // h += "&nbsp;<a href='https://tooltranslate.toolforge.org/#tool=" + me.toolinfo.meta.id + "' target='_blank' style='text-decoration:none;font-size:2rem;vertical-align:middle;'>&#x1f30d;</a>";
-            h += "</form>";
+
+            h += '  </ul>';
+            h += '</div>';
+
             $(target).html(h);
-            $(target).find('select').change(function () {
-                var o = $(this);
-                var lang = o.val();
-                me.setLanguage(lang);
-                if (typeof me.onLanguageChange != 'undefined') me.onLanguageChange(lang);
+
+            $(target).find('.dropdown-item').click(function (e) {
+                var lang = $(this).data('lang');
+
+                if (lang) {
+                    e.preventDefault(); // امنع فقط لو رابط لغة
+                    // تغيير النص الظاهر في الزر
+                    $(target).find('.dropdown-toggle').text($(this).text());
+
+                    me.setLanguage(lang);
+                    if (typeof me.onLanguageChange !== 'undefined') {
+                        me.onLanguageChange(lang);
+                    }
+                }
+                // لو ما فيه data-lang (رابط خارجي) → يشتغل طبيعي
             });
         }
 
-        if (typeof me.language_cache == 'undefined') {
+        if (typeof me.language_cache === 'undefined') {
             $.get(me.tool_path + 'data/languages.json', function (d) {
                 me.language_cache = d;
-                me.language_cache["ar"] = "العربية";
+                me.language_cache["en"] = "English";
                 addDropdown();
             }, 'json');
         } else {
             addDropdown();
         }
-    }
+    };
 
     // CONSTRUCTOR
     var to_load = [];
