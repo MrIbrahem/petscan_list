@@ -400,7 +400,7 @@ function ToolTranslation(intitial_params) {
         if (typeof me.language_cache === 'undefined') {
             $.get(me.tool_path + 'data/languages.json', function (d) {
                 me.language_cache = d;
-                me.language_cache["en"] = "English";
+                me.language_cache["ar"] = "العربية";
                 addDropdown();
             }, 'json');
         } else {
