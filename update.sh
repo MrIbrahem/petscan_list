@@ -18,13 +18,12 @@ if ! git clone -b "$REPO_BRANCH" "$REPO_URL" "$HOME/www/python/src"; then
     exit 1
 fi
 
-#source "$HOME/www/python/venv/bin/activate"
+source "$HOME/www/python/venv/bin/activate"
 
-# python3 -m pip install --upgrade pip
-# python3 -m pip install -r $HOME/www/python/src/requirements.txt
+python3 -m pip install --upgrade pip
+python3 -m pip install -r $HOME/www/python/src/requirements.txt
 
-
-~/www/python/venv/bin/python3 -m pip install -r $HOME/www/python/src/requirements.txt
+# ~/www/python/venv/bin/python3 -m pip install -r $HOME/www/python/src/requirements.txt
 
 webservice python3.9 restart
 
