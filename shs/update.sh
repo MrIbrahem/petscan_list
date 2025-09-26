@@ -21,12 +21,12 @@ fi
 # ~/www/python/venv/bin/python3 -m pip install -r $HOME/www/python/src/requirements.txt
 
 if source "$HOME/www/python/venv/bin/activate"; then
-    python3 -m pip install --upgrade pip
+    python3 -m pip install pip -U
     python3 -m pip install -r $HOME/www/python/src/requirements.txt
     # exit 1
 else
     echo "Failed to activate virtual environment" >&2
 fi
 
-webservice python3.9 restart
+webservice python3.11 restart
 
