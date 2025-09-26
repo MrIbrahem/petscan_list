@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -euo pipefail
+
 cd $HOME
 backup_dir="$HOME/www/python/src_backup_$(date +%Y%m%d_%H%M%S)"
 
@@ -20,10 +23,10 @@ fi
 
 # ~/www/python/venv/bin/python3 -m pip install -r $HOME/www/python/src/requirements.txt
 
+# webservice python3.11 shell
+
 if source "$HOME/www/python/venv/bin/activate"; then
-    python3 -m pip install pip -U
-    python3 -m pip install -r $HOME/www/python/src/requirements.txt
-    # exit 1
+    python -m pip install -r $HOME/www/python/src/requirements.txt
 else
     echo "Failed to activate virtual environment" >&2
 fi
