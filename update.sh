@@ -18,12 +18,15 @@ if ! git clone -b "$REPO_BRANCH" "$REPO_URL" "$HOME/www/python/src"; then
     exit 1
 fi
 
-source "$HOME/www/python/venv/bin/activate"
-
-python3 -m pip install --upgrade pip
-python3 -m pip install -r $HOME/www/python/src/requirements.txt
-
 # ~/www/python/venv/bin/python3 -m pip install -r $HOME/www/python/src/requirements.txt
+
+if source "$HOME/www/python/venv/bin/activate"; then
+    python3 -m pip install --upgrade pip
+    python3 -m pip install -r $HOME/www/python/src/requirements.txt
+    # exit 1
+else
+    echo "Failed to activate virtual environment" >&2
+fi
 
 webservice python3.9 restart
 
