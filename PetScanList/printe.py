@@ -200,45 +200,47 @@ INVISIBLE_REGEX = re.compile(f"[{''.join(_invisible_chars)}]")
 
 
 def get_color_table():
-    # Define the color codes for different colors
-    color_table = {
-        # 'lightred': "\033[101m%s\033[00m",
-        # 'lightgreen': "\033[102m%s\033[00m",
-        # 'lightpurple':  "\033[105m%s\033[00m",
-        # 'lightyellow': "\033[103m%s\033[00m",
-        # 'lightblue':    "\033[104m%s\033[00m",
-        # 'lightcyan':    "\033[106m%s\033[00m",
-        # 'aqua':         "\033[106m%s\033[00m",
-        # 'lightaqua':    "\033[107m%s\033[00m",
-        # 'lightwhite':   "\033[107m%s\033[00m",
-        # 'lightgray':    "\033[107m%s\033[00m",
-        "red": "\033[91m%s\033[00m",
-        "green": "\033[92m%s\033[00m",
-        "yellow": "\033[93m%s\033[00m",
-        "blue": "\033[94m%s\033[00m",
-        "purple": "\033[95m%s\033[00m",
-        "cyan": "\033[96m%s\033[00m",
-        "white": "\033[97m%s\033[00m",
-        "black": "\033[98m%s\033[00m",
-        "grey": "\033[99m%s\033[00m",
-        "gray": "\033[100m%s\033[00m",
-        "underline": "\033[4m%s\033[00m",
-        "invert": "\033[7m%s\033[00m",
-        "blink": "\033[5m%s\033[00m",
-        "lightblack": "\033[108m%s\033[00m",
-        "bold": "\033[1m%s\033[00m",
+    # new Define the color codes for different colors
+    color_numbers = {
+        # 'lightred': 101,
+        # 'lightgreen': 102,
+        # 'lightpurple': 105,
+        # 'lightyellow': 103,
+        # 'lightblue': 104,
+        # 'lightcyan': 106,
+        # 'aqua': 106,
+        # 'lightaqua': 107,
+        # 'lightwhite': 107,
+        # 'lightgray': 107,
+        "red": 91,
+        "green": 92,
+        "yellow": 93,
+        "blue": 94,
+        "purple": 95,
+        "cyan": 96,
+        "white": 97,
+        "black": 98,
+        "grey": 99,
+        "gray": 100,
+        "underline": 4,
+        "invert": 7,
+        "blink": 5,
+        "lightblack": 108,
+        "bold": 1,
     }
+    color_table = {x : f"\033[{v}m%s\033[00m" for x, v in color_numbers.items()}
+
     # Add light versions of the colors to the color table
     for color in ["purple", "yellow", "blue", "red", "green", "cyan", "gray"]:
-        color_table[f"light{color}"] = color_table.get(color, "")
+        color_table[f"light{color}"] = color_table.get(color, 0)
 
     # Add some additional color names to the color table
-    color_table["aqua"] = color_table.get("cyan", "")
-    color_table["lightaqua"] = color_table.get("cyan", "")
-    color_table["lightgrey"] = color_table.get("gray", "")
-    color_table["grey"] = color_table.get("gray", "")
-    color_table["lightwhite"] = color_table.get("gray", "")
-    color_table["light"] = color_table.get("", "")
+    color_table["aqua"] = color_table.get("cyan", 0)
+    color_table["lightaqua"] = color_table.get("cyan", 0)
+    color_table["lightgrey"] = color_table.get("gray", 0)
+    color_table["grey"] = color_table.get("gray", 0)
+    color_table["lightwhite"] = color_table.get("gray", 0)
+    color_table["light"] = 0
 
     return color_table
 
