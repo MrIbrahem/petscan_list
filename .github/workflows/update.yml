@@ -21,5 +21,6 @@ jobs:
             become petscan-list bash -lc "
               ~/shs/update.sh &&
               toolforge-jobs run pipup --image python3.11 --command ~/shs/pip.sh --wait
-              toolforge-webservice python3.11 restart
+              toolforge-webservice python3.11 restart &&
+              echo ''
             "
