@@ -1,14 +1,25 @@
 import sys
 import logging
 import mwclient
+import difflib
 from .account import username, password
 from .I18n import make_translations
 from . import text_bot
-from . import printe
 
 LOGGING_LEVEL = logging.DEBUG
 # LOGGING_LEVEL = logging.INFO
 logging.basicConfig(level=LOGGING_LEVEL)
+
+
+def showDiff(old_text, new_text):
+    diff = difflib.unified_diff(
+        old_text.splitlines(),
+        new_text.splitlines(),
+        fromfile='old_text',
+        tofile='new_text',
+        lineterm=''
+    )
+    print("\n".join(diff))
 
 
 class WikiBot:
@@ -46,7 +57,7 @@ class WikiBot:
     def save(self, page, newtext, summary):
         if "ask" in sys.argv:
             old_text = page.text()
-            printe.showDiff(old_text, newtext)
+            showDiff(old_text, newtext)
             ask = input(f"Do you want to save the changes? (y/n): {summary=}")
             yess = ["", "y", "a"]
             if ask not in yess:
@@ -68,9 +79,9 @@ class WikiBot:
             text = page.text()
             ns = page.namespace
 
-        except mwclient.errors.PageError as e:
+        except mwclient.errors.PageError:
             return self.return_tab("page_not_found", self.CLASS_WARNING)
-        except Exception as e:
+        except Exception:
             return self.return_tab("error", self.CLASS_ERROR)
 
         if ns == 0:
