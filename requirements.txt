@@ -2,3 +2,4 @@ mwclient
 wikitextparser
 flask
 requests
+python-dotenv
