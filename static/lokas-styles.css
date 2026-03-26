@@ -255,7 +255,7 @@ body {
 }
 
 /* Mobile Adjustments */
-@media (max-width: 768px) {
+@media (max-width: 767.98px) {
     .col-md-8 {
         padding: 0 15px;
     }
