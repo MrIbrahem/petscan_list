@@ -32,18 +32,24 @@ A Flask web application that helps manage and process PetScan lists for Wikipedi
    ```
 
 ## Configuration
-
 1. Create a bot password for your Wikipedia account:
    - Go to Special:BotPasswords on Wikipedia (https://ar.wikipedia.org/wiki/Special:BotPasswords)
    - Create a new bot password with necessary permissions
 
 2. Set up your credentials:
-   - Create a file `confs/user.ini` with the following content:
-     ```ini
-     botusername = "YOUR_USERNAME"
-     botpassword = "YOUR_BOT_PASSWORD"
+   - Create a `.env` file in the project root with the following content:
+     ```env
+     WIKIPEDIA_BOT_USERNAME=YOUR_USERNAME
+     WIKIPEDIA_BOT_PASSWORD=YOUR_BOT_PASSWORD
      ```
    Replace `YOUR_USERNAME` with your Wikipedia username and `YOUR_BOT_PASSWORD` with your bot password.
+
+   Alternatively, you can set environment variables directly:
+   ```bash
+   set WIKIPEDIA_BOT_USERNAME=YOUR_USERNAME
+   set WIKIPEDIA_BOT_PASSWORD=YOUR_BOT_PASSWORD
+   ```
+
 
 ## Running the Application
 
