@@ -4,6 +4,5 @@
 /old
 /env
 /.vscode
-confs/user.ini
 *.ini
 PetScanList/text_bot_old.py
