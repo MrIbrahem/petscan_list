@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This module retrieves and processes pages using PetScan.
 """

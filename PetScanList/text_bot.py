@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This module processes text containing a `petscan list` template and generates a formatted list or table.
 """

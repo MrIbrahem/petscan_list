@@ -3,3 +3,4 @@ wikitextparser
 flask
 requests
 python-dotenv
+pywikibot

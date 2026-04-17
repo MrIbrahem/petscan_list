@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 www/python/venv/bin/python3 www/python/src/bot.py
 

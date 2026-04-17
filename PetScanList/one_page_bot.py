@@ -1,7 +1,7 @@
 import sys
 import logging
 import mwclient
-import difflib
+import pywikibot
 from .account import username, password
 from .I18n import make_translations
 from . import text_bot
@@ -11,15 +11,8 @@ LOGGING_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOGGING_LEVEL)
 
 
-def showDiff(old_text, new_text):
-    diff = difflib.unified_diff(
-        old_text.splitlines(),
-        new_text.splitlines(),
-        fromfile='old_text',
-        tofile='new_text',
-        lineterm=''
-    )
-    print("\n".join(diff))
+def showDiff(text, newtext) -> None:
+    pywikibot.showDiff(text, newtext)
 
 
 class WikiBot:
