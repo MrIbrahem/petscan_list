@@ -5,6 +5,7 @@ This module retrieves and processes pages using PetScan.
 from PetScanList import get_petscan_results
 from typing import List
 
+
 def get_all_pages(lang: str, project: str, split_by_ns: bool = False) -> List[str]:
     """
     Retrieve all pages for the given language and project using PetScan.
@@ -17,11 +18,7 @@ def get_all_pages(lang: str, project: str, split_by_ns: bool = False) -> List[st
     Returns:
     List[str]: A list of page titles. If no pages are found, returns ["No pages found"].
     """
-    tab = {
-        "templates_any": "petscan list",
-        "project": project,
-        "language": lang
-    }
+    tab = {"templates_any": "petscan list", "project": project, "language": lang}
 
     try:
         pages = get_petscan_results(tab, split_by_ns=split_by_ns)
@@ -34,6 +31,7 @@ def get_all_pages(lang: str, project: str, split_by_ns: bool = False) -> List[st
         return ["No pages found"]
 
     return pages
+
 
 if __name__ == "__main__":
     # Example usage:

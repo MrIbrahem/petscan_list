@@ -1,4 +1,3 @@
-
 """
 Script to create a template string for a 'petscan list' by processing a given URL.
 """

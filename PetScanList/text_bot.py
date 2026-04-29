@@ -5,8 +5,10 @@ This module processes text containing a `petscan list` template and generates a 
 from .wikitable import wiki_table
 from . import petscan_bot as petscan
 import wikitextparser as wtp
+
 # from .I18n import make_translations
 from .params import no_new_line_params, false_params
+
 # Constants
 DEFAULT_SECTION_HEADER_KEY = "section_title"
 NO_TEMPLATE_MESSAGE = "no_template"

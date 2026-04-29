@@ -1,7 +1,4 @@
-
-no_new_line_params = [
-    "sparql"
-]
+no_new_line_params = ["sparql"]
 
 false_params = [
     "interface_language",

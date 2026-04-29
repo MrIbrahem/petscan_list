@@ -1,8 +1,13 @@
-
 import sys
 from flask import Flask, request, render_template, jsonify
 from urllib.parse import quote
-from PetScanList import one_page, MakeTemplate, valid_wikis, valid_projects, get_all_pages
+from PetScanList import (
+    one_page,
+    MakeTemplate,
+    valid_wikis,
+    valid_projects,
+    get_all_pages,
+)
 
 app = Flask(__name__)
 
@@ -38,7 +43,10 @@ def pages():
     lang = request.args.get("lang")
     if lang and project:
         pages_list = get_all_pages(lang, project, split_by_ns=True)
-        return render_template("pages.html", pages_list=pages_list, lang=lang, project=project), 200
+        return (
+            render_template("pages.html", pages_list=pages_list, lang=lang, project=project),
+            200,
+        )
     return render_template("pages.html", wikis=valid_projects), 200
 
 
@@ -52,7 +60,10 @@ def template():
     try:
         result = MakeTemplate(url, request.form)
     except Exception as e:
-        return render_template("template_form.html", url=url, tt="unexpected_error", tt1=str(e)), 400
+        return (
+            render_template("template_form.html", url=url, tt="unexpected_error", tt1=str(e)),
+            400,
+        )
     return render_template("template_form.html", result=result, url=url)
 
 
@@ -61,25 +72,79 @@ def update():
     title = request.args.get("title")
     wiki = request.args.get("wiki")
     if not title or not wiki:
-        return render_template("result.html", result_class="danger", tt="title_or_wiki_required"), 400
+        return (
+            render_template("result.html", result_class="danger", tt="title_or_wiki_required"),
+            400,
+        )
 
     encoded_title = quote(title)
     url = f"https://{wiki}/wiki/{encoded_title}"
 
     if wiki not in valid_wikis:
-        return render_template("result.html", title=title, url=url, result_class="danger", tt="wiki_not_supported", tt1=wiki), 400
+        return (
+            render_template(
+                "result.html",
+                title=title,
+                url=url,
+                result_class="danger",
+                tt="wiki_not_supported",
+                tt1=wiki,
+            ),
+            400,
+        )
     try:
         result1 = one_page(title, wiki)
         result_class = result1.get("result_class", "")
         result_text = result1.get("result_text", "")
         result1["wiki"] = wiki
-        return render_template("result.html", title=title, url=url, result_class=result_class, tt=result_text, tt1="", result_tab=result1), 200
+        return (
+            render_template(
+                "result.html",
+                title=title,
+                url=url,
+                result_class=result_class,
+                tt=result_text,
+                tt1="",
+                result_tab=result1,
+            ),
+            200,
+        )
     except ValueError as ve:
-        return render_template("result.html", title=title, url=url, result_class="danger", tt="value_error", tt1=str(ve)), 400
+        return (
+            render_template(
+                "result.html",
+                title=title,
+                url=url,
+                result_class="danger",
+                tt="value_error",
+                tt1=str(ve),
+            ),
+            400,
+        )
     except ConnectionError as ce:
-        return render_template("result.html", title=title, url=url, result_class="danger", tt="connection_error", tt1=str(ce)), 400
+        return (
+            render_template(
+                "result.html",
+                title=title,
+                url=url,
+                result_class="danger",
+                tt="connection_error",
+                tt1=str(ce),
+            ),
+            400,
+        )
     except Exception as e:
-        return render_template("result.html", title=title, url=url, result_class="danger", tt="unexpected_error", tt1=str(e)), 400
+        return (
+            render_template(
+                "result.html",
+                title=title,
+                url=url,
+                result_class="danger",
+                tt="unexpected_error",
+                tt1=str(e),
+            ),
+            400,
+        )
 
 
 @app.route("/", methods=["GET"])

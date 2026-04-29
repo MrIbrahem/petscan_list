@@ -25,10 +25,10 @@ head_formats = {
 
 def format_timestamp(timestamp):
     """Format a timestamp from 'YYYYMMDDHHMMSS' to 'YYYY-MM-DD HH:MM:SS'.
-    
+
     Args:
         timestamp (str): The timestamp in 'YYYYMMDDHHMMSS' format.
-        
+
     Returns:
         str: The formatted timestamp in 'YYYY-MM-DD HH:MM:SS' format.
     """
@@ -40,10 +40,10 @@ def format_timestamp(timestamp):
 
 def generate_table_header(table_head):
     """Generate the table header row based on the provided headers.
-    
+
     Args:
         table_head (list): List of table headers.
-        
+
     Returns:
         str: The generated table header row.
     """
@@ -52,12 +52,12 @@ def generate_table_header(table_head):
 
 def generate_table_row(row_data, table_head, row_number):
     """Generate a single row of the table.
-    
+
     Args:
         row_data (dict): The data for the row.
         table_head (list): List of table headers.
         row_number (int): The row number.
-        
+
     Returns:
         str: The generated table row.
     """
@@ -75,16 +75,16 @@ def generate_table_row(row_data, table_head, row_number):
         else:
             formatted_x = head_formats.get(x, "{}").format(data2.get(x, "")) if data2.get(x, "") else ""
         row.append(formatted_x)
-    
+
     return "! " + "\n| ".join(row)
 
 
 def wiki_table(tab):
     """Generate a wikitable from the provided data.
-    
+
     Args:
         tab (dict): The data for the table.
-        
+
     Returns:
         str: The generated wikitable.
     """
@@ -102,7 +102,12 @@ def wiki_table(tab):
         row = generate_table_row(data, table_head, row_number)
         rows.append(row)
 
-    table = '{| class="wikitable sortable"\n|-\n' + f"{generate_table_header(table_head)}\n|-\n" + "\n|-\n".join(rows) + "\n|}"
+    table = (
+        '{| class="wikitable sortable"\n|-\n'
+        + f"{generate_table_header(table_head)}\n|-\n"
+        + "\n|-\n".join(rows)
+        + "\n|}"
+    )
 
     return table
 

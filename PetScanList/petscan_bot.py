@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """
 PetScan API Client Module
@@ -17,10 +16,7 @@ OUTPUT_LIMIT = 3000
 # Configure logging in the main guard
 logger = logging.getLogger(__name__)
 
-DEFAULT_PARAMS = {
-    "format": "json",
-    "output_limit": OUTPUT_LIMIT
-}
+DEFAULT_PARAMS = {"format": "json", "output_limit": OUTPUT_LIMIT}
 
 
 def encode_title(title: str) -> str:
@@ -29,7 +25,9 @@ def encode_title(title: str) -> str:
     return urllib.parse.quote(title.replace(" ", "_"), safe=":")
 
 
-def validate_and_sanitize_params(params: Dict[str, Union[str, int]]) -> Dict[str, Union[str, int]]:
+def validate_and_sanitize_params(
+    params: Dict[str, Union[str, int]],
+) -> Dict[str, Union[str, int]]:
     """Validate and sanitize the parameters."""
     output_limit = params.get("output_limit", 0)
     if isinstance(output_limit, str) and output_limit.isdigit():

@@ -114,7 +114,7 @@ class WikiBot:
             "result_text": "save_success",
             "result_class": self.CLASS_SUCCESS,
             "newrevid": save_result.get("newrevid"),
-            "length": length
+            "length": length,
         }
 
     def one_page(self, page_title, wiki):
@@ -122,7 +122,7 @@ class WikiBot:
         result = self.update_page_content(page_title, wiki)
         result_text = result.get("result_text", "")
 
-        if result_text.startswith('By default, mwclient'):
+        if result_text.startswith("By default, mwclient"):
             result["result_text"] = "save error, not logged in"
 
         logging.info(result.get("result_class", ""))
